@@ -1,0 +1,28 @@
+{
+  "schemaVersion": 1,
+  "id": "relics",
+  "version": "${version}",
+  "name": "Relics",
+  "description": "",
+  "authors": [],
+  "contact": {},
+  "license": "All-Rights-Reserved",
+  "icon": "assets/relics/icon.png",
+  "environment": "*",
+  "entrypoints": {
+    "client": [
+      "net.relics_rpgs.client.RelicsClient"
+    ],
+    "main": [
+      "net.relics_rpgs.Relics"
+    ]
+  },
+  "mixins": [
+    "relics.mixins.json"
+  ],
+  "depends": {
+    "minecraft": ">=${minecraft_compat_version}",
+    "fabricloader": ">=${fabric_loader_version}",
+    "spell_engine": ">=${spell_engine_version}"
+  }
+}
