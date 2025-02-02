@@ -9,6 +9,12 @@ plugins {
 version = project.mod_version + "+" + project.minecraft_version
 group = project.maven_group
 
+fabricApi {
+    configureDataGeneration() {
+        client = true
+    }
+}
+
 repositories {
     maven { url 'https://maven.kosmx.dev/' }
     maven { url 'https://maven.shedaniel.me/' }

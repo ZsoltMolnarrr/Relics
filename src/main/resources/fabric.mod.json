@@ -1,10 +1,10 @@
 {
   "schemaVersion": 1,
-  "id": "relics",
+  "id": "relics_rpgs",
   "version": "${version}",
-  "name": "Relics",
+  "name": "Relics (RPG Series)",
   "description": "",
-  "authors": [],
+  "authors": [ "Daedelus" ],
   "contact": {},
   "license": "All-Rights-Reserved",
   "icon": "assets/relics/icon.png",
@@ -14,7 +14,10 @@
       "net.relics_rpgs.client.RelicsClient"
     ],
     "main": [
-      "net.relics_rpgs.Relics"
+      "net.relics_rpgs.RelicsMod"
+    ],
+    "fabric-datagen": [
+      "net.relics_rpgs.datagen.RelicsDataGen"
     ]
   },
   "mixins": [
