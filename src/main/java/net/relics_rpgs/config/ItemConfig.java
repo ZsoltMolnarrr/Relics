@@ -7,9 +7,22 @@ import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.NotNull;
 
+import java.util.LinkedHashMap;
 import java.util.List;
 
 public class ItemConfig {
+    public LinkedHashMap<String, Entry> entries = new LinkedHashMap<>();
+
+    public static class Entry {
+        public static final Entry EMPTY = new Entry();
+        public List<AttributeModifier> attributes = List.of();
+
+        public Entry withAttributes(List<AttributeModifier> attributes) {
+            this.attributes = attributes;
+            return this;
+        }
+    }
+
     public static class AttributeModifier { AttributeModifier() { }
         public String id = "";
         public float value = 0;
