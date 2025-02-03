@@ -7,6 +7,7 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.relics_rpgs.item.Group;
+import net.relics_rpgs.item.ItemCompat;
 import net.relics_rpgs.item.RelicsItems;
 
 public class RelicsMod implements ModInitializer {
@@ -15,12 +16,12 @@ public class RelicsMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        ItemCompat.init();
         Group.GROUP = FabricItemGroup.builder()
                 .icon(() -> new ItemStack(RelicsItems.entries.get(0).item().get()))
-                .displayName(Text.translatable("itemGroup." + NAMESPACE + ".general"))
+                .displayName(Text.translatable(Group.translationKey))
                 .build();
         Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
-
         RelicsItems.register();
     }
 }

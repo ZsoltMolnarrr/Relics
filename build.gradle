@@ -12,6 +12,7 @@ group = project.maven_group
 fabricApi {
     configureDataGeneration() {
         client = true
+        modId = "relics_rpgs"
     }
 }
 
