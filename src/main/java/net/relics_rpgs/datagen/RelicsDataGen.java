@@ -16,6 +16,7 @@ import net.relics_rpgs.config.SpellGenerator;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItemTags;
 import net.relics_rpgs.item.RelicItems;
+import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSpells;
 
 import java.util.concurrent.CompletableFuture;
@@ -59,6 +60,10 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             RelicSpells.entries.forEach(entry -> {
                 var id = entry.id();
                 translationBuilder.add("spell." + entry.id().getNamespace() + "." + entry.id().getPath() + ".description" , entry.description());
+            });
+            RelicEffects.entries.forEach(entry -> {
+                translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
+                translationBuilder.add(entry.effect.getTranslationKey() + ".description", entry.description);
             });
         }
     }

@@ -11,8 +11,10 @@ import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
+import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.spell.RelicSpells;
+import net.relics_rpgs.util.AttributesUtil;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainer;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
@@ -64,7 +66,7 @@ public class RelicItems {
                 var settings = new Item.Settings()
                         .maxCount(1);
                 var attributes = (config().attributes != null && !config().attributes.isEmpty())
-                        ? ItemConfig.getBuilder(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
+                        ? AttributesUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
                         : null;
                 var spellContainer = spellContainer();
                 if (spellContainer != null) {
@@ -116,47 +118,47 @@ public class RelicItems {
     public static final Entry JEWEL_FIGURINE_RUBY = add(new Entry("jewel_figurine_ruby", "Ruby Serpent Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TOPAZ = add(new Entry("jewel_figurine_topaz", "Topaz Fox Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(SpellSchools.ARCANE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new ItemConfig.AttributeModifier(SpellSchools.FIRE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.ARCANE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.FIRE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_CITRINE = add(new Entry("jewel_figurine_citrine", "Citrine Cat Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(SpellSchools.HEALING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new ItemConfig.AttributeModifier(SpellSchools.LIGHTNING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.HEALING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.LIGHTNING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_JADE = add(new Entry("jewel_figurine_jade", "Jade Hawk Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(EntityAttributes_RangedWeapon.DAMAGE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes_RangedWeapon.DAMAGE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_SAPPHIRE = add(new Entry("jewel_figurine_sapphire", "Sapphire Turtle Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(), 2, EntityAttributeModifier.Operation.ADD_VALUE)
+                            new AttributeModifier(EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(), 2, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TANZANITE = add(new Entry("jewel_figurine_tanzanite", "Tanzanite Bat Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(SpellSchools.FROST.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new ItemConfig.AttributeModifier(SpellSchools.SOUL.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.FROST.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.SOUL.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
 
     public static final Entry COMMON_RELIC_ROLL = add(new Entry("common_relic_roll", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new ItemConfig.AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
+                            new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
     public static final Entry COMMON_RELIC_MELEE = add(new Entry("common_relic_melee", "Meteorite Whetstone"))

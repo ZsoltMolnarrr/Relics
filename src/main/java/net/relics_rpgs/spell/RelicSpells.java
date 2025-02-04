@@ -22,7 +22,11 @@ public class RelicSpells {
     public static Entry cast_attack_damage = add(cast_attack_damage());
     public static Entry cast_attack_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "cast_attack_damage");
-        var description = "Use: Increases attack damage by 10%%, for {effect_duration} seconds.";
+        var description = "Use: Increases attack damage by {buff} for {effect_duration} seconds.";
+        var effect = RelicEffects.METEORITE_WHETSTONE;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
 
         var spell = new Spell();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -52,6 +56,6 @@ public class RelicSpells {
         spell.cost.cooldown = new Spell.Cost.Cooldown();
         spell.cost.cooldown.duration = 60;
 
-        return new Entry(id, spell, description, null);
+        return new Entry(id, spell, description, mutator);
     }
 }
