@@ -35,6 +35,9 @@ public class RelicSpells {
         return spell;
     }
 
+    private static final float T1_USE_EFFECT_DURATION = 10;
+    private static final float T1_USE_EFFECT_COOLDOWN = 60;
+
     public static Entry meteorite_whetstone = add(meteorite_whetstone());
     private static Entry meteorite_whetstone() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "meteorite_whetstone");
@@ -48,6 +51,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
 
         var buff = new Spell.Impact();
@@ -55,7 +59,7 @@ public class RelicSpells {
         buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
         buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
         buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = 10;
+        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
 
         spell.impact = new Spell.Impact[] {
             buff
@@ -63,7 +67,7 @@ public class RelicSpells {
 
         spell.cost = new Spell.Cost();
         spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = 60;
+        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -81,12 +85,15 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
+
         var buff = new Spell.Impact();
         buff.action = new Spell.Impact.Action();
         buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
         buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
         buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = 10;
+        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
 
         spell.impact = new Spell.Impact[] {
             buff
@@ -94,7 +101,41 @@ public class RelicSpells {
 
         spell.cost = new Spell.Cost();
         spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = 60;
+        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry eagle_eye = add(eagle_eye());
+    private static Entry eagle_eye() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "eagle_eye");
+        var description = "Use: Increases ranged attack damage by {buff} for {effect_duration} seconds.";
+        var effect = RelicEffects.EAGLE_EYE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = activeSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
+
+        var buff = new Spell.Impact();
+        buff.action = new Spell.Impact.Action();
+        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        buff.action.status_effect.effect_id = effect.id().toString();
+        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
+
+        spell.impact = new Spell.Impact[] {
+            buff
+        };
+
+        spell.cost = new Spell.Cost();
+        spell.cost.cooldown = new Spell.Cost.Cooldown();
+        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
 
         return new Entry(id, spell, title, description, mutator);
     }

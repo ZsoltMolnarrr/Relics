@@ -13,6 +13,7 @@ import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.EffectConfig;
 import net.relics_rpgs.util.AttributesUtil;
+import net.spell_engine.api.effect.Synchronized;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -65,7 +66,6 @@ public class RelicEffects {
                     )
             )
     ));
-
     public static final Entry MEDAL_OF_VALOR = add(new Entry("medal_of_valor",
             "Valor",
             "Increases attack speed.",
@@ -79,6 +79,20 @@ public class RelicEffects {
                             ),
                             new AttributeModifier(
                                     EntityAttributes_RangedWeapon.HASTE.id.toString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static final Entry EAGLE_EYE = add(new Entry("eagle_eye",
+            "Eagle Eye",
+            "Increases ranged attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x000088),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.DAMAGE.id,
                                     0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -107,6 +121,7 @@ public class RelicEffects {
         }
 
         for (var entry: entries) {
+            Synchronized.configure(entry.effect, true);
             entry.entry = Registry.registerReference(Registries.STATUS_EFFECT, entry.id(), entry.effect);
         }
     }

@@ -22,6 +22,8 @@ public class RelicSounds {
     }
 
     public static final Entry SHARPEN = add(new Entry("sharpen"));
+    public static final Entry MEDAL_USE = add(new Entry("medal_use"));
+    public static final Entry EAGLE_BOOST = add(new Entry("eagle_boost"));
 
     public static void register() {
         for (var entry: entries) {
