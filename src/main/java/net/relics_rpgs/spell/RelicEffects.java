@@ -1,6 +1,5 @@
 package net.relics_rpgs.spell;
 
-import net.fabric_extras.ranged_weapon.internal.CustomStatusEffect;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
@@ -52,7 +51,7 @@ public class RelicEffects {
     }
 
     public static final Entry METEORITE_WHETSTONE = add(new Entry("meteorite_whetstone",
-            "Meteorite Whetstone",
+            "Sharpness",
             "Increases attack damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
             new EffectConfig.Entry(

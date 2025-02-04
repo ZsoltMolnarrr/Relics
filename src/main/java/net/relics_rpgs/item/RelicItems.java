@@ -155,14 +155,14 @@ public class RelicItems {
                     ))
             );
 
-    public static final Entry COMMON_RELIC_ROLL = add(new Entry("common_relic_roll", "Feather Talisman"))
+    public static final Entry FEATHER_TALISMAN = add(new Entry("feather_talisman", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry COMMON_RELIC_MELEE = add(new Entry("common_relic_melee", "Meteorite Whetstone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.cast_attack_damage().id()));
+    public static final Entry METEORITE_WHETSTONE = add(new Entry("meteorite_whetstone", "Meteorite Whetstone"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.meteorite_whetstone().id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
