@@ -1,15 +1,25 @@
 package net.relics_rpgs.config;
 
+import com.google.common.hash.Hashing;
+import com.google.common.hash.HashingOutputStream;
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+import com.google.gson.JsonElement;
+import com.google.gson.internal.Streams;
+import com.google.gson.stream.JsonWriter;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.minecraft.data.DataOutput;
 import net.minecraft.data.DataProvider;
 import net.minecraft.data.DataWriter;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
+import net.minecraft.util.Util;
 import net.spell_engine.api.spell.Spell;
 
+import java.io.ByteArrayOutputStream;
+import java.io.IOException;
+import java.io.OutputStreamWriter;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Path;
 import java.util.*;
 import java.util.concurrent.CompletableFuture;
@@ -46,10 +56,42 @@ public abstract class SpellGenerator implements DataProvider {
             var spell = entry.spell;
             var spellId = entry.id;
             var json = gson.toJsonTree(spell);
-            writes.add(DataProvider.writeToPath(writer, json, getFilePath(spellId)));
+            writes.add(writeOriginalFormat(writer, json, getFilePath(spellId)));
         }
 
         return CompletableFuture.allOf(writes.toArray(new CompletableFuture[0]));
+    }
+
+    private static CompletableFuture<?> writeOriginalFormat(DataWriter writer, JsonElement json, Path path) {
+        return CompletableFuture.runAsync(() -> {
+            try {
+                ByteArrayOutputStream byteArrayOutputStream = new ByteArrayOutputStream();
+                HashingOutputStream hashingOutputStream = new HashingOutputStream(Hashing.sha1(), byteArrayOutputStream);
+                JsonWriter jsonWriter = new JsonWriter(new OutputStreamWriter(hashingOutputStream, StandardCharsets.UTF_8));
+
+                try {
+                    // Write the given json element to the json writer
+                    jsonWriter.setSerializeNulls(false);
+                    jsonWriter.setIndent("  ");
+                    Streams.write(json, jsonWriter);
+                } catch (Throwable var9) {
+                    try {
+                        jsonWriter.close();
+                    } catch (Throwable var8) {
+                        var9.addSuppressed(var8);
+                    }
+
+                    throw var9;
+                }
+
+                jsonWriter.close();
+                writer.write(path, byteArrayOutputStream.toByteArray(), hashingOutputStream.hash());
+            } catch (IOException var10) {
+                IOException iOException = var10;
+                LOGGER.error("Failed to save file to {}", path, iOException);
+            }
+
+        }, Util.getMainWorkerExecutor());
     }
 
     @Override
