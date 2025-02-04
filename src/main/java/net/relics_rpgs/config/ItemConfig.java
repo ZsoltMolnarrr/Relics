@@ -1,11 +1,12 @@
 package net.relics_rpgs.config;
 
+import net.fabricmc.loader.api.FabricLoader;
 import net.minecraft.component.type.AttributeModifierSlot;
 import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.registry.Registries;
 import net.minecraft.util.Identifier;
-import org.jetbrains.annotations.NotNull;
+import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
 import java.util.List;
@@ -15,11 +16,26 @@ public class ItemConfig {
 
     public static class Entry {
         public static final Entry EMPTY = new Entry();
+
+        public boolean enabled = true;
+        @Nullable public Conditions conditions;
         public List<AttributeModifier> attributes = List.of();
 
         public Entry withAttributes(List<AttributeModifier> attributes) {
             this.attributes = attributes;
             return this;
+        }
+
+        public Entry withRequiredMod(String required_mod) {
+            if (conditions == null) {
+                conditions = new Conditions();
+            }
+            conditions.required_mod = required_mod;
+            return this;
+        }
+
+        public boolean isEnabled() {
+            return enabled && (conditions == null || conditions.isSatisfied());
         }
     }
 
@@ -39,7 +55,20 @@ public class ItemConfig {
         }
     }
 
-    public static AttributeModifiersComponent.@NotNull Builder getBuilder(Identifier modifierId, List<AttributeModifier> attributesConfig) {
+    public static class Conditions {
+        @Nullable public String required_mod;
+
+        public boolean isSatisfied() {
+            if (required_mod != null || !required_mod.isEmpty()) {
+                if (!FabricLoader.getInstance().isModLoaded(required_mod)) {
+                    return false;
+                }
+            }
+            return true;
+        }
+    }
+
+    public static AttributeModifiersComponent.Builder getBuilder(Identifier modifierId, List<AttributeModifier> attributesConfig) {
         AttributeModifiersComponent.Builder attributes = AttributeModifiersComponent.builder();
         for (var modifier : attributesConfig) {
             var id = Identifier.of(modifier.id);

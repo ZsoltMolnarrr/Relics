@@ -12,9 +12,11 @@ import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.relics_rpgs.config.SpellGenerator;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItemTags;
-import net.relics_rpgs.item.RelicsItems;
+import net.relics_rpgs.item.RelicItems;
+import net.relics_rpgs.spell.RelicSpells;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -25,6 +27,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(ItemTagGenerator::new);
         pack.addProvider(LangGenerator::new);
         pack.addProvider(ModelProvider::new);
+        pack.addProvider(RelicsSpellGen::new);
     }
 
     public static class ItemTagGenerator extends FabricTagProvider<Item> {
@@ -35,7 +38,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             var all = getOrCreateTagBuilder(RelicItemTags.ALL);
-            RelicsItems.entries.forEach(entry -> all.addOptional(entry.id()));
+            RelicItems.entries.forEach(entry -> all.addOptional(entry.id()));
         }
     }
 
@@ -49,9 +52,14 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             translationBuilder.add("trinkets.slot.spell.trinket", "Trinket");
             translationBuilder.add("trinkets.slot.charm.trinket", "Trinket");
             translationBuilder.add(Group.translationKey, "Relics (RPG Series)");
-            RelicsItems.entries.forEach(entry ->
+            RelicItems.entries.forEach(entry ->
                 translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
             );
+            //   "spell.archers.entangling_roots.name": "Entangling Roots",
+            RelicSpells.entries.forEach(entry -> {
+                var id = entry.id();
+                translationBuilder.add("spell." + entry.id().getNamespace() + "." + entry.id().getPath() + ".description" , entry.description());
+            });
         }
     }
 
@@ -67,9 +75,22 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         public void generateItemModels(ItemModelGenerator itemModelGenerator) {
-            RelicsItems.entries.forEach(entry -> {
+            RelicItems.entries.forEach(entry -> {
                 itemModelGenerator.register(entry.item().get(), Models.GENERATED);
             });
+        }
+    }
+
+    public static class RelicsSpellGen extends SpellGenerator {
+        public RelicsSpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
+        }
+
+        @Override
+        public void generateSpells(Builder builder) {
+            for (var entry: RelicSpells.entries) {
+                builder.add(entry.id(), entry.spell());
+            }
         }
     }
 }

@@ -12,6 +12,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.config.ItemConfig;
+import net.relics_rpgs.spell.RelicSpells;
+import net.spell_engine.api.spell.SpellDataComponents;
+import net.spell_engine.api.spell.container.SpellContainer;
+import net.spell_engine.api.spell.container.SpellContainerHelper;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
@@ -21,7 +25,7 @@ import java.util.Map;
 import java.util.function.Function;
 import java.util.function.Supplier;
 
-public class RelicsItems {
+public class RelicItems {
     public static final List<Entry> entries = new ArrayList<>();
     public static Entry add(Entry entry) {
         entries.add(entry);
@@ -42,7 +46,9 @@ public class RelicsItems {
         private final String name;
         private final String translatedName;
         private ItemConfig.Entry config;
+        public ItemConfig.Entry defaults;
         private final Supplier<Item> item;
+        private SpellContainer spellContainer;
 
         public Entry(String name, String translatedName) {
             this(name, translatedName, ItemConfig.Entry.EMPTY);
@@ -52,6 +58,7 @@ public class RelicsItems {
             this.name = name;
             this.translatedName = translatedName;
             this.config = config;
+            this.defaults = config;
 
             this.item = Suppliers.memoize(() -> {
                 var settings = new Item.Settings()
@@ -59,6 +66,10 @@ public class RelicsItems {
                 var attributes = (config().attributes != null && !config().attributes.isEmpty())
                         ? ItemConfig.getBuilder(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
                         : null;
+                var spellContainer = spellContainer();
+                if (spellContainer != null) {
+                    settings = settings.component(SpellDataComponents.SPELL_CONTAINER, spellContainer);
+                }
                 return getFactory().apply(new ItemArgs(settings, attributes));
             });
         }
@@ -83,12 +94,22 @@ public class RelicsItems {
             return item;
         }
 
+        @Nullable public SpellContainer spellContainer() {
+            return spellContainer;
+        }
+
         public Entry config(ItemConfig.Entry config) {
             this.config = config;
             return this;
         }
+
+        public Entry spell(SpellContainer spellContainer) {
+            this.spellContainer = spellContainer;
+            return this;
+        }
     }
 
+    public static final String COMBAT_ROLL_COUNT = "combat_roll:count";
 
     private static final float tier_0_multiplier = 0.05F;
 
@@ -132,6 +153,15 @@ public class RelicsItems {
                     ))
             );
 
+    public static final Entry COMMON_RELIC_ROLL = add(new Entry("common_relic_roll", "Feather Talisman"))
+            .config(new ItemConfig.Entry()
+                    .withAttributes(List.of(
+                            new ItemConfig.AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
+                    ))
+            );
+    public static final Entry COMMON_RELIC_MELEE = add(new Entry("common_relic_melee", "Meteorite Whetstone"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.cast_attack_damage().id()));
+
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
             var key = entry.id().toString();
@@ -144,11 +174,15 @@ public class RelicsItems {
         }
 
         for(var entry: entries) {
-            Registry.register(Registries.ITEM, entry.id(), entry.item().get());
+            // if (entry.isEnabled()) {
+                Registry.register(Registries.ITEM, entry.id(), entry.item().get());
+            // }
         }
         ItemGroupEvents.modifyEntriesEvent(Group.KEY).register(content -> {
             for(var entry: entries) {
-                content.add(entry.item().get());
+                //if (entry.isEnabled()) {
+                    content.add(entry.item().get());
+                // }
             }
         });
     }
