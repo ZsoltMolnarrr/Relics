@@ -12,12 +12,15 @@ import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-import net.relics_rpgs.config.SpellGenerator;
+import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItemTags;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
+import net.relics_rpgs.spell.RelicSounds;
 import net.relics_rpgs.spell.RelicSpells;
+import net.spell_engine.api.data_gen.SimpleSoundGenerator;
+import net.spell_engine.api.data_gen.SpellGenerator;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -29,6 +32,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(LangGenerator::new);
         pack.addProvider(ModelProvider::new);
         pack.addProvider(RelicsSpellGen::new);
+        pack.addProvider(SoundGen::new);
     }
 
     public static class ItemTagGenerator extends FabricTagProvider<Item> {
@@ -59,7 +63,8 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             //   "spell.archers.entangling_roots.name": "Entangling Roots",
             RelicSpells.entries.forEach(entry -> {
                 var id = entry.id();
-                translationBuilder.add("spell." + entry.id().getNamespace() + "." + entry.id().getPath() + ".description" , entry.description());
+                translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".name" , entry.title());
+                translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
             });
             RelicEffects.entries.forEach(entry -> {
                 translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
@@ -96,6 +101,18 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             for (var entry: RelicSpells.entries) {
                 builder.add(entry.id(), entry.spell());
             }
+        }
+    }
+
+    public static class SoundGen extends SimpleSoundGenerator {
+        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+            super(dataOutput, registryLookup);
+        }
+
+        @Override
+        public void generateSounds(Builder builder) {
+            builder.entries.add(new Entry(RelicsMod.NAMESPACE,
+                    RelicSounds.entries.stream().map(RelicSounds.Entry::name).toList()));
         }
     }
 }

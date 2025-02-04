@@ -12,6 +12,7 @@ import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.ItemCompat;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
+import net.relics_rpgs.spell.RelicSounds;
 import net.tinyconfig.ConfigManager;
 
 public class RelicsMod implements ModInitializer {
@@ -33,6 +34,7 @@ public class RelicsMod implements ModInitializer {
 
     @Override
     public void onInitialize() {
+        RelicSounds.register();
         itemConfig.refresh();
         effectConfig.refresh();
         ItemCompat.init();

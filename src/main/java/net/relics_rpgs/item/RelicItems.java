@@ -162,7 +162,9 @@ public class RelicItems {
                     ))
             );
     public static final Entry METEORITE_WHETSTONE = add(new Entry("meteorite_whetstone", "Meteorite Whetstone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.meteorite_whetstone().id()));
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.meteorite_whetstone.id()));
+    public static final Entry MEDAL_OF_VALOR = add(new Entry("medal_of_valor", "Medal of Valor"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.medal_of_valor.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

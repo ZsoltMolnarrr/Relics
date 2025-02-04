@@ -1,5 +1,6 @@
 package net.relics_rpgs.spell;
 
+import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffect;
@@ -58,6 +59,26 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static final Entry MEDAL_OF_VALOR = add(new Entry("medal_of_valor",
+            "Valor",
+            "Increases attack speed.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.HASTE.id.toString(),
                                     0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )

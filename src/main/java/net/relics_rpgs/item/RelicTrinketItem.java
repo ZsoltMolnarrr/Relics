@@ -7,6 +7,7 @@ import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.attribute.EntityAttribute;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
+import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
@@ -33,6 +34,15 @@ public class RelicTrinketItem extends TrinketItem {
 
     public void setConfigurableModifiers(AttributeModifiersComponent component) {
         this.customAttributes = component;
+    }
+
+    @Override
+    public boolean canUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
+        var isOnCooldown = false;
+        if (entity instanceof PlayerEntity player) {
+            isOnCooldown = player.getItemCooldownManager().isCoolingDown(stack.getItem());
+        }
+        return super.canUnequip(stack, slot, entity) && !isOnCooldown;
     }
 
 //    @Override
