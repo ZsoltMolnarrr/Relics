@@ -6,6 +6,7 @@ import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
+import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_power.api.SpellSchools;
@@ -153,8 +154,12 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        // spell.release.sound = new Sound(RelicSounds.HEALING_POTION.id().toString());
+        // spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.POTION_GENERIC.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
 
         var heal = new Spell.Impact();
         heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
