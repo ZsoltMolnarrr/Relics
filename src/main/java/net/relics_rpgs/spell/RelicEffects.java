@@ -52,7 +52,7 @@ public class RelicEffects {
         }
     }
 
-    public static final Entry METEORITE_WHETSTONE = add(new Entry("meteorite_whetstone",
+    public static final Entry LESSER_ATTACK_DAMAGE = add(new Entry("lesser_use_damage",
             "Sharpness",
             "Increases attack damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
@@ -66,7 +66,7 @@ public class RelicEffects {
                     )
             )
     ));
-    public static final Entry MEDAL_OF_VALOR = add(new Entry("medal_of_valor",
+    public static final Entry LESSER_ATTACKS_SPEED = add(new Entry("lesser_use_dex",
             "Valor",
             "Increases attack speed.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
@@ -85,7 +85,7 @@ public class RelicEffects {
                     )
             )
     ));
-    public static final Entry EAGLE_EYE = add(new Entry("eagle_eye",
+    public static final Entry LESSER_RANGED_DAMAGE = add(new Entry("lesser_use_ranged",
             "Eagle Eye",
             "Increases ranged attack damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x000088),

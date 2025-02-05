@@ -18,15 +18,15 @@ public class RelicsClient implements ClientModInitializer {
         }
 
         CustomParticleStatusEffect.register(
-                RelicEffects.METEORITE_WHETSTONE.effect,
+                RelicEffects.LESSER_ATTACK_DAMAGE.effect,
                 new BuffParticleSpawner("spell_engine:magic_rage_stripe_float", 1)
         );
         CustomParticleStatusEffect.register(
-                RelicEffects.MEDAL_OF_VALOR.effect,
+                RelicEffects.LESSER_ATTACKS_SPEED.effect,
                 new BuffParticleSpawner("spell_engine:magic_frost_stripe_float", 1)
         );
         CustomParticleStatusEffect.register(
-                RelicEffects.EAGLE_EYE.effect,
+                RelicEffects.LESSER_RANGED_DAMAGE.effect,
                 new BuffParticleSpawner("spell_engine:magic_nature_stripe_float", 1)
         );
     }

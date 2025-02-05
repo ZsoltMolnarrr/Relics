@@ -155,18 +155,20 @@ public class RelicItems {
                     ))
             );
 
-    public static final Entry FEATHER_TALISMAN = add(new Entry("feather_talisman", "Feather Talisman"))
+    public static final Entry LESSER_ROLL = add(new Entry("lesser_roll", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
                             new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
-    public static final Entry METEORITE_WHETSTONE = add(new Entry("meteorite_whetstone", "Meteorite Whetstone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.meteorite_whetstone.id()));
-    public static final Entry MEDAL_OF_VALOR = add(new Entry("medal_of_valor", "Medal of Valor"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medal_of_valor.id()));
-    public static final Entry EAGLE_EYE = add(new Entry("eagle_eye", "Eagle Eye"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.eagle_eye.id()));
+    public static final Entry LESSER_USE_DAMAGE = add(new Entry("lesser_use_damage", "Meteorite Whetstone"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_damage.id()));
+    public static final Entry LESSER_USE_DEX = add(new Entry("lesser_use_dex", "Medal of Valor"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_dex.id()));
+    public static final Entry LESSER_USE_RANGED = add(new Entry("lesser_use_ranged", "Eagle Eye"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_ranged.id()));
+    public static final Entry LESSER_USE_HEALTH = add(new Entry("lesser_use_health", "Everflowing Vial"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_health.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
