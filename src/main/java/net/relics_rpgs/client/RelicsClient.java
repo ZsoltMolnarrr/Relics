@@ -29,5 +29,17 @@ public class RelicsClient implements ClientModInitializer {
                 RelicEffects.LESSER_RANGED_DAMAGE.effect,
                 new BuffParticleSpawner("spell_engine:magic_nature_stripe_float", 1)
         );
+        CustomParticleStatusEffect.register(
+                RelicEffects.LESSER_SPELL_POWER.effect,
+                new BuffParticleSpawner("spell_engine:magic_white_stripe_float", 1)
+        );
+        CustomParticleStatusEffect.register(
+                RelicEffects.LESSER_SPELL_HASTE.effect,
+                new BuffParticleSpawner("spell_engine:magic_holy_stripe_float", 1)
+        );
+        CustomParticleStatusEffect.register(
+                RelicEffects.LESSER_SPELL_CRIT.effect,
+                new BuffParticleSpawner("spell_engine:magic_holy_stripe_float", 1)
+        );
     }
 }

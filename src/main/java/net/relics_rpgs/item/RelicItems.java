@@ -169,6 +169,12 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_ranged.id()));
     public static final Entry LESSER_USE_HEALTH = add(new Entry("lesser_use_health", "Everflowing Vial"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_health.id()));
+    public static final Entry LESSER_USE_SPELL_POWER = add(new Entry("lesser_use_spell_power", "Silver Crescent"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_spell_power.id()));
+    public static final Entry LESSER_USE_SPELL_HASTE = add(new Entry("lesser_use_spell_haste", "Sorcerer’s Chronograph"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_spell_haste.id()));
+    public static final Entry LESSER_PROC_SPELL_CRIT = add(new Entry("lesser_proc_spell_crit", "Scarab of Infinite Mysteries"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_spell_crit.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

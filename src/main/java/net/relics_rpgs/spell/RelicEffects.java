@@ -14,6 +14,9 @@ import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.EffectConfig;
 import net.relics_rpgs.util.AttributesUtil;
 import net.spell_engine.api.effect.Synchronized;
+import net.spell_power.api.SpellPowerMechanics;
+import net.spell_power.api.SpellSchool;
+import net.spell_power.api.SpellSchools;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -94,6 +97,52 @@ public class RelicEffects {
                             new AttributeModifier(
                                     EntityAttributes_RangedWeapon.DAMAGE.id,
                                     0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry LESSER_SPELL_POWER = add(new Entry("lesser_use_spell_power",
+            "Spell Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    SpellSchools.all().stream()
+                            .filter(school -> school.archetype == SpellSchool.Archetype.MAGIC
+                                    && !school.id.toString().contains("generic"))
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            0.1F,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry LESSER_SPELL_HASTE = add(new Entry("lesser_use_spell_haste",
+            "Spell Haste",
+            "Increases spell haste.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880088),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.HASTE.id,
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry LESSER_SPELL_CRIT = add(new Entry("lesser_proc_spell_crit",
+            "Volatility",
+            "Increases spell critical strike chance.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.CRITICAL_CHANCE.id,
+                                    0.15F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
