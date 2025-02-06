@@ -148,6 +148,52 @@ public class RelicEffects {
                     )
             )
     ));
+    public static Entry LESSER_POWER_ARCANE_FIRE = add(new Entry("lesser_proc_arcane_fire",
+            "Spell Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.ARCANE, SpellSchools.FIRE).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            0.15F,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry LESSER_POWER_FROST_HEALING = add(new Entry("lesser_proc_frost_healing",
+            "Spell Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.FROST, SpellSchools.HEALING).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            0.15F,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry("lesser_proc_crit_damage",
+            "Amplify Spell",
+            "Increases spell critical damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.CRITICAL_DAMAGE.id,
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
 
     public static void register(EffectConfig config) {
         for (var entry: entries) {

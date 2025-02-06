@@ -175,6 +175,12 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_spell_haste.id()));
     public static final Entry LESSER_PROC_SPELL_CRIT = add(new Entry("lesser_proc_spell_crit", "Scarab of Infinite Mysteries"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_spell_crit.id()));
+    public static final Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry("lesser_proc_crit_damage", "Splintered Focus Crystal"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_crit_damage.id()));
+    public static final Entry LESSER_PROC_ARCANE_FIRE = add(new Entry("lesser_proc_arcane_fire", "Infused Amethyst"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_arcane_fire.id()));
+    public static final Entry LESSER_PROC_FROST_HEALING = add(new Entry("lesser_proc_frost_healing", "Frozen Lotus"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_frost_healing.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

@@ -24,6 +24,12 @@ public class RelicSpells {
         return entry;
     }
 
+    private static final float T1_USE_EFFECT_DURATION = 10;
+    private static final float T1_PROC_EFFECT_DURATION = 7;
+    private static final float T1_USE_EFFECT_COOLDOWN = 60;
+    private static final float T1_PROC_EFFECT_COOLDOWN = 45;
+    private static final float T1_PROC_CHANCE = 0.05F;
+
     private static Spell activeSpellBase() {
         var spell = new Spell();
         spell.range = 0;
@@ -54,10 +60,16 @@ public class RelicSpells {
         return spell;
     }
 
-    private static final float T1_USE_EFFECT_DURATION = 10;
-    private static final float T1_PROC_EFFECT_DURATION = 7;
-    private static final float T1_USE_EFFECT_COOLDOWN = 60;
-    private static final float T1_PROC_EFFECT_COOLDOWN = 45;
+    private static Spell.Impact createEffectImpact(Identifier effectId, float t1ProcEffectDuration) {
+        var buff = new Spell.Impact();
+        buff.action = new Spell.Impact.Action();
+        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        buff.action.status_effect.effect_id = effectId.toString();
+        buff.action.status_effect.duration = t1ProcEffectDuration;
+        return buff;
+    }
+
 
     public static Entry lesser_use_damage = add(lesser_use_damage());
     private static Entry lesser_use_damage() {
@@ -75,13 +87,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
-
+        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         spell.cost = new Spell.Cost();
@@ -107,13 +113,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
-
+        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         spell.cost = new Spell.Cost();
@@ -139,13 +139,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
-
+        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         spell.cost = new Spell.Cost();
@@ -217,13 +211,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
-
+        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         spell.cost = new Spell.Cost();
@@ -254,12 +242,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_USE_EFFECT_DURATION;
+        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
 
         spell.impacts = List.of(buff);
 
@@ -284,7 +267,7 @@ public class RelicSpells {
         spell.school = SpellSchools.ARCANE;
 
         var trigger = new Spell.Trigger();
-        trigger.chance = 0.05F;
+        trigger.chance = T1_PROC_CHANCE;
         trigger.type = Spell.Trigger.Type.SPELL_IMPACT_ANY;
         trigger.spell = new Spell.Trigger.SpellCondition();
         trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
@@ -299,12 +282,129 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = new Spell.Impact();
-        buff.action = new Spell.Impact.Action();
-        buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
-        buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effect.id().toString();
-        buff.action.status_effect.duration = T1_PROC_EFFECT_DURATION;
+        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
+
+        spell.impacts = List.of(buff);
+
+        spell.cost = new Spell.Cost();
+        spell.cost.cooldown = new Spell.Cost.Cooldown();
+        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry lesser_proc_crit_damage = add(lesser_proc_crit_damage());
+    private static Entry lesser_proc_crit_damage() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_crit_damage");
+        var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.LESSER_PROC_CRIT_DAMAGE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.5F;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
+        spell.impacts = List.of(buff);
+
+        spell.cost = new Spell.Cost();
+        spell.cost.cooldown = new Spell.Cost.Cooldown();
+        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry lesser_proc_arcane_fire = add(lesser_proc_arcane_fire());
+    private static Entry lesser_proc_arcane_fire() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
+        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.LESSER_POWER_ARCANE_FIRE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T1_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_ANY;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
+
+        spell.impacts = List.of(buff);
+
+        spell.cost = new Spell.Cost();
+        spell.cost.cooldown = new Spell.Cost.Cooldown();
+        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry lesser_proc_frost_healing = add(lesser_proc_frost_healing());
+    private static Entry lesser_proc_frost_healing() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
+        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.LESSER_POWER_FROST_HEALING;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T1_PROC_CHANCE;
+        
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_ANY;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
 
         spell.impacts = List.of(buff);
 
