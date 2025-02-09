@@ -25,10 +25,16 @@ public class RelicSpells {
     }
 
     private static final float T1_USE_EFFECT_DURATION = 10;
-    private static final float T1_PROC_EFFECT_DURATION = 7;
+    private static final float T1_PROC_EFFECT_DURATION = 6;
     private static final float T1_USE_EFFECT_COOLDOWN = 60;
     private static final float T1_PROC_EFFECT_COOLDOWN = 45;
     private static final float T1_PROC_CHANCE = 0.05F;
+
+    private static final float T2_USE_EFFECT_DURATION = 10;
+    private static final float T2_PROC_EFFECT_DURATION = 8;
+    private static final float T2_USE_EFFECT_COOLDOWN = 60;
+    private static final float T2_PROC_EFFECT_COOLDOWN = 45;
+    private static final float T2_PROC_CHANCE = 0.06F;
 
     private static Spell activeSpellBase() {
         var spell = new Spell();
@@ -68,6 +74,16 @@ public class RelicSpells {
         buff.action.status_effect.effect_id = effectId.toString();
         buff.action.status_effect.duration = t1ProcEffectDuration;
         return buff;
+    }
+
+    private static void configureCooldown(Spell spell, float duration) {
+        if (spell.cost == null) {
+            spell.cost = new Spell.Cost();
+        }
+        if (spell.cost.cooldown == null) {
+            spell.cost.cooldown = new Spell.Cost.Cooldown();
+        }
+        spell.cost.cooldown.duration = duration;
     }
 
 
@@ -113,12 +129,8 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
 
-        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -139,12 +151,8 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
 
-        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -182,10 +190,7 @@ public class RelicSpells {
         heal.action.heal.spell_power_coefficient = 0.2f;
 
         spell.impacts = List.of(heal);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+        configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -211,12 +216,8 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -242,13 +243,8 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
-
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -282,13 +278,9 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -324,12 +316,8 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -363,13 +351,8 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
-
-        spell.impacts = List.of(buff);
-
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
@@ -404,13 +387,315 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION);
+        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
-        spell.impacts = List.of(buff);
+        return new Entry(id, spell, title, description, mutator);
+    }
 
-        spell.cost = new Spell.Cost();
-        spell.cost.cooldown = new Spell.Cost.Cooldown();
-        spell.cost.cooldown.duration = T1_PROC_EFFECT_COOLDOWN;
+    public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
+    private static Entry medium_proc_attack_damage() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
+        var description = "On melee hit: {trigger_chance} chance to increase attack damage by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_ATTACK_DAMAGE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T2_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_proc_attack_speed = add(medium_proc_attack_speed());
+    private static Entry medium_proc_attack_speed() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
+        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_ATTACKS_SPEED;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var melee_trigger = new Spell.Trigger();
+        melee_trigger.chance = T2_PROC_CHANCE;
+        melee_trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        var ranged_trigger = new Spell.Trigger();
+        ranged_trigger.chance = T2_PROC_CHANCE;
+        ranged_trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        spell.passive.triggers = List.of(melee_trigger, ranged_trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_proc_ranged_damage = add(medium_proc_ranged_damage());
+    private static Entry medium_proc_ranged_damage() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
+        var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_RANGED_DAMAGE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T2_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_proc_defense = add(medium_proc_defense());
+    private static Entry medium_proc_defense() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_defense");
+        var description = "On damage taken: {trigger_chance} chance to increase armor toughness by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_DEFENSE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}",  SpellTooltip.formattedNumber(effect.config().firstModifierValue()));
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T2_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
+    private static Entry medium_proc_spell_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
+        var description = "On spell hit: {trigger_chance} chance to increase spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_SPELL_POWER;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T2_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_proc_spell_haste = add(medium_proc_spell_haste());
+    private static Entry medium_proc_spell_haste() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_haste");
+        var description = "On spell hit: {trigger_chance} chance to increase spell haste by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_SPELL_HASTE;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = T2_PROC_CHANCE;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.spell = new Spell.Trigger.SpellCondition();
+        trigger.spell.archetype = SpellSchool.Archetype.MAGIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.HASTE_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_use_arcane_power = add(medium_use_arcane_power());
+    private static Entry medium_use_arcane_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_arcane_power");
+        var description = "Use: Increases arcane spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_ARCANE_POWER;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_use_fire_power = add(medium_use_fire_power());
+    private static Entry medium_use_fire_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_fire_power");
+        var description = "Use: Increases fire spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_FIRE_POWER;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.FIRE;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_use_frost_power = add(medium_use_frost_power());
+    private static Entry medium_use_frost_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_frost_power");
+        var description = "Use: Increases frost spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_FROST_POWER;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.FROST;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry medium_use_healing_power = add(medium_use_healing_power());
+    private static Entry medium_use_healing_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_healing_power");
+        var description = "Use: Increases healing spell power by {buff_percent} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_HEALING_POWER;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
+                effect.config().firstModifierValue())
+        );
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }

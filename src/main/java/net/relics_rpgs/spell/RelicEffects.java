@@ -55,7 +55,10 @@ public class RelicEffects {
         }
     }
 
-    public static final Entry LESSER_ATTACK_DAMAGE = add(new Entry("lesser_use_damage",
+    private static final float T1_BUFF_MULTIPLIER = 0.1F;
+    private static final float T2_BUFF_MULTIPLIER = 0.2F;
+
+    public static final Entry LESSER_ATTACK_DAMAGE = add(new Entry("lesser_attack_damage",
             "Sharpness",
             "Increases attack damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
@@ -63,13 +66,13 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
-                                    0.1F,
+                                    T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
-    public static final Entry LESSER_ATTACKS_SPEED = add(new Entry("lesser_use_dex",
+    public static final Entry LESSER_ATTACKS_SPEED = add(new Entry("lesser_attack_speed",
             "Valor",
             "Increases attack speed.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
@@ -77,18 +80,18 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
-                                    0.1F,
+                                    T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
                                     EntityAttributes_RangedWeapon.HASTE.id.toString(),
-                                    0.1F,
+                                    T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
-    public static final Entry LESSER_RANGED_DAMAGE = add(new Entry("lesser_use_ranged",
+    public static final Entry LESSER_RANGED_DAMAGE = add(new Entry("lesser_ranged_damage",
             "Eagle Eye",
             "Increases ranged attack damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x000088),
@@ -96,13 +99,13 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes_RangedWeapon.DAMAGE.id,
-                                    0.1F,
+                                    T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
-    public static Entry LESSER_SPELL_POWER = add(new Entry("lesser_use_spell_power",
+    public static Entry LESSER_SPELL_POWER = add(new Entry("lesser_spell_power",
             "Spell Power",
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
@@ -113,14 +116,14 @@ public class RelicEffects {
                             .map(school ->
                                     new AttributeModifier(
                                             school.id,
-                                            0.1F,
+                                            T1_BUFF_MULTIPLIER,
                                             EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                                     )
                             )
                             .toList()
             )
     ));
-    public static Entry LESSER_SPELL_HASTE = add(new Entry("lesser_use_spell_haste",
+    public static Entry LESSER_SPELL_HASTE = add(new Entry("lesser_spell_haste",
             "Spell Haste",
             "Increases spell haste.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880088),
@@ -128,13 +131,13 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     SpellPowerMechanics.HASTE.id,
-                                    0.1F,
+                                    T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
     ));
-    public static Entry LESSER_SPELL_CRIT = add(new Entry("lesser_proc_spell_crit",
+    public static Entry LESSER_SPELL_CRIT = add(new Entry("lesser_spell_crit_chance",
             "Volatility",
             "Increases spell critical strike chance.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
@@ -148,7 +151,7 @@ public class RelicEffects {
                     )
             )
     ));
-    public static Entry LESSER_POWER_ARCANE_FIRE = add(new Entry("lesser_proc_arcane_fire",
+    public static Entry LESSER_POWER_ARCANE_FIRE = add(new Entry("lesser_arcane_fire",
             "Spell Power",
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
@@ -164,7 +167,7 @@ public class RelicEffects {
                             .toList()
             )
     ));
-    public static Entry LESSER_POWER_FROST_HEALING = add(new Entry("lesser_proc_frost_healing",
+    public static Entry LESSER_POWER_FROST_HEALING = add(new Entry("lesser_frost_healing",
             "Spell Power",
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
@@ -180,7 +183,7 @@ public class RelicEffects {
                             .toList()
             )
     ));
-    public static Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry("lesser_proc_crit_damage",
+    public static Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry("lesser_spell_crit_damage",
             "Amplify Spell",
             "Increases spell critical damage.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
@@ -194,6 +197,165 @@ public class RelicEffects {
                     )
             )
     ));
+
+    public static Entry MEDIUM_ATTACK_DAMAGE = add(new Entry("medium_attack_damage",
+            "Strength",
+            "Increases attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry MEDIUM_ATTACKS_SPEED = add(new Entry("medium_attack_speed",
+            "Tempo",
+            "Increases attack speed.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.HASTE.id.toString(),
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry MEDIUM_RANGED_DAMAGE = add(new Entry("medium_ranged_damage",
+            "Power",
+            "Increases ranged attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x000088),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.DAMAGE.id,
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry MEDIUM_DEFENSE = add(new Entry("medium_defense",
+            "Toughness",
+            "Increases armor toughness.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
+                                    2F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
+                            )
+                    )
+            )
+    ));
+    public static Entry MEDIUM_SPELL_POWER = add(new Entry("medium_spell_power",
+            "Spell Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    SpellSchools.all().stream()
+                            .filter(school -> school.archetype == SpellSchool.Archetype.MAGIC
+                                    && !school.id.toString().contains("generic"))
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            T2_BUFF_MULTIPLIER,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry MEDIUM_SPELL_HASTE = add(new Entry("medium_spell_haste",
+            "Spell Haste",
+            "Increases spell haste.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880088),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.HASTE.id,
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+    public static Entry MEDIUM_ARCANE_POWER = add(new Entry("medium_arcane_power",
+            "Arcane Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.ARCANE).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            T2_BUFF_MULTIPLIER,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry MEDIUM_FIRE_POWER = add(new Entry("medium_fire_power",
+            "Fire Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.FIRE).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            T2_BUFF_MULTIPLIER,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry MEDIUM_FROST_POWER = add(new Entry("medium_frost_power",
+            "Frost Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.FROST).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            T2_BUFF_MULTIPLIER,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+    public static Entry MEDIUM_HEALING_POWER = add(new Entry("medium_healing_power",
+            "Healing Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(SpellSchools.HEALING).stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            T2_BUFF_MULTIPLIER,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
+            )
+    ));
+
 
     public static void register(EffectConfig config) {
         for (var entry: entries) {
