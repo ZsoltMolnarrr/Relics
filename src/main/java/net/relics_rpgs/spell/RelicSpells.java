@@ -812,8 +812,13 @@ public class RelicSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue(),T3_PERK_CC_DURATION * 2.5F);
+        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue(),T3_PERK_CC_DURATION);
         levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
+        levitate.action.status_effect.amplifier = 3;
+        levitate.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_spark_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 20, 0.15F, 0.25F, 0.0F, 0F)
+        };
         spell.impacts = List.of(levitate);
         spell.area_impact = new Spell.AreaImpact();
         spell.area_impact.radius = 2.0F;
