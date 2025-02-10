@@ -226,8 +226,12 @@ public class RelicItems {
 
     public static final Entry GREATER_PERK_ROLL_DAMAGE = add(new Entry(3, "greater_perk_roll_damage", "Thunderbird Feather"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_roll_damage.id()));
-//    public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
-//            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_melee_stun.id()));
+    public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_melee_stun.id()));
+    public static final Entry GREATER_PERK_RANGED_LEVITATE = add(new Entry(3, "greater_perk_ranged_levitate", "Updraft Arrow"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_ranged_levitate.id()));
+    public static final Entry GREATER_PERK_SPELL_STUN = add(new Entry(3, "greater_perk_spell_stun", "Malevolent Gaze"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_spell_stun.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

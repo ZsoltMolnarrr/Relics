@@ -1,6 +1,7 @@
 package net.relics_rpgs.spell;
 
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
@@ -35,6 +36,9 @@ public class RelicSpells {
     private static final float T2_USE_EFFECT_COOLDOWN = 60;
     private static final float T2_PROC_EFFECT_COOLDOWN = 45;
     private static final float T2_PROC_CHANCE = 0.06F;
+
+    private static final float T3_PERK_CC_DURATION = 2;
+    private static final float T3_PERK_CC_COOLDOWN = 20;
 
     private static Spell activeSpellBase() {
         var spell = new Spell();
@@ -735,6 +739,86 @@ public class RelicSpells {
 
         spell.impacts = List.of(damage);
         configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry greater_perk_melee_stun = add(greater_perk_melee_stun());
+    private static Entry greater_perk_melee_stun() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_melee_stun");
+        var title = "Stunning Strikes";
+        var description = "On melee hit: {trigger_chance} chance to stun the target and nearby enemies for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
+        trigger.chance = 0.1F;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var stun = createEffectImpact(RelicEffects.STUN.id(), T3_PERK_CC_DURATION);
+        stun.sound = new Sound(RelicSounds.STUN_GENERIC.id().toString());
+        spell.impacts = List.of(stun);
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.radius = 2.0F;
+
+        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry greater_perk_spell_stun = add(greater_perk_spell_stun());
+    private static Entry greater_perk_spell_stun() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_spell_stun");
+        var title = "Disruption";
+        var description = "On spell hit: {trigger_chance} chance to stun the target and nearby enemies for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.ARCANE;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.1F;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var stun = createEffectImpact(RelicEffects.STUN.id(), T3_PERK_CC_DURATION);
+        stun.sound = new Sound(RelicSounds.STUN_GENERIC.id().toString());
+        spell.impacts = List.of(stun);
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.radius = 2.0F;
+
+        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry greater_perk_ranged_levitate = add(greater_perk_ranged_levitate());
+    private static Entry greater_perk_ranged_levitate() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_ranged_levitate");
+        var title = "Levitation";
+        var description = "On arrow hit: {trigger_chance} chance to levitate the target and nearby enemies for {effect_duration} seconds.";
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.1F;
+        trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
+        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue(),T3_PERK_CC_DURATION * 2.5F);
+        levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
+        spell.impacts = List.of(levitate);
+        spell.area_impact = new Spell.AreaImpact();
+        spell.area_impact.radius = 2.0F;
+
+        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
         return new Entry(id, spell, title, description, null);
     }

@@ -5,6 +5,7 @@ import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
+import net.spell_engine.api.render.StunParticleSpawner;
 import net.spell_engine.client.gui.SpellTooltip;
 
 public class RelicsClient implements ClientModInitializer {
@@ -40,6 +41,11 @@ public class RelicsClient implements ClientModInitializer {
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_SPELL_CRIT.effect,
                 new BuffParticleSpawner("spell_engine:magic_holy_stripe_float", 1)
+        );
+
+        CustomParticleStatusEffect.register(
+                RelicEffects.STUN.effect,
+                new StunParticleSpawner()
         );
     }
 }
