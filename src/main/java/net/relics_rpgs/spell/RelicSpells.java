@@ -827,4 +827,36 @@ public class RelicSpells {
 
         return new Entry(id, spell, title, description, null);
     }
+
+    public static Entry greater_perk_defense_block = add(greater_perk_defense_block());
+    private static Entry greater_perk_defense_block() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_block");
+        var title = "Wardstone";
+        var description = "Blocking with a shield heals your by {heal}.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.SHIELD_BLOCK;
+        spell.passive.triggers = List.of(trigger);
+
+        var heal = new Spell.Impact();
+        heal.action = new Spell.Impact.Action();
+        heal.action.min_power = 2;
+        heal.action.type = Spell.Impact.Action.Type.HEAL;
+        heal.action.heal = new Spell.Impact.Action.Heal();
+        heal.action.heal.spell_power_coefficient = 1F;
+        heal.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_nature_impact_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, 0F),
+                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.CENTER,
+                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+        };
+        heal.sound = new Sound("spell_engine:generic_healing_impact_1");
+        spell.impacts = List.of(heal);
+
+        configureCooldown(spell, 4);
+
+        return new Entry(id, spell, title, description, null);
+    }
 }

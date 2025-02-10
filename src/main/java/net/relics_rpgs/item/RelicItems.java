@@ -232,6 +232,8 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_ranged_levitate.id()));
     public static final Entry GREATER_PERK_SPELL_STUN = add(new Entry(3, "greater_perk_spell_stun", "Malevolent Gaze"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_spell_stun.id()));
+    public static final Entry GREATER_PERK_DEFENSE_BLOCK = add(new Entry(3, "greater_perk_defense_block", "Sacred Wardstone"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_defense_block.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
