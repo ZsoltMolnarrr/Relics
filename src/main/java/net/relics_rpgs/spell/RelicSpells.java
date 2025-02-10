@@ -699,4 +699,43 @@ public class RelicSpells {
 
         return new Entry(id, spell, title, description, mutator);
     }
+
+    public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
+    private static Entry greater_perk_roll_damage() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_roll_damage");
+        var title = "Lightning Roll";
+        var description = "Rolling conjures a small discharge of lightning around you, dealing {damage} damage to nearby enemies.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.LIGHTNING;
+        spell.range = 3;
+
+        var trigger = new Spell.Trigger();
+        trigger.type = Spell.Trigger.Type.ROLL;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.target = new Spell.Target();
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+
+        spell.release.sound = new Sound(RelicSounds.LIGHTNING_IMPACT_SMALL.id().toString());
+        spell.release.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:electric_arc_a", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        null, 15, 0.01F, 0.05F, 0.0F, spell.range),
+                new ParticleBatch("spell_engine:electric_arc_b", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        null, 15, 0.01F, 0.05F, 0.0F, spell.range)
+        };
+
+
+        var damage = new Spell.Impact();
+        damage.action = new Spell.Impact.Action();
+        damage.action.type = Spell.Impact.Action.Type.DAMAGE;
+        damage.action.damage = new Spell.Impact.Action.Damage();
+        damage.action.min_power = 6;
+        damage.action.max_power = 12;
+
+        spell.impacts = List.of(damage);
+        configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, null);
+    }
 }

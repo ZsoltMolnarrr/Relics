@@ -27,7 +27,7 @@ public class RelicSounds {
     public static final Entry POTION_GENERIC = add(new Entry("potion_generic"));
     public static final Entry INTELLECT_BUFF = add(new Entry("intellect_buff"));
     public static final Entry HASTE_BUFF = add(new Entry("haste_buff"));
-
+    public static final Entry LIGHTNING_IMPACT_SMALL = add(new Entry("lightning_impact_small"));
 
     public static void register() {
         for (var entry: entries) {

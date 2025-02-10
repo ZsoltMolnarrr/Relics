@@ -13,6 +13,8 @@ import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.EffectConfig;
 import net.relics_rpgs.util.AttributesUtil;
+import net.spell_engine.api.effect.ActionImpairing;
+import net.spell_engine.api.effect.EntityActionsAllowed;
 import net.spell_engine.api.effect.Synchronized;
 import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchool;
@@ -253,7 +255,7 @@ public class RelicEffects {
                     List.of(
                             new AttributeModifier(
                                     EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
-                                    2F,
+                                    4F,
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             )
                     )
@@ -356,8 +358,22 @@ public class RelicEffects {
             )
     ));
 
+    public static Entry STUN = add(new Entry("stun",
+            "Stun",
+            "Cannot move or act.",
+            new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x888800),
+            new EffectConfig.Entry(List.of(
+                    new AttributeModifier(
+                            EntityAttributes.GENERIC_JUMP_STRENGTH.getIdAsString(),
+                            0,
+                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
+                    )
+            ))
+    ));
 
     public static void register(EffectConfig config) {
+        ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);
+
         for (var entry: entries) {
             var key = entry.id().toString();
             var current = config.entries.get(key);

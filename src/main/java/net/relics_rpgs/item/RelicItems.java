@@ -194,7 +194,7 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_spell_crit.id()));
     public static final Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry(1, "lesser_proc_crit_damage", "Splintered Focus Crystal"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_crit_damage.id()));
-    public static final Entry LESSER_PROC_ARCANE_FIRE = add(new Entry(1, "lesser_proc_arcane_fire", "Infused Amethyst"))
+    public static final Entry LESSER_PROC_ARCANE_FIRE = add(new Entry(1, "lesser_proc_arcane_fire", "Spellfire Stone"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_arcane_fire.id()));
     public static final Entry LESSER_PROC_FROST_HEALING = add(new Entry(1, "lesser_proc_frost_healing", "Frozen Lotus"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_frost_healing.id()));
@@ -224,6 +224,10 @@ public class RelicItems {
 //    public static final Entry MEDIUM_USE_SOUL_POWER = add(new Entry(2, "medium_proc_soul_power", "Soul Orb"))
 //            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_soul_power.id()));
 
+    public static final Entry GREATER_PERK_ROLL_DAMAGE = add(new Entry(3, "greater_perk_roll_damage", "Thunderbird Feather"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_roll_damage.id()));
+//    public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
+//            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_melee_stun.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
