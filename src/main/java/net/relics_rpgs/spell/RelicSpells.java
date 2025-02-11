@@ -1,15 +1,18 @@
 package net.relics_rpgs.spell;
 
 import net.minecraft.entity.attribute.EntityAttributes;
+import net.minecraft.entity.effect.StatusEffect;
 import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
+import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
@@ -856,6 +859,46 @@ public class RelicSpells {
         spell.impacts = List.of(heal);
 
         configureCooldown(spell, 4);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry greater_perk_heal_cleanse = add(greater_perk_heal_cleanse());
+    private static Entry greater_perk_heal_cleanse() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_healing_cleanse");
+        var title = "Purification";
+        var description = "Healing spells have a {trigger_chance} chance to remove a harmful effect from the target.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        trigger.chance = 0.5F;
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.HEAL.toString();
+        var condition = new Spell.TargetCondition();
+        condition.entity_predicate_id = SpellEntityPredicates.HAS_BAD_EFFECT.id().toString();
+        trigger.target_conditions = List.of(condition);
+        spell.passive.triggers = List.of(trigger);
+
+        var cleanse = new Spell.Impact();
+        cleanse.action = new Spell.Impact.Action();
+        cleanse.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
+        cleanse.action.status_effect = new Spell.Impact.Action.StatusEffect();
+        cleanse.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.REMOVE;
+        cleanse.action.status_effect.remove = new Spell.Impact.Action.StatusEffect.Remove();
+        cleanse.action.status_effect.remove.selector = Spell.Impact.Action.StatusEffect.Remove.Selector.RANDOM;
+        cleanse.action.status_effect.remove.select_beneficial = false;
+        cleanse.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
+        cleanse.particles = new ParticleBatch[] {
+                new ParticleBatch("spell_engine:magic_frost_spark_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 10, 0.15F, 0.25F, 0.0F, 0F),
+                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.CENTER,
+                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+        };
+        spell.impacts = List.of(cleanse);
+
+        configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
         return new Entry(id, spell, title, description, null);
     }

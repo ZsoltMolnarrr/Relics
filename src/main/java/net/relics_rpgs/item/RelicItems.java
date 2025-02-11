@@ -234,6 +234,8 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_spell_stun.id()));
     public static final Entry GREATER_PERK_DEFENSE_BLOCK = add(new Entry(3, "greater_perk_defense_block", "Sacred Wardstone"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_defense_block.id()));
+    public static final Entry GREATER_PERK_HEAL_CLEANSE = add(new Entry(3, "greater_perk_heal_cleanse", "Holy Water"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_cleanse.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
