@@ -47,5 +47,10 @@ public class RelicsClient implements ClientModInitializer {
                 RelicEffects.STUN.effect,
                 new StunParticleSpawner()
         );
+
+        CustomParticleStatusEffect.register(
+                RelicEffects.GREATER_PHYSICAL_TRANCE.effect,
+                new BuffParticleSpawner("spell_engine:magic_rage_stripe_float", 1, 0.1F, 0.15F)
+        );
     }
 }

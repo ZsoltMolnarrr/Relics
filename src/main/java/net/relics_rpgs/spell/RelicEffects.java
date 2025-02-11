@@ -13,6 +13,7 @@ import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.EffectConfig;
 import net.relics_rpgs.util.AttributesUtil;
+import net.relics_rpgs.util.SpellSchoolUtil;
 import net.spell_engine.api.effect.ActionImpairing;
 import net.spell_engine.api.effect.EntityActionsAllowed;
 import net.spell_engine.api.effect.Synchronized;
@@ -112,9 +113,7 @@ public class RelicEffects {
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
             new EffectConfig.Entry(
-                    SpellSchools.all().stream()
-                            .filter(school -> school.archetype == SpellSchool.Archetype.MAGIC
-                                    && !school.id.toString().contains("generic"))
+                    SpellSchoolUtil.allMagicSchools().stream()
                             .map(school ->
                                     new AttributeModifier(
                                             school.id,
@@ -266,9 +265,7 @@ public class RelicEffects {
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
             new EffectConfig.Entry(
-                    SpellSchools.all().stream()
-                            .filter(school -> school.archetype == SpellSchool.Archetype.MAGIC
-                                    && !school.id.toString().contains("generic"))
+                    SpellSchoolUtil.allMagicSchools().stream()
                             .map(school ->
                                     new AttributeModifier(
                                             school.id,
@@ -369,6 +366,41 @@ public class RelicEffects {
                             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
             ))
+    ));
+
+    public static Entry GREATER_PHYSICAL_TRANCE = add(new Entry("greater_physical_trance",
+            "Battle Trance",
+            "Increases melee and ranged attack speed.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.HASTE.id.toString(),
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Entry GREATER_SPELL_TRANCE = add(new Entry("greater_spell_trance",
+            "Spell Trance",
+            "Increases spell haste.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellPowerMechanics.HASTE.id,
+                                    0.1F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
     ));
 
     public static void register(EffectConfig config) {

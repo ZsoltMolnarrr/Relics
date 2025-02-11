@@ -30,6 +30,7 @@ public class RelicSounds {
     public static final Entry LIGHTNING_IMPACT_SMALL = add(new Entry("lightning_impact_small"));
     public static final Entry STUN_GENERIC = add(new Entry("stun_generic"));
     public static final Entry LEVITATE_GENERIC = add(new Entry("levitate_generic"));
+    public static final Entry BLOODLUST_ACTIVATE = add(new Entry("bloodlust_activate"));
 
     public static void register() {
         for (var entry: entries) {
