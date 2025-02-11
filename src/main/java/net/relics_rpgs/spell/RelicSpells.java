@@ -881,6 +881,8 @@ public class RelicSpells {
         trigger.target_conditions = List.of(condition);
         spell.passive.triggers = List.of(trigger);
 
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+
         var cleanse = new Spell.Impact();
         cleanse.action = new Spell.Impact.Action();
         cleanse.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
