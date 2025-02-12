@@ -402,7 +402,7 @@ public class RelicEffects {
             )
     ));
 
-    public static Entry GREATER_DEFENSE_ARMOR = add(new Entry("greater_defense",
+    public static Entry GREATER_DEFENSE_ARMOR = add(new Entry("greater_defense_armor",
             "Fortitude",
             "Increases armor.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
@@ -414,6 +414,38 @@ public class RelicEffects {
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             )
                     )
+            )
+    ));
+
+    public static Entry SUPERIOR_ATTACK_DAMAGE = add(new Entry("superior_attack_damage",
+            "Might",
+            "Increases attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x880000),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Entry SUPERIOR_SPELL_POWER = add(new Entry("superior_spell_power",
+            "Spell Power",
+            "Increases spell power.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
+            new EffectConfig.Entry(
+                    SpellSchoolUtil.allMagicSchools().stream()
+                            .map(school ->
+                                    new AttributeModifier(
+                                            school.id,
+                                            0.2F,
+                                            EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                                    )
+                            )
+                            .toList()
             )
     ));
 
@@ -433,7 +465,7 @@ public class RelicEffects {
             for (var modifier : modifiers) {
                 entry.effect
                         .addAttributeModifier(modifier.attribute(),
-                                modifier.modifier().id(),
+                                entry.id(), // Use the effect id as the modifier id, so different effects stack
                                 modifier.modifier().value(),
                                 modifier.modifier().operation());
             }

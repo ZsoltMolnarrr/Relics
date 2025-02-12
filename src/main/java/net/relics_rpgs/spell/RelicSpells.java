@@ -1147,8 +1147,9 @@ public class RelicSpells {
         var trigger = new Spell.Trigger();
         var healthCondition = new Spell.TargetCondition();
         healthCondition.health_percent_below = health_threshold;
-        trigger.target_conditions = List.of(healthCondition);
+        trigger.caster_conditions = List.of(healthCondition);
         trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
         var buff = createEffectImpact(effect.id(), T3_TRANCE_DURATION);
