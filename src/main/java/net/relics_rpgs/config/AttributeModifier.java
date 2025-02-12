@@ -5,6 +5,7 @@ import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
 
 public class AttributeModifier {
+    public static final AttributeModifier EMPTY = new AttributeModifier();
     AttributeModifier() {
     }
 

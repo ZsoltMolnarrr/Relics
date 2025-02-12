@@ -241,6 +241,10 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_physical_trance.id()));
     public static final Entry GREATER_PROC_SPELL_TRANCE = add(new Entry(3, "greater_proc_spell_trance", "Twisted Dragon Scale"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_spell_trance.id()));
+    public static final Entry GREATER_PERK_HEAL_DANGER = add(new Entry(3, "greater_perk_heal_danger", "Verdant Dragon Scale"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_danger.id()));
+    public static final Entry GREATER_PROC_DEFENSE_DANGER = add(new Entry(3, "greater_proc_defense_danger", "Petrified Dragon Scale"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_defense_danger.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

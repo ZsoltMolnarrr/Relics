@@ -104,12 +104,14 @@ public class RelicSpells {
 
     private static Entry lesser_use_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_damage");
-        var description = "Use: Increases attack damage by {buff} for {effect_duration} seconds.";
+        var description = "Use: Increases attack damage by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACK_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -131,12 +133,14 @@ public class RelicSpells {
 
     private static Entry lesser_use_dex() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_dex");
-        var description = "Use: Increases melee and ranged attack speed by {buff} for {effect_duration} seconds.";
+        var description = "Use: Increases melee and ranged attack speed by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACKS_SPEED;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -154,12 +158,14 @@ public class RelicSpells {
 
     private static Entry lesser_use_ranged() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_ranged");
-        var description = "Use: Increases ranged attack damage by {buff} for {effect_duration} seconds.";
+        var description = "Use: Increases ranged attack damage by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_RANGED_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
@@ -216,12 +222,14 @@ public class RelicSpells {
 
     private static Entry lesser_use_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_power");
-        var description = "Use: Increases spell power by {buff} for {effect_duration} seconds.";
+        var description = "Use: Increases spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -244,12 +252,14 @@ public class RelicSpells {
 
     private static Entry lesser_use_spell_haste() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_haste");
-        var description = "Use: Increases spell haste by {buff} for {effect_duration} seconds.";
+        var description = "Use: Increases spell haste by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_HASTE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -272,12 +282,14 @@ public class RelicSpells {
 
     private static Entry lesser_proc_spell_crit() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_spell_crit");
-        var description = "On spell hit: {trigger_chance} chance to increase spell critical chance by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell critical chance by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_CRIT;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -309,12 +321,14 @@ public class RelicSpells {
 
     private static Entry lesser_proc_crit_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_crit_damage");
-        var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_PROC_CRIT_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -347,12 +361,14 @@ public class RelicSpells {
 
     private static Entry lesser_proc_arcane_fire() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
-        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_ARCANE_FIRE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -383,12 +399,14 @@ public class RelicSpells {
 
     private static Entry lesser_proc_frost_healing() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
-        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_FROST_HEALING;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -420,12 +438,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_attack_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
-        var description = "On melee hit: {trigger_chance} chance to increase attack damage by {buff_percent} for {effect_duration} seconds.";
+        var description = "On melee hit: {trigger_chance} chance to increase attack damage by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACK_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -452,12 +472,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_attack_speed() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
-        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by {buff_percent} for {effect_duration} seconds.";
+        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACKS_SPEED;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -487,12 +509,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_ranged_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
-        var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by {buff_percent} for {effect_duration} seconds.";
+        var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_RANGED_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
@@ -519,10 +543,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_defense() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_defense");
-        var description = "On damage taken: {trigger_chance} chance to increase armor toughness by {buff_percent} for {effect_duration} seconds.";
+        var description = "On damage taken: {trigger_chance} chance to increase armor toughness by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_DEFENSE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.formattedNumber(effect.config().firstModifierValue()));
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -549,12 +577,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
-        var description = "On spell hit: {trigger_chance} chance to increase spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -587,12 +617,14 @@ public class RelicSpells {
 
     private static Entry medium_proc_spell_haste() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_haste");
-        var description = "On spell hit: {trigger_chance} chance to increase spell haste by {buff_percent} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell haste by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_HASTE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -625,12 +657,14 @@ public class RelicSpells {
 
     private static Entry medium_use_arcane_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_arcane_power");
-        var description = "Use: Increases arcane spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "Use: Increases arcane spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ARCANE_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -653,12 +687,14 @@ public class RelicSpells {
 
     private static Entry medium_use_fire_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_fire_power");
-        var description = "Use: Increases fire spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "Use: Increases fire spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FIRE_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.FIRE;
@@ -681,12 +717,14 @@ public class RelicSpells {
 
     private static Entry medium_use_frost_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_frost_power");
-        var description = "Use: Increases frost spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "Use: Increases frost spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FROST_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.FROST;
@@ -709,12 +747,14 @@ public class RelicSpells {
 
     private static Entry medium_use_healing_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_healing_power");
-        var description = "Use: Increases healing spell power by {buff_percent} for {effect_duration} seconds.";
+        var description = "Use: Increases healing spell power by {bonus} for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_HEALING_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -941,13 +981,15 @@ public class RelicSpells {
 
     private static Entry greater_proc_physical_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
-        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by {buff_percent}. "
+        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by {bonus}. "
                 + "Stacking up to {effect_amplifier} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_PHYSICAL_TRANCE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -994,13 +1036,15 @@ public class RelicSpells {
     public static Entry greater_proc_spell_trance = add(greater_proc_spell_trance());
     private static Entry greater_proc_spell_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_spell_trance");
-        var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by {buff_percent}. "
+        var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by {bonus}. "
                 + "Stacking up to {effect_amplifier} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_SPELL_TRANCE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{buff_percent}", SpellTooltip.percent(
-                effect.config().firstModifierValue())
-        );
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -1039,6 +1083,77 @@ public class RelicSpells {
         buff.action.status_effect.amplifier = 9;
         buff.action.status_effect.refresh_duration = false;
         spell.impacts = List.of(buff);
+        configureCooldown(spell, T3_TRANCE_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry greater_perk_heal_danger = add(greater_perk_heal_danger());
+    private static Entry greater_perk_heal_danger() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_heal_danger");
+        var title = "Desperation";
+        var health_threshold = 0.5F;
+        var description = "Healing a target below {health_threshold} health, receives additional {heal} healing.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{health_threshold}", SpellTooltip.percent(health_threshold));
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = new Spell.Trigger();
+        var healthCondition = new Spell.TargetCondition();
+        healthCondition.health_percent_below = health_threshold;
+        trigger.target_conditions = List.of(healthCondition);
+        trigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
+        trigger.impact = new Spell.Trigger.ImpactCondition();
+        trigger.impact.impact_type = Spell.Impact.Action.Type.HEAL.toString();
+        spell.passive.triggers = List.of(trigger);
+
+        var heal = new Spell.Impact();
+        heal.action = new Spell.Impact.Action();
+        heal.action.min_power = 10;
+        heal.action.type = Spell.Impact.Action.Type.HEAL;
+        heal.action.heal = new Spell.Impact.Action.Heal();
+        heal.action.heal.spell_power_coefficient = 0.3F;
+        heal.particles = new ParticleBatch[]{
+                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+        };
+        heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
+
+        spell.impacts = List.of(heal);
+
+        configureCooldown(spell, 5);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry greater_proc_defense_danger = add(greater_proc_defense_danger());
+    private static Entry greater_proc_defense_danger() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_danger");
+        var effect = RelicEffects.GREATER_DEFENSE_ARMOR;
+        var title = effect.title;
+        var health_threshold = 0.4F;
+        var description = "Taking damage below {health_threshold} health, increases armor by {bonus} for {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description()
+                    .replace("{health_threshold}", SpellTooltip.percent(health_threshold))
+                    .replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = new Spell.Trigger();
+        var healthCondition = new Spell.TargetCondition();
+        healthCondition.health_percent_below = health_threshold;
+        trigger.target_conditions = List.of(healthCondition);
+        trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
+        spell.passive.triggers = List.of(trigger);
+
+        var buff = createEffectImpact(effect.id(), T3_TRANCE_DURATION);
+        spell.impacts = List.of(buff);
+
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);

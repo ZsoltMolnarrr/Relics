@@ -18,7 +18,6 @@ import net.spell_engine.api.effect.ActionImpairing;
 import net.spell_engine.api.effect.EntityActionsAllowed;
 import net.spell_engine.api.effect.Synchronized;
 import net.spell_power.api.SpellPowerMechanics;
-import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
 
 import java.util.ArrayList;
@@ -398,6 +397,21 @@ public class RelicEffects {
                                     SpellPowerMechanics.HASTE.id,
                                     0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Entry GREATER_DEFENSE_ARMOR = add(new Entry("greater_defense",
+            "Fortitude",
+            "Increases armor.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ARMOR.getIdAsString(),
+                                    10F,
+                                    EntityAttributeModifier.Operation.ADD_VALUE
                             )
                     )
             )

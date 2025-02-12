@@ -7,11 +7,11 @@ public class EffectConfig {
     public LinkedHashMap<String, Entry> entries = new LinkedHashMap<>();
 
     public record Entry(List<AttributeModifier> attributes) {
-        public float firstModifierValue() {
+        public AttributeModifier firstModifier() {
             if (!attributes.isEmpty()) {
-                return attributes.get(0).value;
+                return attributes.get(0);
             }
-            return 0;
+            return AttributeModifier.EMPTY;
         }
     }
 }
