@@ -246,6 +246,15 @@ public class RelicItems {
     public static final Entry GREATER_PROC_DEFENSE_DANGER = add(new Entry(3, "greater_proc_defense_danger", "Petrified Dragon Scale"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_defense_danger.id()));
 
+    public static final Entry SUPERIOR_USE_AREA_ATTACK_DAMAGE = add(new Entry(4, "superior_use_area_attack_damage", "Horn of the White City"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_area_attack_damage.id()));
+    public static final Entry SUPERIOR_USE_AREA_DEFENSE_HEALTH = add(new Entry(4, "superior_use_area_defense_health", "Heart of the Beast"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_area_defense_health.id()));
+    public static final Entry SUPERIOR_USE_ZONE_SPELL_POWER = add(new Entry(4, "superior_use_zone_spell_power", "Black Orb"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_zone_spell_power.id()));
+    public static final Entry SUPERIOR_USE_ZONE_HEALING_TAKEN = add(new Entry(4, "superior_use_zone_healing_taken", "Glimmering Crystal Sliver"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_zone_healing_taken.id()));
+
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
             var key = entry.id().toString();

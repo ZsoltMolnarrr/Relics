@@ -17,6 +17,7 @@ import net.relics_rpgs.util.SpellSchoolUtil;
 import net.spell_engine.api.effect.ActionImpairing;
 import net.spell_engine.api.effect.EntityActionsAllowed;
 import net.spell_engine.api.effect.Synchronized;
+import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_power.api.SpellPowerMechanics;
 import net.spell_power.api.SpellSchools;
 
@@ -427,6 +428,16 @@ public class RelicEffects {
                                     EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
                                     0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes_RangedWeapon.DAMAGE.id,
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            ),
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_SCALE.getIdAsString(),
+                                    0.2F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
                     )
             )
@@ -437,7 +448,7 @@ public class RelicEffects {
             "Increases spell power.",
             new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888800),
             new EffectConfig.Entry(
-                    SpellSchoolUtil.allMagicSchools().stream()
+                    SpellSchoolUtil.allOffensiveMagicSchools().stream()
                             .map(school ->
                                     new AttributeModifier(
                                             school.id,
@@ -446,6 +457,36 @@ public class RelicEffects {
                                     )
                             )
                             .toList()
+            )
+    ));
+
+    public static Entry SUPERIOR_HEALING_TAKEN = add(new Entry("superior_healing_taken",
+            "Divinity",
+            "Increases healing taken.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.HEALING_TAKEN.id.toString(),
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
+
+    public static Entry SUPERIOR_DEFENSE_HEALTH = add(new Entry("superior_defense_health",
+            "Vigor",
+            "Increases maximum health.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x008800),
+            new EffectConfig.Entry(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(),
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
             )
     ));
 

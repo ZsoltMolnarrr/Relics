@@ -11,6 +11,7 @@ import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
@@ -48,6 +49,11 @@ public class RelicSpells {
     private static final float T3_TRANCE_COOLDOWN = 45F;
     private static final float T3_PERK_CC_DURATION = 2;
     private static final float T3_PERK_CC_COOLDOWN = 20;
+
+    private static final float T4_USE_EFFECT_DURATION = 15;
+    private static final float T4_USE_EFFECT_COOLDOWN = 90;
+    private static final float T4_AREA_RANGE = 15;
+    private static final float T4_ZONE_RANGE = 3;
 
     private static Spell activeSpellBase() {
         var spell = new Spell();
@@ -1156,6 +1162,194 @@ public class RelicSpells {
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry superior_use_area_attack_damage = add(superior_use_area_attack_damage());
+    private static Entry superior_use_area_attack_damage() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_attack_damage");
+        var effect = RelicEffects.SUPERIOR_ATTACK_DAMAGE;
+        var title = effect.title;
+        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by {bonus} for {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = activeSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        spell.range = T4_AREA_RANGE;
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.include_caster = true;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+        };
+
+        var buff = createEffectImpact(effect.id(), T4_USE_EFFECT_DURATION);
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry superior_use_area_defense_health = add(superior_use_area_defense_health());
+    private static Entry superior_use_area_defense_health() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_defense_health");
+        var effect = RelicEffects.SUPERIOR_DEFENSE_HEALTH;
+        var title = effect.title;
+        var description = "Use: Increases maximum health of nearby allies by {bonus} for {effect_duration} seconds.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        spell.range = T4_AREA_RANGE;
+        spell.target.type = Spell.Target.Type.AREA;
+        spell.target.area = new Spell.Target.Area();
+        spell.target.area.include_caster = true;
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
+                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+        };
+
+        var heal = new Spell.Impact();
+        heal.action = new Spell.Impact.Action();
+        heal.action.type = Spell.Impact.Action.Type.HEAL;
+        heal.action.heal = new Spell.Impact.Action.Heal();
+        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.action.heal.spell_power_coefficient = 0.33F;
+        heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
+
+        var buff = createEffectImpact(effect.id(), T4_USE_EFFECT_DURATION);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch("heart", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 5, 0.75F, 1.5F, 0.0F, 0)
+        };
+        spell.impacts = List.of(buff, heal);
+
+        configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry superior_use_zone_spell_power = add(superior_use_zone_spell_power());
+    private static Entry superior_use_zone_spell_power() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_spell_power");
+        var effect = RelicEffects.SUPERIOR_SPELL_POWER;
+        var title = effect.title;
+        var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains {bonus} spell power.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.ARCANE;
+        spell.range = 0;
+
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = T4_ZONE_RANGE;
+        cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
+        cloud.client_data.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.WHITE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        null, 15, 0.1F, 0.15F, 0.0F, 0F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.WHITE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 5, 0.15F, 0.25F, 0.0F, 0F)
+        };
+        spell.deliver.clouds = List.of(cloud);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        var buff = createEffectImpact(effect.id(), 1);
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry superior_use_zone_healing_taken = add(superior_use_zone_healing_taken());
+    private static Entry superior_use_zone_healing_taken() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_healing_taken");
+        var effect = RelicEffects.SUPERIOR_HEALING_TAKEN;
+        var title = effect.title;
+        var description = "Use: Conjures a healing circle, {cloud_radius} blocks, lasting {cloud_duration} seconds. While standing in this circle, allies receives {bonus} more healing.";
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = activeSpellBase();
+        spell.school = SpellSchools.HEALING;
+        spell.range = 0;
+
+        spell.deliver.type = Spell.Delivery.Type.CLOUD;
+
+        var cloud = new Spell.Delivery.Cloud();
+        cloud.volume.radius = T4_ZONE_RANGE;
+        cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
+        cloud.client_data.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.FROST,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        null, 15, 0.1F, 0.15F, 0.0F, 0F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.FROST,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 5, 0.15F, 0.25F, 0.0F, 0F)
+        };
+        spell.deliver.clouds = List.of(cloud);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch("spell_engine:magic_nature_spark_float",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+        };
+
+        var buff = createEffectImpact(effect.id(), 1);
+        spell.impacts = List.of(buff);
+
+        configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
