@@ -63,6 +63,7 @@ public class RelicSpells {
         spell.type = Spell.Type.ACTIVE;
         spell.active = new Spell.Active();
 
+        spell.tooltip = new Spell.Tooltip();
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
@@ -78,6 +79,7 @@ public class RelicSpells {
         spell.type = Spell.Type.PASSIVE;
         spell.passive = new Spell.Passive();
 
+        spell.tooltip = new Spell.Tooltip();
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
