@@ -93,6 +93,10 @@ public class RelicItems {
             };
         }
 
+        public int tier() {
+            return tier;
+        }
+
         public Identifier id() {
             return Identifier.of(RelicsMod.NAMESPACE, name);
         }

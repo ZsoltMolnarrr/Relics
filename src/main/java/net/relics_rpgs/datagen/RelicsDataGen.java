@@ -12,6 +12,8 @@ import net.minecraft.data.client.Models;
 import net.minecraft.item.Item;
 import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
+import net.minecraft.registry.tag.TagKey;
+import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItemTags;
@@ -19,8 +21,8 @@ import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSounds;
 import net.relics_rpgs.spell.RelicSpells;
-import net.spell_engine.api.data_gen.SimpleSoundGenerator;
-import net.spell_engine.api.data_gen.SpellGenerator;
+import net.spell_engine.api.datagen.SimpleSoundGenerator;
+import net.spell_engine.api.datagen.SpellGenerator;
 
 import java.util.concurrent.CompletableFuture;
 
@@ -44,6 +46,17 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
             var all = getOrCreateTagBuilder(RelicItemTags.ALL);
             RelicItems.entries.forEach(entry -> all.addOptional(entry.id()));
+
+            // Map<Integer, Tag> rpgSeriesTierTag
+            for (var entry: RelicItems.entries) {
+                var tier = entry.tier();
+                var tag = getOrCreateTagBuilder(lootTag(tier));
+                tag.addOptional(entry.id());
+            }
+        }
+
+        private static TagKey<Item> lootTag(int tier) {
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "tier_" + tier + "_accessories"));
         }
     }
 
