@@ -1,6 +1,6 @@
 ![Title](.github/title.png)
 
-### 🎖🔮 Extend your magic with powerful trinkets!
+### 🎖 Unleash your true potential with powerful trinkets! 🔮
 
 This is a content mod for Spell Engine.
 

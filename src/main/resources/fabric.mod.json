@@ -3,11 +3,11 @@
   "id": "relics_rpgs",
   "version": "${version}",
   "name": "Relics (RPG Series)",
-  "description": "",
+  "description": "Unleash your true potential with powerful trinkets!",
   "authors": [ "Daedelus" ],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "icon": "assets/relics/icon.png",
+  "icon": "assets/relics_rpgs/icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
