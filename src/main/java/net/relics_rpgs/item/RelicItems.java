@@ -12,10 +12,10 @@ import net.minecraft.registry.Registry;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.relics_rpgs.RelicsMod;
-import net.relics_rpgs.config.AttributeModifier;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.spell.RelicSpells;
-import net.relics_rpgs.util.AttributesUtil;
+import net.spell_engine.api.config.AttributeModifier;
+import net.spell_engine.api.config.ConfigUtil;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainer;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
@@ -69,11 +69,14 @@ public class RelicItems {
                 var settings = new Item.Settings()
                         .maxCount(1);
                 var attributes = (config().attributes != null && !config().attributes.isEmpty())
-                        ? AttributesUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
+                        ? ConfigUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
                         : null;
                 var spellContainer = spellContainer();
                 if (spellContainer != null) {
                     settings = settings.component(SpellDataComponents.SPELL_CONTAINER, spellContainer);
+                }
+                if (config().durability > 0) {
+                    settings = settings.maxDamage(config().durability);
                 }
 
                 var rarity = rarityFrom(tier);
@@ -129,6 +132,11 @@ public class RelicItems {
         public Entry spell(SpellContainer spellContainer) {
             this.spellContainer = spellContainer;
             return this;
+        }
+
+        public boolean isEnabled() {
+            // It works, but datagen causes crash for disabled items
+            return true;
         }
     }
 
@@ -271,15 +279,15 @@ public class RelicItems {
         }
 
         for(var entry: entries) {
-            // if (entry.isEnabled()) {
+             if (entry.isEnabled()) {
                 Registry.register(Registries.ITEM, entry.id(), entry.item().get());
-            // }
+             }
         }
         ItemGroupEvents.modifyEntriesEvent(Group.KEY).register(content -> {
             for(var entry: entries) {
-                //if (entry.isEnabled()) {
+                if (entry.isEnabled()) {
                     content.add(entry.item().get());
-                // }
+                 }
             }
         });
     }

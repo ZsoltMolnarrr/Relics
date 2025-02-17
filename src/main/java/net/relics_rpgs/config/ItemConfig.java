@@ -1,6 +1,7 @@
 package net.relics_rpgs.config;
 
 import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.api.config.AttributeModifier;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.LinkedHashMap;
@@ -13,6 +14,7 @@ public class ItemConfig {
         public static final Entry EMPTY = new Entry();
 
         public boolean enabled = true;
+        public int durability = 0;
         @Nullable public Conditions conditions;
         public List<AttributeModifier> attributes = List.of();
 

@@ -6,13 +6,13 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import net.relics_rpgs.config.EffectConfig;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.ItemCompat;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSounds;
+import net.spell_engine.api.config.ConfigFile;
 import net.tinyconfig.ConfigManager;
 
 public class RelicsMod implements ModInitializer {
@@ -25,8 +25,8 @@ public class RelicsMod implements ModInitializer {
             .sanitize(true)
             .build();
 
-    public static ConfigManager<EffectConfig> effectConfig = new ConfigManager<>
-            ("effects", new EffectConfig())
+    public static ConfigManager<ConfigFile.Effects> effectConfig = new ConfigManager<>
+            ("effects", new ConfigFile.Effects())
             .builder()
             .setDirectory(DIRECTORY)
             .sanitize(true)

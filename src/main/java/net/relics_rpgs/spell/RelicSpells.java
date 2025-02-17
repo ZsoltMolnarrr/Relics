@@ -87,13 +87,13 @@ public class RelicSpells {
         return spell;
     }
 
-    private static Spell.Impact createEffectImpact(Identifier effectId, float t1ProcEffectDuration) {
+    private static Spell.Impact createEffectImpact(String effectIdString, float duration) {
         var buff = new Spell.Impact();
         buff.action = new Spell.Impact.Action();
         buff.action.type = Spell.Impact.Action.Type.STATUS_EFFECT;
         buff.action.status_effect = new Spell.Impact.Action.StatusEffect();
-        buff.action.status_effect.effect_id = effectId.toString();
-        buff.action.status_effect.duration = t1ProcEffectDuration;
+        buff.action.status_effect.effect_id = effectIdString;
+        buff.action.status_effect.duration = duration;
         return buff;
     }
 
@@ -127,7 +127,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
 
-        var buff = createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         spell.cost = new Spell.Cost();
@@ -156,7 +156,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -181,7 +181,7 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -250,7 +250,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -280,7 +280,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -318,7 +318,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
 
@@ -359,7 +359,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -397,7 +397,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -436,7 +436,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T1_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -470,7 +470,7 @@ public class RelicSpells {
                         null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -507,7 +507,7 @@ public class RelicSpells {
                         null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -541,7 +541,7 @@ public class RelicSpells {
                         null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -575,7 +575,7 @@ public class RelicSpells {
                         null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -615,7 +615,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -655,7 +655,7 @@ public class RelicSpells {
                         null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_PROC_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -685,7 +685,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -715,7 +715,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -745,7 +745,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -775,7 +775,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        spell.impacts = List.of(createEffectImpact(effect.id(), T2_USE_EFFECT_DURATION));
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
@@ -837,7 +837,7 @@ public class RelicSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var stun = createEffectImpact(RelicEffects.STUN.id(), T3_PERK_CC_DURATION);
+        var stun = createEffectImpact(RelicEffects.STUN.id.toString(), T3_PERK_CC_DURATION);
         stun.sound = new Sound(RelicSounds.STUN_GENERIC.id().toString());
         spell.impacts = List.of(stun);
         spell.area_impact = new Spell.AreaImpact();
@@ -866,7 +866,7 @@ public class RelicSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var stun = createEffectImpact(RelicEffects.STUN.id(), T3_PERK_CC_DURATION);
+        var stun = createEffectImpact(RelicEffects.STUN.id.toString(), T3_PERK_CC_DURATION);
         stun.sound = new Sound(RelicSounds.STUN_GENERIC.id().toString());
         spell.impacts = List.of(stun);
         spell.area_impact = new Spell.AreaImpact();
@@ -893,7 +893,7 @@ public class RelicSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue(), T3_PERK_CC_DURATION);
+        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue().toString(), T3_PERK_CC_DURATION);
         levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
         levitate.action.status_effect.amplifier = 3;
         levitate.particles = new ParticleBatch[]{
@@ -1014,7 +1014,7 @@ public class RelicSpells {
 
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
-        spell.deliver.stash_effect.id = effect.id().toString();
+        spell.deliver.stash_effect.id = effect.id.toString().toString();
         spell.deliver.stash_effect.consume = 0;
         var stashMeleeTrigger = new Spell.Trigger();
         stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
@@ -1031,7 +1031,7 @@ public class RelicSpells {
                         null, 40, 0.35F, 0.75F, 0.0F, 0)
         };
 
-        var buff = createEffectImpact(effect.id(), T3_TRANCE_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 9;
         buff.action.status_effect.refresh_duration = false;
@@ -1068,7 +1068,7 @@ public class RelicSpells {
 
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
-        spell.deliver.stash_effect.id = effect.id().toString();
+        spell.deliver.stash_effect.id = effect.id.toString().toString();
         spell.deliver.stash_effect.consume = 0;
         var stashTrigger = new Spell.Trigger();
         stashTrigger.type = Spell.Trigger.Type.SPELL_IMPACT_SPECIFIC;
@@ -1085,7 +1085,7 @@ public class RelicSpells {
                         null, 40, 0.35F, 0.75F, 0.0F, 0)
         };
 
-        var buff = createEffectImpact(effect.id(), T3_TRANCE_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.apply_to_caster = true;
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
         buff.action.status_effect.amplifier = 9;
@@ -1160,7 +1160,7 @@ public class RelicSpells {
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        var buff = createEffectImpact(effect.id(), T3_TRANCE_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
@@ -1195,7 +1195,7 @@ public class RelicSpells {
                         null, 40, 0.35F, 0.75F, 0.0F, 0)
         };
 
-        var buff = createEffectImpact(effect.id(), T4_USE_EFFECT_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T4_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
@@ -1238,7 +1238,7 @@ public class RelicSpells {
         heal.action.heal.spell_power_coefficient = 0.33F;
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 
-        var buff = createEffectImpact(effect.id(), T4_USE_EFFECT_DURATION);
+        var buff = createEffectImpact(effect.id.toString(), T4_USE_EFFECT_DURATION);
         buff.particles = new ParticleBatch[]{
                 new ParticleBatch("heart", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
                         null, 5, 0.75F, 1.5F, 0.0F, 0)
@@ -1295,7 +1295,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), 1);
+        var buff = createEffectImpact(effect.id.toString(), 1);
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
@@ -1348,7 +1348,7 @@ public class RelicSpells {
                         null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
         };
 
-        var buff = createEffectImpact(effect.id(), 1);
+        var buff = createEffectImpact(effect.id.toString(), 1);
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
