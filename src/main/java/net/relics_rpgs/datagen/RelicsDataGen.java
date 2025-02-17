@@ -69,7 +69,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add("trinkets.slot.spell.trinket", "Trinket");
             translationBuilder.add("trinkets.slot.charm.trinket", "Trinket");
-            translationBuilder.add(Group.translationKey, "Relics (RPG Series)");
+            translationBuilder.add(Group.translationKey, "Relics");
             RelicItems.entries.forEach(entry ->
                 translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
             );

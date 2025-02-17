@@ -328,7 +328,7 @@ public class RelicEffects {
     ));
 
     public static Effects.Entry STUN = add(new Effects.Entry(Identifier.of(RelicsMod.NAMESPACE,"stun"),
-            "Stun",
+            "Stunned",
             "Cannot move or act.",
             new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x888800),
             new EffectConfig(List.of(
