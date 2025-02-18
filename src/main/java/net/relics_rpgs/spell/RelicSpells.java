@@ -15,6 +15,7 @@ import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
+import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
@@ -110,6 +111,21 @@ public class RelicSpells {
 
     public static Entry lesser_use_damage = add(lesser_use_damage());
 
+    private static @NotNull ParticleBatch lesserActivateParticles(SpellEngineParticles.MagicParticleFamily family, int count) {
+        return lesserActivateParticles(SpellEngineParticles.getMagicParticleVariant(
+                family,
+                SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                count);
+    }
+
+    private static @NotNull ParticleBatch lesserActivateParticles(String particleId, int count) {
+        return new ParticleBatch(
+                particleId,
+                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                count, 0.14F, 0.15F);
+    }
+
     private static Entry lesser_use_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_damage");
         var description = "Use: Increases attack damage by {bonus} for {effect_duration} seconds.";
@@ -126,6 +142,9 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                lesserActivateParticles(SpellEngineParticles.WHITE, 25)
+        };
 
         var buff = createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
@@ -155,6 +174,9 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                lesserActivateParticles(SpellEngineParticles.FROST, 25)
+        };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -180,6 +202,9 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                lesserActivateParticles(SpellEngineParticles.NATURE, 25)
+        };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -209,8 +234,8 @@ public class RelicSpells {
         // spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.POTION_GENERIC.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        null, 10, 0.14F, 0.15F, 0.0F, -0.2F)
         };
 
         var heal = new Spell.Impact();
@@ -242,12 +267,10 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.WHITE, 25)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
@@ -272,12 +295,10 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.HASTE_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.HOLY, 25)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
@@ -310,12 +331,10 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.HOLY, 25)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
@@ -351,12 +370,10 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.HOLY, 25)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
@@ -389,12 +406,11 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.ARCANE, 12),
+                lesserActivateParticles(SpellEngineParticles.flame_spark.id().toString(), 12)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
@@ -428,12 +444,11 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = "spell_engine:one_handed_healing_release";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
+                lesserActivateParticles(SpellEngineParticles.FROST, 12),
+                lesserActivateParticles(SpellEngineParticles.HOLY, 12)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
@@ -442,8 +457,53 @@ public class RelicSpells {
         return new Entry(id, spell, title, description, mutator);
     }
 
-    public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
+    /**
+     * SECTION: MEDIUM TIER SPELLS
+     */
 
+    private static ParticleBatch[] mediumActivateParticlesSphere(SpellEngineParticles.MagicParticleFamily family, int count) {
+        return mediumActivateParticlesSphere(SpellEngineParticles.getMagicParticleVariant(
+                        family,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                count);
+    }
+
+    private static ParticleBatch[] mediumActivateParticlesSphere(String particleId, int count) {
+        return new ParticleBatch[]{
+                new ParticleBatch(
+                        particleId,
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        count, 0.14F, 0.15F),
+                new ParticleBatch(
+                        particleId,
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        count, 0.24F, 0.25F)
+        };
+    }
+
+    private static ParticleBatch[] mediumActivateParticlesPipe(SpellEngineParticles.MagicParticleFamily family, int count) {
+        return mediumActivateParticlesPipe(SpellEngineParticles.getMagicParticleVariant(
+                        family,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                count);
+    }
+
+    private static ParticleBatch[] mediumActivateParticlesPipe(String particleId, int count) {
+        return new ParticleBatch[]{
+                new ParticleBatch(
+                        particleId,
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
+                        count, 0.15F, 0.15F),
+                new ParticleBatch(
+                        particleId,
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
+                        count, 0.3F, 0.3F)
+        };
+    }
+
+    public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
     private static Entry medium_proc_attack_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
         var description = "On melee hit: {trigger_chance} chance to increase attack damage by {bonus} for {effect_duration} seconds.";
@@ -465,10 +525,7 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
-        };
+        spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.WHITE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -477,7 +534,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_proc_attack_speed = add(medium_proc_attack_speed());
-
     private static Entry medium_proc_attack_speed() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
         var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by {bonus} for {effect_duration} seconds.";
@@ -502,10 +558,7 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
-        };
+        spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.FROST, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -514,7 +567,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_proc_ranged_damage = add(medium_proc_ranged_damage());
-
     private static Entry medium_proc_ranged_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
         var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by {bonus} for {effect_duration} seconds.";
@@ -536,10 +588,7 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
-        };
+        spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.NATURE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -548,7 +597,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_proc_defense = add(medium_proc_defense());
-
     private static Entry medium_proc_defense() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_defense");
         var description = "On damage taken: {trigger_chance} chance to increase armor toughness by {bonus} for {effect_duration} seconds.";
@@ -564,15 +612,24 @@ public class RelicSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         var trigger = new Spell.Trigger();
-        trigger.chance = T2_PROC_CHANCE;
+        trigger.chance = T2_PROC_CHANCE * 2;
         trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, -0.2F)
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.RAGE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.15F, 0.15F),
+                new ParticleBatch(
+                        SpellEngineParticles.shield_small.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        10, 0.15F, 0.15F),
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -582,7 +639,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
-
     private static Entry medium_proc_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
         var description = "On spell hit: {trigger_chance} chance to increase spell power by {bonus} for {effect_duration} seconds.";
@@ -609,11 +665,7 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
-        };
+        spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.WHITE, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -649,11 +701,7 @@ public class RelicSpells {
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.HASTE_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 25, 0.15F, 0.25F, 0.0F, -0.2F)
-        };
+        spell.release.particles = mediumActivateParticlesPipe(SpellEngineParticles.HOLY, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -680,9 +728,20 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                        15, 0.08F, 0.08F),
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.ARCANE,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.24F, 0.25F)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
@@ -692,7 +751,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_use_fire_power = add(medium_use_fire_power());
-
     private static Entry medium_use_fire_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_fire_power");
         var description = "Use: Increases fire spell power by {bonus} for {effect_duration} seconds.";
@@ -710,9 +768,14 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                new ParticleBatch(
+                        SpellEngineParticles.flame_medium_a.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                        25, 0.1F, 0.1F),
+                new ParticleBatch(
+                        SpellEngineParticles.flame_spark.id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.12F, 0.12F)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
@@ -722,7 +785,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_use_frost_power = add(medium_use_frost_power());
-
     private static Entry medium_use_frost_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_frost_power");
         var description = "Use: Increases frost spell power by {bonus} for {effect_duration} seconds.";
@@ -740,9 +802,17 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                new ParticleBatch(
+                        SpellEngineParticles.snowflake.id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                        15, 0.14F, 0.15F),
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.FROST,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.24F, 0.25F)
         };
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
@@ -752,7 +822,6 @@ public class RelicSpells {
     }
 
     public static Entry medium_use_healing_power = add(medium_use_healing_power());
-
     private static Entry medium_use_healing_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_healing_power");
         var description = "Use: Increases healing spell power by {bonus} for {effect_duration} seconds.";
@@ -770,19 +839,32 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.HOLY,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                                SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
                         ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                        15, 0.08F, 0.08F),
+                new ParticleBatch(
+                        SpellEngineParticles.getMagicParticleVariant(
+                                SpellEngineParticles.HOLY,
+                                SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                                SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.24F, 0.25F)
         };
-
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
     }
 
-    public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
+    /**
+     * SECTION: GREATER TIER SPELLS
+     */
 
+    public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
     private static Entry greater_perk_roll_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_roll_damage");
         var title = "Lightning Roll";
@@ -807,7 +889,6 @@ public class RelicSpells {
                         null, 15, 0.01F, 0.05F, 0.0F, spell.range)
         };
 
-
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
         damage.action.type = Spell.Impact.Action.Type.DAMAGE;
@@ -822,7 +903,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_perk_melee_stun = add(greater_perk_melee_stun());
-
     private static Entry greater_perk_melee_stun() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_melee_stun");
         var title = "Stunning Strikes";
@@ -849,7 +929,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_perk_spell_stun = add(greater_perk_spell_stun());
-
     private static Entry greater_perk_spell_stun() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_spell_stun");
         var title = "Disruption";
@@ -878,7 +957,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_perk_ranged_levitate = add(greater_perk_ranged_levitate());
-
     private static Entry greater_perk_ranged_levitate() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_ranged_levitate");
         var title = "Levitation";
@@ -887,7 +965,7 @@ public class RelicSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
         var trigger = new Spell.Trigger();
-        trigger.chance = 0.1F;
+        trigger.chance = T2_PROC_CHANCE * 2F;
         trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
         spell.passive.triggers = List.of(trigger);
 
@@ -897,8 +975,12 @@ public class RelicSpells {
         levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
         levitate.action.status_effect.amplifier = 3;
         levitate.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_spark_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 20, 0.15F, 0.25F, 0.0F, 0F)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.NATURE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        50, 0.15F, 0.5F)
         };
         spell.impacts = List.of(levitate);
         spell.area_impact = new Spell.AreaImpact();
@@ -910,7 +992,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_perk_defense_block = add(greater_perk_defense_block());
-
     private static Entry greater_perk_defense_block() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_block");
         var title = "Wardstone";
@@ -929,12 +1010,14 @@ public class RelicSpells {
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 1F;
         heal.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, 0F),
-                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.CENTER,
-                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.HOLY,
+                        SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.15F, 0.2F),
         };
-        heal.sound = new Sound("spell_engine:generic_healing_impact_1");
+        heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id());
         spell.impacts = List.of(heal);
 
         configureCooldown(spell, 4);
@@ -943,7 +1026,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_perk_heal_cleanse = add(greater_perk_heal_cleanse());
-
     private static Entry greater_perk_heal_cleanse() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_healing_cleanse");
         var title = "Purification";
@@ -973,10 +1055,22 @@ public class RelicSpells {
         cleanse.action.status_effect.remove.select_beneficial = false;
         cleanse.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
         cleanse.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_frost_spark_float", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 10, 0.15F, 0.25F, 0.0F, 0F),
-                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.PIPE, ParticleBatch.Origin.CENTER,
-                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.FROST,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        15, 0.15F, 0.15F),
+                // "dripping_water"
+                new ParticleBatch("dripping_water",
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        15, 0.15F, 0.25F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.HOLY,
+                        SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        15, 0.3F, 0.3F)
         };
         spell.impacts = List.of(cleanse);
 
@@ -986,7 +1080,6 @@ public class RelicSpells {
     }
 
     public static Entry greater_proc_physical_trance = add(greater_proc_physical_trance());
-
     private static Entry greater_proc_physical_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
         var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by {bonus}. "
@@ -1027,8 +1120,18 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.RAGE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        25, 0.15F, 0.15F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.RAGE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.IMPACT,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        50, 0.3F, 0.3F)
         };
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
@@ -1081,8 +1184,18 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.FROST,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        50, 0.15F, 0.15F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.FROST,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        50, 0.3F, 0.3F)
         };
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
@@ -1122,8 +1235,12 @@ public class RelicSpells {
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 0.3F;
         heal.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_holy_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 10, 0.55F, 0.75F, 0.0F, 0F)
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.NATURE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.BURST).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.45F, 0.7F),
         };
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 
@@ -1161,11 +1278,32 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
+        buff.particles = new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        SpellEngineParticles.WHITE,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.BURST).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.55F, 0.8F),
+                new ParticleBatch(SpellEngineParticles.shield_small.id().toString(),
+                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
+                        15, 0.2F, 0.2F)
+        };
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
+    }
+
+    private static ParticleBatch areaSpellCircle(SpellEngineParticles.MagicParticleFamily family, float speed) {
+        return new ParticleBatch(
+                SpellEngineParticles.getMagicParticleVariant(
+                        family,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.DECELERATE).id().toString(),
+                ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
+                60, speed, speed);
     }
 
     public static Entry superior_use_area_attack_damage = add(superior_use_area_attack_damage());
@@ -1191,8 +1329,8 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+                areaSpellCircle(SpellEngineParticles.HOLY, 0.8F),
+                areaSpellCircle(SpellEngineParticles.HOLY, 1.2F)
         };
 
         var buff = createEffectImpact(effect.id.toString(), T4_USE_EFFECT_DURATION);
@@ -1226,8 +1364,8 @@ public class RelicSpells {
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_rage_impact_burst", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.CENTER,
-                        null, 40, 0.35F, 0.75F, 0.0F, 0)
+                areaSpellCircle(SpellEngineParticles.RAGE, 0.8F),
+                areaSpellCircle(SpellEngineParticles.RAGE, 1.2F)
         };
 
         var heal = new Spell.Impact();
@@ -1248,6 +1386,23 @@ public class RelicSpells {
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
         return new Entry(id, spell, title, description, mutator);
+    }
+
+    private static ParticleBatch[] zoneParticles(SpellEngineParticles.MagicParticleFamily family) {
+        return new ParticleBatch[]{
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        family,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
+                        SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString(),
+                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
+                        null, 15, 0.05F, 0.1F, 0.0F, 0F),
+                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
+                        family,
+                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
+                        SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
+                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
+                        null, 5, 0.1F, 0.2F, 0.0F, 0F)
+        };
     }
 
     public static Entry superior_use_zone_spell_power = add(superior_use_zone_spell_power());
@@ -1271,28 +1426,13 @@ public class RelicSpells {
         var cloud = new Spell.Delivery.Cloud();
         cloud.volume.radius = T4_ZONE_RANGE;
         cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
-        cloud.client_data.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
-                        SpellEngineParticles.WHITE,
-                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-                        SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        null, 15, 0.1F, 0.15F, 0.0F, 0F),
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
-                        SpellEngineParticles.WHITE,
-                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
-                        SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 5, 0.15F, 0.25F, 0.0F, 0F)
-        };
+        cloud.client_data.particles = zoneParticles(SpellEngineParticles.WHITE);
         spell.deliver.clouds = List.of(cloud);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_white_spark_decelerate",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                areaSpellCircle(SpellEngineParticles.WHITE, 0.6F)
         };
 
         var buff = createEffectImpact(effect.id.toString(), 1);
@@ -1324,28 +1464,13 @@ public class RelicSpells {
         var cloud = new Spell.Delivery.Cloud();
         cloud.volume.radius = T4_ZONE_RANGE;
         cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
-        cloud.client_data.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
-                        SpellEngineParticles.FROST,
-                        SpellEngineParticles.MagicParticleFamily.Shape.SPARK,
-                        SpellEngineParticles.MagicParticleFamily.Motion.FLOAT).id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        null, 15, 0.1F, 0.15F, 0.0F, 0F),
-                new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
-                        SpellEngineParticles.FROST,
-                        SpellEngineParticles.MagicParticleFamily.Shape.SPELL,
-                        SpellEngineParticles.MagicParticleFamily.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 5, 0.15F, 0.25F, 0.0F, 0F)
-        };
+        cloud.client_data.particles = zoneParticles(SpellEngineParticles.FROST);
         spell.deliver.clouds = List.of(cloud);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_spark_float",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 15, 0.15F, 0.25F, 0.0F, -0.2F)
+                areaSpellCircle(SpellEngineParticles.FROST, 0.6F)
         };
 
         var buff = createEffectImpact(effect.id.toString(), 1);
