@@ -617,7 +617,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
+        spell.release.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_1.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
                         SpellEngineParticles.getMagicParticleVariant(
@@ -1053,7 +1053,7 @@ public class RelicSpells {
         cleanse.action.status_effect.remove = new Spell.Impact.Action.StatusEffect.Remove();
         cleanse.action.status_effect.remove.selector = Spell.Impact.Action.StatusEffect.Remove.Selector.RANDOM;
         cleanse.action.status_effect.remove.select_beneficial = false;
-        cleanse.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
+        cleanse.sound = new Sound(RelicSounds.HOLY_WATER_IMPACT.id());
         cleanse.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
                         SpellEngineParticles.FROST,
@@ -1268,6 +1268,7 @@ public class RelicSpells {
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+        spell.release.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_2.id().toString());
 
         var trigger = new Spell.Trigger();
         var healthCondition = new Spell.TargetCondition();
@@ -1327,7 +1328,7 @@ public class RelicSpells {
         spell.target.area.include_caster = true;
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
+        spell.release.sound = Sound.withRandomness(RelicSounds.HORN_ACTIVATE.id(), 0);
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(SpellEngineParticles.HOLY, 0.8F),
                 areaSpellCircle(SpellEngineParticles.HOLY, 1.2F)
@@ -1362,7 +1363,7 @@ public class RelicSpells {
         spell.target.area.include_caster = true;
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
+        spell.release.sound = new Sound(RelicSounds.HEART_OF_BEAST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(SpellEngineParticles.RAGE, 0.8F),
                 areaSpellCircle(SpellEngineParticles.RAGE, 1.2F)
@@ -1427,10 +1428,11 @@ public class RelicSpells {
         cloud.volume.radius = T4_ZONE_RANGE;
         cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
         cloud.client_data.particles = zoneParticles(SpellEngineParticles.WHITE);
+        cloud.presence_sound = new Sound(RelicSounds.MAGIC_ZONE_PRESENCE.id());
         spell.deliver.clouds = List.of(cloud);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.sound = new Sound(RelicSounds.SPELL_ZONE_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(SpellEngineParticles.WHITE, 0.6F)
         };
@@ -1465,10 +1467,11 @@ public class RelicSpells {
         cloud.volume.radius = T4_ZONE_RANGE;
         cloud.time_to_live_seconds = T4_USE_EFFECT_DURATION;
         cloud.client_data.particles = zoneParticles(SpellEngineParticles.FROST);
+        cloud.presence_sound = new Sound(RelicSounds.MAGIC_ZONE_PRESENCE.id());
         spell.deliver.clouds = List.of(cloud);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.sound = new Sound(RelicSounds.HEALING_ZONE_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(SpellEngineParticles.FROST, 0.6F)
         };

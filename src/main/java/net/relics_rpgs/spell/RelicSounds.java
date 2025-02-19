@@ -31,6 +31,14 @@ public class RelicSounds {
     public static final Entry STUN_GENERIC = add(new Entry("stun_generic"));
     public static final Entry LEVITATE_GENERIC = add(new Entry("levitate_generic"));
     public static final Entry BLOODLUST_ACTIVATE = add(new Entry("bloodlust_activate"));
+    public static final Entry HOLY_WATER_IMPACT = add(new Entry("holy_water_impact"));
+    public static final Entry DEFENSE_ACTIVATE_1 = add(new Entry("defense_activate_1"));
+    public static final Entry DEFENSE_ACTIVATE_2 = add(new Entry("defense_activate_2"));
+    public static final Entry HEART_OF_BEAST_ACTIVATE = add(new Entry("heart_of_beast_activate"));
+    public static final Entry HEALING_ZONE_ACTIVATE = add(new Entry("healing_zone_activate"));
+    public static final Entry SPELL_ZONE_ACTIVATE = add(new Entry("spell_zone_activate"));
+    public static final Entry MAGIC_ZONE_PRESENCE = add(new Entry("magic_zone_presence"));
+    public static final Entry HORN_ACTIVATE = add(new Entry("horn_activate"));
 
     public static void register() {
         for (var entry: entries) {
