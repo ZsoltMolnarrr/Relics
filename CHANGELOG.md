@@ -1,0 +1,10 @@
+# 1.0.0
+
+Initial release
+- 6 craftable relics
+- 10 common relics
+- 10 uncommon relics
+- 10 rare relics (4 of them are dragon loot)
+- 4 epic relics
+
+# 
