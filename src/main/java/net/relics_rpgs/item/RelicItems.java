@@ -47,6 +47,7 @@ public class RelicItems {
 
     public static final class Entry {
         private final int tier;
+        public String lootTheme;
         private final String name;
         private final String translatedName;
         private ItemConfig.Entry config;
@@ -131,6 +132,11 @@ public class RelicItems {
 
         public Entry spell(SpellContainer spellContainer) {
             this.spellContainer = spellContainer;
+            return this;
+        }
+
+        public Entry lootTheme(String lootTheme) {
+            this.lootTheme = lootTheme;
             return this;
         }
 
@@ -248,15 +254,18 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_defense_block.id()));
     public static final Entry GREATER_PERK_HEAL_CLEANSE = add(new Entry(3, "greater_perk_heal_cleanse", "Holy Water"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_cleanse.id()));
-
     public static final Entry GREATER_PROC_PHYSICAL_TRANCE = add(new Entry(3, "greater_proc_physical_trance", "Sharpened Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_physical_trance.id()));
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_physical_trance.id()))
+            .lootTheme("dragon");
     public static final Entry GREATER_PROC_SPELL_TRANCE = add(new Entry(3, "greater_proc_spell_trance", "Twisted Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_spell_trance.id()));
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_spell_trance.id()))
+            .lootTheme("dragon");
     public static final Entry GREATER_PERK_HEAL_DANGER = add(new Entry(3, "greater_perk_heal_danger", "Verdant Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_danger.id()));
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_danger.id()))
+            .lootTheme("dragon");
     public static final Entry GREATER_PROC_DEFENSE_DANGER = add(new Entry(3, "greater_proc_defense_danger", "Petrified Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_defense_danger.id()));
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_defense_danger.id()))
+            .lootTheme("dragon");
 
     public static final Entry SUPERIOR_USE_AREA_ATTACK_DAMAGE = add(new Entry(4, "superior_use_area_attack_damage", "Horn of the White City"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_area_attack_damage.id()));

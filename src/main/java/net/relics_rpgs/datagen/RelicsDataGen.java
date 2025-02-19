@@ -50,13 +50,22 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             // Map<Integer, Tag> rpgSeriesTierTag
             for (var entry: RelicItems.entries) {
                 var tier = entry.tier();
-                var tag = getOrCreateTagBuilder(lootTag(tier));
-                tag.addOptional(entry.id());
+                if (entry.lootTheme == null || entry.lootTheme.isEmpty()) {
+                    var tag = getOrCreateTagBuilder(tierLootTag(tier));
+                    tag.addOptional(entry.id());
+                } else {
+                    var tag = getOrCreateTagBuilder(themeLootTag(entry.lootTheme));
+                    tag.addOptional(entry.id());
+                }
             }
         }
 
-        private static TagKey<Item> lootTag(int tier) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "tier_" + tier + "_accessories"));
+        private static TagKey<Item> tierLootTag(int tier) {
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "tier_" + tier + "_relics"));
+        }
+
+        private static TagKey<Item> themeLootTag(String theme) {
+            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "theme_loot_" + theme));
         }
     }
 
