@@ -4,6 +4,11 @@
       "relics_rpgs:bloodlust_activate"
     ]
   },
+  "bow_string_activate": {
+    "sounds": [
+      "relics_rpgs:bow_string_activate"
+    ]
+  },
   "defense_activate_1": {
     "sounds": [
       "relics_rpgs:defense_activate_1"
@@ -17,11 +22,6 @@
   "eagle_boost": {
     "sounds": [
       "relics_rpgs:eagle_boost"
-    ]
-  },
-  "haste_buff": {
-    "sounds": [
-      "relics_rpgs:haste_buff"
     ]
   },
   "healing_zone_activate": {
@@ -69,6 +69,11 @@
       "relics_rpgs:medal_use"
     ]
   },
+  "melee_activate_1": {
+    "sounds": [
+      "relics_rpgs:melee_activate_1"
+    ]
+  },
   "potion_generic": {
     "sounds": [
       "relics_rpgs:potion_generic"
@@ -77,6 +82,26 @@
   "sharpen": {
     "sounds": [
       "relics_rpgs:sharpen"
+    ]
+  },
+  "spell_haste_activate_1": {
+    "sounds": [
+      "relics_rpgs:spell_haste_activate_1"
+    ]
+  },
+  "spell_haste_activate_2": {
+    "sounds": [
+      "relics_rpgs:spell_haste_activate_2"
+    ]
+  },
+  "spell_power_activate_2": {
+    "sounds": [
+      "relics_rpgs:spell_power_activate_2"
+    ]
+  },
+  "spell_power_activate_3": {
+    "sounds": [
+      "relics_rpgs:spell_power_activate_3"
     ]
   },
   "spell_zone_activate": {

@@ -296,7 +296,7 @@ public class RelicSpells {
         spell.school = SpellSchools.ARCANE;
 
         spell.release.animation = "spell_engine:one_handed_healing_release";
-        spell.release.sound = new Sound(RelicSounds.HASTE_BUFF.id().toString());
+        spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_1.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(SpellEngineParticles.HOLY, 25)
         };
@@ -524,7 +524,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
+        spell.release.sound = new Sound(RelicSounds.MELEE_ACTIVATE_1.id());
         spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.WHITE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -557,7 +557,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(melee_trigger, ranged_trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
+        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id());
         spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.FROST, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -587,7 +587,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
+        spell.release.sound = new Sound(RelicSounds.BOW_STRING_ACTIVATE.id());
         spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.NATURE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -664,7 +664,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
+        spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_2.id());
         spell.release.particles = mediumActivateParticlesSphere(SpellEngineParticles.WHITE, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -700,7 +700,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.HASTE_BUFF.id().toString());
+        spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_2.id().toString());
         spell.release.particles = mediumActivateParticlesPipe(SpellEngineParticles.HOLY, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
@@ -1182,7 +1182,7 @@ public class RelicSpells {
         spell.deliver.stash_effect.triggers = List.of(stashTrigger);
 
         spell.release.animation = "spell_engine:dual_handed_weapon_charge";
-        spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
+        spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_3.id());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(SpellEngineParticles.getMagicParticleVariant(
                         SpellEngineParticles.FROST,
