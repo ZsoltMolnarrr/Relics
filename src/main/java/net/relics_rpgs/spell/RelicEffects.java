@@ -467,7 +467,6 @@ public class RelicEffects {
 
         for (var entry: entries) {
             Synchronized.configure(entry.effect, true);
-            entry.entry = Registry.registerReference(Registries.STATUS_EFFECT, entry.id, entry.effect);
         }
 
         Effects.register(entries, config.effects);

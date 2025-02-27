@@ -1,3 +1,7 @@
+# 1.0.1
+
+- Fix status effect registrations #4
+
 # 1.0.0
 
 Initial release
