@@ -21,7 +21,7 @@
     ]
   },
   "mixins": [
-    "relics.mixins.json"
+    "relics_rpgs.mixins.json"
   ],
   "depends": {
     "minecraft": ">=${minecraft_compat_version}",
