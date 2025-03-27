@@ -5,14 +5,10 @@ import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricTagProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
 import net.minecraft.data.client.Models;
-import net.minecraft.item.Item;
-import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.registry.tag.TagKey;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
@@ -23,7 +19,10 @@ import net.relics_rpgs.spell.RelicSounds;
 import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.datagen.SimpleSoundGenerator;
 import net.spell_engine.api.datagen.SpellGenerator;
+import net.spell_engine.api.item.Equipment;
+import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
 
+import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;
 
 public class RelicsDataGen implements DataGeneratorEntrypoint {
@@ -37,9 +36,10 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         pack.addProvider(SoundGen::new);
     }
 
-    public static class ItemTagGenerator extends FabricTagProvider<Item> {
+    public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
+
         public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
-            super(output, RegistryKeys.ITEM, registriesFuture);
+            super(output, registriesFuture);
         }
 
         @Override
@@ -47,25 +47,13 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
             var all = getOrCreateTagBuilder(RelicItemTags.ALL);
             RelicItems.entries.forEach(entry -> all.addOptional(entry.id()));
 
-            // Map<Integer, Tag> rpgSeriesTierTag
+            HashMap<Identifier, Equipment.LootProperties> relicEntries = new HashMap<>();
             for (var entry: RelicItems.entries) {
-                var tier = entry.tier();
-                if (entry.lootTheme == null || entry.lootTheme.isEmpty()) {
-                    var tag = getOrCreateTagBuilder(tierLootTag(tier));
-                    tag.addOptional(entry.id());
-                } else {
-                    var tag = getOrCreateTagBuilder(themeLootTag(entry.lootTheme));
-                    tag.addOptional(entry.id());
-                }
+                var id = entry.id();
+                var lootProperties = Equipment.LootProperties.of(entry.tier(), entry.lootTheme);
+                relicEntries.put(id, lootProperties);
             }
-        }
-
-        private static TagKey<Item> tierLootTag(int tier) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "tier_" + tier + "_relics"));
-        }
-
-        private static TagKey<Item> themeLootTag(String theme) {
-            return TagKey.of(RegistryKeys.ITEM, Identifier.of("rpg_series", "theme_loot_" + theme));
+            generateRelicTags(relicEntries);
         }
     }
 

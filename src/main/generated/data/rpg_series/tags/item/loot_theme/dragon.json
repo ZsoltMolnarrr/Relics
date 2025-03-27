@@ -1,7 +1,7 @@
 {
   "values": [
     {
-      "id": "relics_rpgs:greater_proc_physical_trance",
+      "id": "relics_rpgs:greater_perk_heal_danger",
       "required": false
     },
     {
@@ -9,7 +9,7 @@
       "required": false
     },
     {
-      "id": "relics_rpgs:greater_perk_heal_danger",
+      "id": "relics_rpgs:greater_proc_physical_trance",
       "required": false
     },
     {

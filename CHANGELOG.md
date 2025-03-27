@@ -1,3 +1,8 @@
+# 1.0.2
+
+- Update to Spell Engine 1.6
+- Fix mixin id #6
+
 # 1.0.1
 
 - Fix status effect registrations #4

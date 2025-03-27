@@ -65,6 +65,7 @@ public class RelicSpells {
         spell.active = new Spell.Active();
 
         spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
@@ -81,6 +82,7 @@ public class RelicSpells {
         spell.passive = new Spell.Passive();
 
         spell.tooltip = new Spell.Tooltip();
+        spell.tooltip.show_header = false;
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
         spell.tooltip.description.color = Formatting.DARK_GREEN.asString();
         spell.tooltip.description.show_in_compact = true;
@@ -1107,7 +1109,7 @@ public class RelicSpells {
 
         spell.deliver.type = Spell.Delivery.Type.STASH_EFFECT;
         spell.deliver.stash_effect = new Spell.Delivery.StashEffect();
-        spell.deliver.stash_effect.id = effect.id.toString().toString();
+        spell.deliver.stash_effect.id = effect.id.toString();
         spell.deliver.stash_effect.consume = 0;
         var stashMeleeTrigger = new Spell.Trigger();
         stashMeleeTrigger.type = Spell.Trigger.Type.MELEE_IMPACT;
