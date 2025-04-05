@@ -1,3 +1,7 @@
+# 1.0.3
+
+- Update trinket slot placeholder
+
 # 1.0.2
 
 - Update to Spell Engine 1.6
