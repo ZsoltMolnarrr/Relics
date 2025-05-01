@@ -1,3 +1,7 @@
+# 1.0.4
+
+- Update translations
+
 # 1.0.3
 
 - Update trinket slot placeholder
