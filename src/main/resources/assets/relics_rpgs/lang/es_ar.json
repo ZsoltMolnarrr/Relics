@@ -94,10 +94,10 @@
   "item.relics_rpgs.superior_use_area_defense_health": "Corazón de la Bestia",
   "item.relics_rpgs.superior_use_zone_healing_taken": "Fragmento de Cristal Resplandeciente",
   "item.relics_rpgs.superior_use_zone_spell_power": "Orbe Negro",
-  "itemGroup.relics_rpgs.generic": "Reliquias",
+  "itemGroup.relics_rpgs.generic": "Relics",
   "spell.relics_rpgs.greater_perk_defense_block.description": "Bloquear con un escudo sana tu vida en {heal}.",
   "spell.relics_rpgs.greater_perk_defense_block.name": "Piedra de Defensa",
-  "spell.relics_rpgs.greater_perk_defense_danger.description": "Recibir daño por debajo de {health_threshold} salud aumenta la armadura en {bonus} durante {effect_duration} segundos."
+  "spell.relics_rpgs.greater_perk_defense_danger.description": "Recibir daño por debajo de {health_threshold} salud aumenta la armadura en {bonus} durante {effect_duration} segundos.",
   "spell.relics_rpgs.greater_perk_defense_danger.name": "Fortaleza",
   "spell.relics_rpgs.greater_perk_heal_danger.description": "Sanar a un objetivo con menos de {health_threshold} de salud recibe una curación adicional de {heal}.",
   "spell.relics_rpgs.greater_perk_heal_danger.name": "Desesperación",
