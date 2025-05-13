@@ -38,7 +38,9 @@
         "type": "STATUS_EFFECT",
         "status_effect": {
           "apply_mode": "REMOVE",
-          "remove": {}
+          "remove": {
+            "id": "!minecraft:trial_omen"
+          }
         }
       },
       "particles": [

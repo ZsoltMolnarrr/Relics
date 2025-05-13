@@ -1,3 +1,8 @@
+# 1.0.5
+
+- Holy Water no longer removes Trial Omen
+- Update translations
+
 # 1.0.4
 
 - Update translations

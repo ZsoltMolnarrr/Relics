@@ -1053,6 +1053,7 @@ public class RelicSpells {
         cleanse.action.status_effect = new Spell.Impact.Action.StatusEffect();
         cleanse.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.REMOVE;
         cleanse.action.status_effect.remove = new Spell.Impact.Action.StatusEffect.Remove();
+        cleanse.action.status_effect.remove.id = "!" + StatusEffects.TRIAL_OMEN.getIdAsString();
         cleanse.action.status_effect.remove.selector = Spell.Impact.Action.StatusEffect.Remove.Selector.RANDOM;
         cleanse.action.status_effect.remove.select_beneficial = false;
         cleanse.sound = new Sound(RelicSounds.HOLY_WATER_IMPACT.id());
