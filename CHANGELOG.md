@@ -1,3 +1,7 @@
+# 1.0.6
+
+- Update to latest Spell Engine
+
 # 1.0.5
 
 - Holy Water no longer removes Trial Omen

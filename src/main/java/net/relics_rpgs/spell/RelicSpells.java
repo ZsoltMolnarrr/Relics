@@ -1086,7 +1086,7 @@ public class RelicSpells {
     private static Entry greater_proc_physical_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
         var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by {bonus}. "
-                + "Stacking up to {effect_amplifier} times, lasting for {effect_duration} seconds.";
+                + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_PHYSICAL_TRANCE;
         var title = effect.title;
         SpellTooltip.DescriptionMutator mutator = (args) -> {
@@ -1139,7 +1139,8 @@ public class RelicSpells {
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
-        buff.action.status_effect.amplifier = 9;
+        buff.action.status_effect.amplifier = 1;
+        buff.action.status_effect.amplifier_cap = 9;
         buff.action.status_effect.refresh_duration = false;
         spell.impacts = List.of(buff);
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
@@ -1151,7 +1152,7 @@ public class RelicSpells {
     private static Entry greater_proc_spell_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_spell_trance");
         var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by {bonus}. "
-                + "Stacking up to {effect_amplifier} times, lasting for {effect_duration} seconds.";
+                + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_SPELL_TRANCE;
         var title = effect.title;
         SpellTooltip.DescriptionMutator mutator = (args) -> {
@@ -1204,7 +1205,8 @@ public class RelicSpells {
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.apply_to_caster = true;
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
-        buff.action.status_effect.amplifier = 9;
+        buff.action.status_effect.amplifier = 1;
+        buff.action.status_effect.amplifier_cap = 9;
         buff.action.status_effect.refresh_duration = false;
         spell.impacts = List.of(buff);
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
