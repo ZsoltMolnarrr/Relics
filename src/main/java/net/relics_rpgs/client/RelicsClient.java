@@ -6,10 +6,10 @@ import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.StunParticleSpawner;
+import net.spell_engine.api.spell.fx.ParticleBatch;
 import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
-
-import java.util.List;
 
 public class RelicsClient implements ClientModInitializer {
 
@@ -21,54 +21,130 @@ public class RelicsClient implements ClientModInitializer {
             }
         }
 
+
+        var spark_float = SpellEngineParticles.MagicParticles.get(
+                SpellEngineParticles.MagicParticles.Shape.SPARK,
+                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
+
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_ATTACK_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_rage_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.RAGE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_ATTACKS_SPEED.effect,
-                new BuffParticleSpawner("spell_engine:magic_frost_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.FROST.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_RANGED_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_nature_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.NATURE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_SPELL_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_white_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.WHITE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_SPELL_HASTE.effect,
-                new BuffParticleSpawner("spell_engine:magic_holy_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.HOLY.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_SPELL_CRIT.effect,
-                new BuffParticleSpawner("spell_engine:magic_holy_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.HOLY.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_POWER_ARCANE_FIRE.effect,
-                new BuffParticleSpawner(List.of("spell_engine:magic_arcane_spark_float", "spell_engine:flame_spark"), 0.5F, 0.11F, 0.12F)
+                new BuffParticleSpawner(new ParticleBatch[]{
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                0.5F,
+                                Color.ARCANE.toRGBA()),
+                        BuffParticleSpawner.defaultBatch(
+                                SpellEngineParticles.flame_spark.id().toString(),
+                                0.5F)
+                })
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_POWER_FROST_HEALING.effect,
-                new BuffParticleSpawner(List.of("spell_engine:magic_frost_spark_float", "spell_engine:magic_holy_spark_float"), 0.5F, 0.11F, 0.12F)
+                new BuffParticleSpawner(new ParticleBatch[]{
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                0.5F,
+                                Color.FROST.toRGBA()),
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                0.5F,
+                                Color.HOLY.toRGBA()),
+                })
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_PROC_CRIT_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_white_spark_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spark_float,
+                                1,
+                                Color.HOLY.toRGBA())
+                )
         );
+
+        var stripe_float = SpellEngineParticles.MagicParticles.get(
+                SpellEngineParticles.MagicParticles.Shape.STRIPE,
+                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
 
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_ATTACK_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_rage_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.RAGE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_ATTACKS_SPEED.effect,
-                new BuffParticleSpawner("spell_engine:magic_frost_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.FROST.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_RANGED_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_nature_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.NATURE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_DEFENSE.effect,
@@ -76,19 +152,39 @@ public class RelicsClient implements ClientModInitializer {
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_SPELL_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_white_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.WHITE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_SPELL_HASTE.effect,
-                new BuffParticleSpawner("spell_engine:magic_holy_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.HOLY.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_ARCANE_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_arcane_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.ARCANE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_FROST_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_frost_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.FROST.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_FIRE_POWER.effect,
@@ -96,7 +192,12 @@ public class RelicsClient implements ClientModInitializer {
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_HEALING_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_holy_stripe_float", 1)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                1,
+                                Color.HOLY.toRGBA())
+                )
         );
 
         CustomParticleStatusEffect.register(
@@ -105,28 +206,57 @@ public class RelicsClient implements ClientModInitializer {
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.GREATER_PHYSICAL_TRANCE.effect,
-                new BuffParticleSpawner("spell_engine:magic_rage_stripe_float", 0.5F)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                0.5F,
+                                Color.RAGE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.GREATER_SPELL_TRANCE.effect,
-                new BuffParticleSpawner("spell_engine:magic_white_stripe_float", 0.5F)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                stripe_float,
+                                0.5F,
+                                Color.WHITE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.GREATER_DEFENSE_ARMOR.effect,
                 new BuffParticleSpawner(SpellEngineParticles.shield_small.id().toString(), 0.5F)
         );
 
+        var spell_float = SpellEngineParticles.MagicParticles.get(
+                SpellEngineParticles.MagicParticles.Shape.SPELL,
+                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
+
         CustomParticleStatusEffect.register(
                 RelicEffects.SUPERIOR_ATTACK_DAMAGE.effect,
-                new BuffParticleSpawner("spell_engine:magic_holy_spell_float", 0.5F)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spell_float,
+                                0.5F,
+                                Color.HOLY.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.SUPERIOR_SPELL_POWER.effect,
-                new BuffParticleSpawner("spell_engine:magic_white_spell_float", 0.5F)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spell_float,
+                                0.5F,
+                                Color.WHITE.toRGBA())
+                )
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.SUPERIOR_HEALING_TAKEN.effect,
-                new BuffParticleSpawner("spell_engine:magic_frost_spell_float", 0.5F)
+                new BuffParticleSpawner(
+                        BuffParticleSpawner.defaultBatch(
+                                spell_float,
+                                0.5F,
+                                Color.FROST.toRGBA())
+                )
         );
     }
 }
