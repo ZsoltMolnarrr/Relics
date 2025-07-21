@@ -41,12 +41,13 @@
       },
       "particles": [
         {
-          "particle_id": "spell_engine:magic_white_spell_burst",
+          "particle_id": "spell_engine:magic_spell_burst",
           "origin": "CENTER",
           "shape": "SPHERE",
           "count": 25.0,
           "min_speed": 0.55,
-          "max_speed": 0.8
+          "max_speed": 0.8,
+          "color_rgba": 4294967295
         },
         {
           "particle_id": "spell_engine:shield_small",
