@@ -1,3 +1,7 @@
+# 1.0.8
+
+- Fix scaling of Sacred Wardstone
+
 # 1.0.7
 
 - Update to latest Spell Engine

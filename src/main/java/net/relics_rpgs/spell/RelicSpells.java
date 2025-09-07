@@ -1002,7 +1002,7 @@ public class RelicSpells {
     private static Entry greater_perk_defense_block() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_block");
         var title = "Wardstone";
-        var description = "Blocking with a shield heals your by {heal}.";
+        var description = "Blocking with a shield heals you by {heal}.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -1012,10 +1012,10 @@ public class RelicSpells {
 
         var heal = new Spell.Impact();
         heal.action = new Spell.Impact.Action();
-        heal.action.min_power = 2;
+        heal.action.min_power = 8;
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
-        heal.action.heal.spell_power_coefficient = 1F;
+        heal.action.heal.spell_power_coefficient = 0.25F;
         heal.particles = new ParticleBatch[]{
                 new ParticleBatch(
                         SpellEngineParticles.MagicParticles.get(
