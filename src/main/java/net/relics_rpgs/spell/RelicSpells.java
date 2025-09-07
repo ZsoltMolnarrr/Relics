@@ -871,6 +871,11 @@ public class RelicSpells {
      * SECTION: GREATER TIER SPELLS
      */
 
+//    public static Entry greater_evasion_damage = add(greater_evasion_damage());
+//    private static Entry greater_evasion_damage() {
+//        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_evasion_damage");
+//    }
+
     public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
     private static Entry greater_perk_roll_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_roll_damage");

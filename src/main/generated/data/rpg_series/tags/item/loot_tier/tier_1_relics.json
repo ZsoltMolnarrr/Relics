@@ -13,6 +13,10 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:lesser_evasion",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:jewel_figurine_topaz",
       "required": false
     },

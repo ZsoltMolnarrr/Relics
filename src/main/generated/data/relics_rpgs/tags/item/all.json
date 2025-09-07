@@ -29,6 +29,10 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:lesser_evasion",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:lesser_use_damage",
       "required": false
     },
@@ -110,6 +114,10 @@
     },
     {
       "id": "relics_rpgs:greater_perk_roll_damage",
+      "required": false
+    },
+    {
+      "id": "relics_rpgs:greater_healing_taken",
       "required": false
     },
     {

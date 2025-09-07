@@ -16,6 +16,7 @@ import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.config.AttributeModifier;
 import net.spell_engine.api.config.ConfigUtil;
+import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainer;
 import net.spell_engine.api.spell.container.SpellContainerHelper;
@@ -196,6 +197,12 @@ public class RelicItems {
                             new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
+    public static final Entry LESSER_EVASION = add(new Entry(1, "lesser_evasion", "Lucky Coin"))
+            .config(new ItemConfig.Entry()
+                    .withAttributes(List.of(
+                            new AttributeModifier(SpellEngineAttributes.EVASION_CHANCE.id.toString(), 0.03F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+            );
     public static final Entry LESSER_USE_DAMAGE = add(new Entry(1, "lesser_use_damage", "Meteorite Whetstone"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_damage.id()));
     public static final Entry LESSER_USE_DEX = add(new Entry(1, "lesser_use_dex", "Medal of Valor"))
@@ -244,6 +251,12 @@ public class RelicItems {
 
     public static final Entry GREATER_PERK_ROLL_DAMAGE = add(new Entry(3, "greater_perk_roll_damage", "Thunderbird Feather"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_roll_damage.id()));
+    public static final Entry GREATER_HEALING_TAKEN = add(new Entry(3, "greater_healing_taken", "Ankh"))
+            .config(new ItemConfig.Entry()
+                    .withAttributes(List.of(
+                            new AttributeModifier(SpellEngineAttributes.HEALING_TAKEN.id.toString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+            );
     public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_melee_stun.id()));
     public static final Entry GREATER_PERK_RANGED_LEVITATE = add(new Entry(3, "greater_perk_ranged_levitate", "Updraft Arrow"))

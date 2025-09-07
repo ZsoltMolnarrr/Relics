@@ -24,8 +24,10 @@
     {
       "action": {
         "type": "HEAL",
-        "min_power": 2.0,
-        "heal": {}
+        "min_power": 8.0,
+        "heal": {
+          "spell_power_coefficient": 0.25
+        }
       },
       "particles": [
         {

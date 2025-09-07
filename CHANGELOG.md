@@ -1,6 +1,9 @@
 # 1.0.8
 
 - Fix scaling of Sacred Wardstone
+- Add new relics:
+  - Lucky Coin
+  - Ankh
 
 # 1.0.7
 

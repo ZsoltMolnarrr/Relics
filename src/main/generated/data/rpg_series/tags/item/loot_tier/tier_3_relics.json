@@ -5,6 +5,10 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:greater_healing_taken",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:greater_perk_melee_stun",
       "required": false
     },
