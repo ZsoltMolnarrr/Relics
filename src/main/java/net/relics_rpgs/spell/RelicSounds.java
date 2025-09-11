@@ -44,7 +44,8 @@ public class RelicSounds {
     public static final Entry SPELL_ZONE_ACTIVATE = add(new Entry("spell_zone_activate"));
     public static final Entry MAGIC_ZONE_PRESENCE = add(new Entry("magic_zone_presence"));
     public static final Entry HORN_ACTIVATE = add(new Entry("horn_activate"));
-
+    public static final Entry MONKEY_ACTIVATE = add(new Entry("monkey_activate"));
+    public static final Entry HOOK_ACTIVATE = add(new Entry("hook_activate"));
 
     public static void register() {
         for (var entry: entries) {

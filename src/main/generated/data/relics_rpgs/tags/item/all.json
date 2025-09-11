@@ -89,6 +89,10 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:medium_proc_evasion",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:medium_proc_spell_power",
       "required": false
     },
@@ -134,6 +138,14 @@
     },
     {
       "id": "relics_rpgs:greater_perk_defense_block",
+      "required": false
+    },
+    {
+      "id": "relics_rpgs:greater_perk_evasion_attack",
+      "required": false
+    },
+    {
+      "id": "relics_rpgs:greater_perk_shield_reset",
       "required": false
     },
     {

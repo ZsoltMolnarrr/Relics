@@ -118,7 +118,25 @@ public class RelicsClient implements ClientModInitializer {
         var stripe_float = SpellEngineParticles.MagicParticles.get(
                 SpellEngineParticles.MagicParticles.Shape.STRIPE,
                 SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
+        var spark_decelerate = SpellEngineParticles.MagicParticles.get(
+                SpellEngineParticles.MagicParticles.Shape.SPARK,
+                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString();
 
+        CustomParticleStatusEffect.register(
+                RelicEffects.MEDIUM_EVASION.effect,
+                new BuffParticleSpawner(
+                        new ParticleBatch[]{
+                                new ParticleBatch(
+                                        spark_decelerate,
+                                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                                1, 0.3F, 0.3F)
+                                        .color(RelicSpells.EVASION_COLOR.toRGBA())
+                                        .preSpawnTravel(4)
+                                        .followEntity(true)
+                                        .invert()
+                        }
+                )
+        );
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_ATTACK_DAMAGE.effect,
                 new BuffParticleSpawner(

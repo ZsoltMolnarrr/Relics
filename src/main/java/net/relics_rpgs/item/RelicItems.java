@@ -232,6 +232,8 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_ranged_damage.id()));
     public static final Entry MEDIUM_PROC_DEFENSE = add(new Entry(2, "medium_proc_defense", "Titanium Nautilus Shell"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_defense.id()));
+    public static final Entry MEDIUM_PROC_EVASION = add(new Entry(2, "medium_proc_evasion", "Monkey Talisman"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_evasion.id()));
     public static final Entry MEDIUM_PROC_SPELL_POWER = add(new Entry(2, "medium_proc_spell_power", "Crystal Skull"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_spell_power.id()));
     public static final Entry MEDIUM_PROC_SPELL_HASTE = add(new Entry(2, "medium_proc_spell_haste", "Hourglass of the Unraveller"))
@@ -265,6 +267,10 @@ public class RelicItems {
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_spell_stun.id()));
     public static final Entry GREATER_PERK_DEFENSE_BLOCK = add(new Entry(3, "greater_perk_defense_block", "Sacred Wardstone"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_defense_block.id()));
+    public static final Entry GREATER_PERK_EVASION_ATTACK = add(new Entry(3, "greater_perk_evasion_attack", "Captain's Hook"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_evasion_attack.id()));
+    public static final Entry GREATER_PERK_SHIELD_RESET = add(new Entry(3, "greater_perk_shield_reset", "Etienne's Enigma"))
+            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_shield_reset.id()));
     public static final Entry GREATER_PERK_HEAL_CLEANSE = add(new Entry(3, "greater_perk_heal_cleanse", "Holy Water"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_cleanse.id()));
     public static final Entry GREATER_PROC_PHYSICAL_TRANCE = add(new Entry(3, "greater_proc_physical_trance", "Sharpened Dragon Scale"))

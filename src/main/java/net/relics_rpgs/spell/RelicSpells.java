@@ -5,6 +5,7 @@ import net.minecraft.entity.effect.StatusEffects;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
+import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
@@ -14,6 +15,7 @@ import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
+import net.spell_engine.internals.target.SpellTarget;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.NotNull;
@@ -645,6 +647,45 @@ public class RelicSpells {
         return new Entry(id, spell, title, description, mutator);
     }
 
+    public static Color EVASION_COLOR = Color.from(0x9966ff);
+
+    public static Entry medium_proc_evasion = add(medium_proc_evasion());
+    private static Entry medium_proc_evasion() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_evasion");
+        var description = "On damage taken: {trigger_chance} chance to increase evasion chance by {bonus} for {effect_duration} seconds.";
+        var effect = RelicEffects.MEDIUM_EVASION;
+        var title = effect.title;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        var trigger = SpellBuilder.Triggers.damageTaken();
+        trigger.chance = T2_PROC_CHANCE * 2;
+        spell.passive.triggers = List.of(trigger);
+
+        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.sound = new Sound(RelicSounds.MONKEY_ACTIVATE.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SPELL,
+                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        20, 0.15F, 0.15F)
+                        .color(EVASION_COLOR.toRGBA())
+        };
+
+        spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
+        configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
     public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
     private static Entry medium_proc_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
@@ -871,11 +912,6 @@ public class RelicSpells {
      * SECTION: GREATER TIER SPELLS
      */
 
-//    public static Entry greater_evasion_damage = add(greater_evasion_damage());
-//    private static Entry greater_evasion_damage() {
-//        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_evasion_damage");
-//    }
-
     public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
     private static Entry greater_perk_roll_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_roll_damage");
@@ -1034,6 +1070,82 @@ public class RelicSpells {
         spell.impacts = List.of(heal);
 
         configureCooldown(spell, 4);
+
+        return new Entry(id, spell, title, description, null);
+    }
+
+    public static Entry greater_perk_evasion_attack = add(greater_perk_evasion_attack());
+    private static Entry greater_perk_evasion_attack() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_evasion_attack");
+        var title = "Counterattack";
+        var description = "Evading an attack has a {trigger_chance_1} chance to make your next attack {bonus} stronger.";
+        var effect = RelicEffects.GREATER_EVASION_ATTACK;
+        SpellTooltip.DescriptionMutator mutator = (args) -> {
+            var modifier = effect.config().firstModifier();
+            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
+            return args.description().replace("{bonus}", bonus);
+        };
+
+        var spell = passiveSpellBase();
+        spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
+
+        spell.release.sound = new Sound(RelicSounds.HOOK_ACTIVATE.id().toString());
+        spell.release.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SPARK,
+                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        25, 0.3F, 0.3F)
+                        .color(Color.from(0xccffff).toRGBA())
+                        .preSpawnTravel(4)
+                        .followEntity(true)
+                        .invert()
+        };
+
+        spell.target.type = Spell.Target.Type.FROM_TRIGGER;
+        var trigger = SpellBuilder.Triggers.evade();
+        trigger.chance = 0.5F;
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        SpellBuilder.Deliver.stash(spell, effect.id.toString(), 10, SpellBuilder.Triggers.meleeAttack(false));
+
+        configureCooldown(spell, 10);
+
+        return new Entry(id, spell, title, description, mutator);
+    }
+
+    public static Entry greater_perk_shield_reset = add(greater_perk_shield_reset());
+    public static Entry greater_perk_shield_reset() {
+        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_shield_reset");
+        var title = "Shield Recharge";
+        var description = "Rolling resets the cooldown of your currently held shield.";
+        var spell = passiveSpellBase();
+        spell.school = SpellSchools.HEALING;
+
+        var trigger = SpellBuilder.Triggers.roll();
+        trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
+        spell.passive.triggers = List.of(trigger);
+
+        var reset = new Spell.Impact();
+        reset.action = new Spell.Impact.Action();
+        reset.action.type = Spell.Impact.Action.Type.CUSTOM;
+        reset.action.custom = new Spell.Impact.Action.Custom();
+        reset.action.custom.handler = RelicMechanics.SHIELD_RESET.toString();
+
+        reset.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_1.id().toString());
+        reset.particles = new ParticleBatch[]{
+                new ParticleBatch(
+                        SpellEngineParticles.MagicParticles.get(
+                                SpellEngineParticles.MagicParticles.Shape.SPARK,
+                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
+                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
+                        20, 0.4F, 0.4F)
+                        .color(Color.from(0x66ccff).toRGBA()),
+        };
+
+        spell.impacts = List.of(reset);
 
         return new Entry(id, spell, title, description, null);
     }

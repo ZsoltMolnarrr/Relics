@@ -39,6 +39,11 @@
       "relics_rpgs:holy_water_impact"
     ]
   },
+  "hook_activate": {
+    "sounds": [
+      "relics_rpgs:hook_activate"
+    ]
+  },
   "horn_activate": {
     "sounds": [
       "relics_rpgs:horn_activate"
@@ -72,6 +77,11 @@
   "melee_activate_1": {
     "sounds": [
       "relics_rpgs:melee_activate_1"
+    ]
+  },
+  "monkey_activate": {
+    "sounds": [
+      "relics_rpgs:monkey_activate"
     ]
   },
   "potion_generic": {

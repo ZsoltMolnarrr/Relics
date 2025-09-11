@@ -230,6 +230,20 @@ public class RelicEffects {
                     )
             )
     ));
+    public static Effects.Entry MEDIUM_EVASION = add(new Effects.Entry(Identifier.of(RelicsMod.NAMESPACE,"medium_evasion"),
+            "Monkey's Agility",
+            "Increases evasion chance.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    SpellEngineAttributes.EVASION_CHANCE.id.toString(),
+                                    T2_BUFF_MULTIPLIER,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
+    ));
     public static Effects.Entry MEDIUM_SPELL_POWER = add(new Effects.Entry(Identifier.of(RelicsMod.NAMESPACE,"medium_spell_power"),
             "Spell Power",
             "Increases spell power.",
@@ -336,6 +350,21 @@ public class RelicEffects {
                             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
             ))
+    ));
+
+    public static Effects.Entry GREATER_EVASION_ATTACK = add(new Effects.Entry(Identifier.of(RelicsMod.NAMESPACE,"greater_evasion_attack"),
+            "Evasion",
+            "Increases attack damage.",
+            new CustomStatusEffect(StatusEffectCategory.BENEFICIAL, 0x888888),
+            new EffectConfig(
+                    List.of(
+                            new AttributeModifier(
+                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    0.5F,
+                                    EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
+                            )
+                    )
+            )
     ));
 
     public static Effects.Entry GREATER_PHYSICAL_TRANCE = add(new Effects.Entry(Identifier.of(RelicsMod.NAMESPACE,"greater_physical_trance"),

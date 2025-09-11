@@ -1,3 +1,10 @@
+# 1.0.9
+
+- Add new relics:
+  - Monkey Talisman
+  - Captain's Hook
+  - Etienne's Enigma
+
 # 1.0.8
 
 - Fix scaling of Sacred Wardstone

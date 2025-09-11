@@ -17,6 +17,10 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:medium_proc_evasion",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:medium_proc_frost_power",
       "required": false
     },

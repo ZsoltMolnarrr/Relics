@@ -10,6 +10,7 @@ import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.ItemCompat;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
+import net.relics_rpgs.spell.RelicMechanics;
 import net.relics_rpgs.spell.RelicSounds;
 import net.spell_engine.api.config.ConfigFile;
 import net.tinyconfig.ConfigManager;
@@ -37,6 +38,7 @@ public class RelicsMod implements ModInitializer {
         itemConfig.refresh();
         effectConfig.refresh();
         ItemCompat.init();
+        RelicMechanics.init();
         Group.GROUP = FabricItemGroup.builder()
                 .icon(Group.ICON)
                 .displayName(Text.translatable(Group.translationKey))
