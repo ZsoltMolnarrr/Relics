@@ -7,14 +7,14 @@
   "authors": [ "Daedelus" ],
   "contact": {},
   "license": "All-Rights-Reserved",
-  "icon": "assets/relics_rpgs/icon.png",
+  "icon": "icon.png",
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.relics_rpgs.client.RelicsClient"
+      "net.relics.fabric.client.FabricClientMod"
     ],
     "main": [
-      "net.relics_rpgs.RelicsMod"
+      "net.relics.fabric.FabricMod"
     ],
     "fabric-datagen": [
       "net.relics_rpgs.datagen.RelicsDataGen"

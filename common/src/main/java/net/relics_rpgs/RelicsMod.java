@@ -1,21 +1,19 @@
 package net.relics_rpgs;
 
-import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.item.Group;
-import net.relics_rpgs.item.ItemCompat;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicMechanics;
 import net.relics_rpgs.spell.RelicSounds;
 import net.spell_engine.api.config.ConfigFile;
-import net.tinyconfig.ConfigManager;
+import net.tiny_config.ConfigManager;
 
-public class RelicsMod implements ModInitializer {
+public class RelicsMod {
     public static final String NAMESPACE = "relics_rpgs";
     public static final String DIRECTORY = "relics";
     public static ConfigManager<ItemConfig> itemConfig = new ConfigManager<>
@@ -32,12 +30,10 @@ public class RelicsMod implements ModInitializer {
             .sanitize(true)
             .build();
 
-    @Override
-    public void onInitialize() {
+    public static void init() {
         RelicSounds.register();
         itemConfig.refresh();
         effectConfig.refresh();
-        ItemCompat.init();
         RelicMechanics.init();
         Group.GROUP = FabricItemGroup.builder()
                 .icon(Group.ICON)

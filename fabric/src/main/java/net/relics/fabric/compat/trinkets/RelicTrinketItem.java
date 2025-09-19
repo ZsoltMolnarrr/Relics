@@ -1,4 +1,4 @@
-package net.relics_rpgs.item;
+package net.relics.fabric.compat.trinkets;
 
 import com.google.common.collect.Multimap;
 import dev.emi.trinkets.api.SlotReference;

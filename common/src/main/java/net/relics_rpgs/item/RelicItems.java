@@ -36,16 +36,6 @@ public class RelicItems {
         return entry;
     }
 
-    public record ItemArgs(Item.Settings settings, @Nullable AttributeModifiersComponent attributes) { }
-    public static Function<ItemArgs, Item> factory = args -> {
-        var settings = args.settings;
-        if (args.attributes != null) {
-            settings.attributeModifiers(args.attributes);
-        }
-        return new Item(settings);
-    };
-    private static Function<ItemArgs, Item> getFactory() { return factory; }
-
     public static final class Entry {
         private final int tier;
         public String lootTheme;
@@ -85,7 +75,7 @@ public class RelicItems {
                 if (rarity != Rarity.COMMON) {
                     settings = settings.rarity(rarity);
                 }
-                return getFactory().apply(new ItemArgs(settings, attributes));
+                return RelicFactory.getFactory().apply(new RelicFactory.ItemArgs(settings, attributes));
             });
         }
 

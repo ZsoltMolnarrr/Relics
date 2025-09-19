@@ -1,3 +1,7 @@
+# 1.1.0
+
+- Migrate to Architectury
+
 # 1.0.9
 
 - Add new relics:

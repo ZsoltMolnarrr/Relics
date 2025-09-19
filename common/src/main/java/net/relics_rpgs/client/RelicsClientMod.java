@@ -1,6 +1,5 @@
 package net.relics_rpgs.client;
 
-import net.fabricmc.api.ClientModInitializer;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
@@ -11,16 +10,13 @@ import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 
-public class RelicsClient implements ClientModInitializer {
-
-    @Override
-    public void onInitializeClient() {
+public class RelicsClientMod {
+    public static void init() {
         for (var entry: RelicSpells.entries) {
             if (entry.mutator() != null) {
                 SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
             }
         }
-
 
         var spark_float = SpellEngineParticles.MagicParticles.get(
                 SpellEngineParticles.MagicParticles.Shape.SPARK,
