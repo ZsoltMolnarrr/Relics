@@ -11,10 +11,10 @@
   "environment": "*",
   "entrypoints": {
     "client": [
-      "net.relics.fabric.client.FabricClientMod"
+      "net.relics_rpgs.fabric.client.FabricClientMod"
     ],
     "main": [
-      "net.relics.fabric.FabricMod"
+      "net.relics_rpgs.fabric.FabricMod"
     ],
     "fabric-datagen": [
       "net.relics_rpgs.datagen.RelicsDataGen"

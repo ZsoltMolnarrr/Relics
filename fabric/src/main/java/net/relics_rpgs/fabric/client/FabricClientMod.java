@@ -1,4 +1,4 @@
-package net.relics.fabric.client;
+package net.relics_rpgs.fabric.client;
 
 import net.fabricmc.api.ClientModInitializer;
 import net.relics_rpgs.client.RelicsClientMod;

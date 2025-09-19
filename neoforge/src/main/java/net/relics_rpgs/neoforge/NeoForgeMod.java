@@ -1,4 +1,4 @@
-package net.relics.neoforge;
+package net.relics_rpgs.neoforge;
 
 import net.minecraft.item.ItemGroup;
 import net.minecraft.registry.Registries;
@@ -8,13 +8,14 @@ import net.minecraft.text.Text;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.registries.RegisterEvent;
+import net.relics_rpgs.neoforge.compat.CompatFeatures;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
 
 @Mod(RelicsMod.NAMESPACE)
 public final class NeoForgeMod {
     public NeoForgeMod(IEventBus modBus) {
-        // Run our common setup.
+        CompatFeatures.init();
         RelicsMod.init();
         modBus.addListener(RegisterEvent.class, NeoForgeMod::register);
     }

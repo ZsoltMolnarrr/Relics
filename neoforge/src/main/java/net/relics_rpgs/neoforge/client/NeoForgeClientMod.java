@@ -1,4 +1,4 @@
-package net.relics.neoforge.client;
+package net.relics_rpgs.neoforge.client;
 
 import net.neoforged.api.distmarker.Dist;
 import net.neoforged.bus.api.SubscribeEvent;

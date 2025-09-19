@@ -1,11 +1,11 @@
-package net.relics.fabric;
+package net.relics_rpgs.fabric;
 
 import net.fabricmc.api.ModInitializer;
 import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
 import net.minecraft.text.Text;
-import net.relics.fabric.compat.CompatFeatures;
+import net.relics_rpgs.fabric.compat.CompatFeatures;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
 
