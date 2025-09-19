@@ -1,6 +1,5 @@
 package net.relics_rpgs;
 
-import net.relics_rpgs.compat.AccessoriesCompat;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
@@ -27,7 +26,6 @@ public class RelicsMod {
             .build();
 
     public static void init() {
-        AccessoriesCompat.init();
         itemConfig.refresh();
         effectConfig.refresh();
         RelicMechanics.init();
