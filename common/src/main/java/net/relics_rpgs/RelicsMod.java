@@ -1,11 +1,6 @@
 package net.relics_rpgs;
 
-import net.fabricmc.fabric.api.itemgroup.v1.FabricItemGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.text.Text;
 import net.relics_rpgs.config.ItemConfig;
-import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicMechanics;
@@ -31,17 +26,23 @@ public class RelicsMod {
             .build();
 
     public static void init() {
-        RelicSounds.register();
         itemConfig.refresh();
         effectConfig.refresh();
         RelicMechanics.init();
-        Group.GROUP = FabricItemGroup.builder()
-                .icon(Group.ICON)
-                .displayName(Text.translatable(Group.translationKey))
-                .build();
-        Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
+        itemConfig.save();
+        effectConfig.save();
+    }
+
+    public static void registerSounds() {
+        RelicSounds.register();
+    }
+
+    public static void registerItems() {
         RelicItems.register(itemConfig.value.entries);
         itemConfig.save();
+    }
+
+    public static void registerEffects() {
         RelicEffects.register(effectConfig.value);
         effectConfig.save();
     }
