@@ -6,7 +6,8 @@ import net.relics_rpgs.item.RelicFactory;
 public class TrinketsCompat {
     public static void init() {
         if (FabricLoader.getInstance().isModLoaded("trinkets")) {
-            RelicFactory.factory = args -> new RelicTrinketItem(args.settings(), args.attributes());
+            // Outsource to avoid class loading issues
+            TrinketsHelper.registerFactory();
         }
     }
 }
