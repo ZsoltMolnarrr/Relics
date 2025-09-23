@@ -61,6 +61,7 @@ public class RelicSpells {
 
     private static Spell activeSpellBase() {
         var spell = new Spell();
+        spell.secondary_archetype = Spell.ExtendedArchetype.ANY;
         spell.range = 0;
         spell.tier = 7;
 

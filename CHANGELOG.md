@@ -1,3 +1,7 @@
+# 1.1.1
+
+- Update spells for Spell Engine 1.8.1 filtering
+
 # 1.1.0
 
 - Migrate to Architectury

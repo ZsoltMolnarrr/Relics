@@ -1,5 +1,6 @@
 {
   "school": "spell_power:healing",
+  "secondary_archetype": "ANY",
   "range": 0.0,
   "tier": 7,
   "tooltip": {
