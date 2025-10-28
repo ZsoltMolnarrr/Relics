@@ -1,3 +1,7 @@
+# 1.2.0
+
+- Rework slot mod compatibility
+
 # 1.1.2
 
 - Update translations
