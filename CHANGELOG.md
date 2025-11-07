@@ -1,3 +1,7 @@
+# 1.2.1
+
+- Add new Critical Strike related common attributes
+
 # 1.2.0
 
 - Rework slot mod compatibility
