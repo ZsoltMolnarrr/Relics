@@ -3,7 +3,6 @@ package net.relics_rpgs.item;
 import com.google.common.base.Suppliers;
 import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
-import net.minecraft.component.type.AttributeModifiersComponent;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
@@ -26,7 +25,6 @@ import org.jetbrains.annotations.Nullable;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
-import java.util.function.Function;
 import java.util.function.Supplier;
 
 public class RelicItems {
@@ -60,8 +58,9 @@ public class RelicItems {
             this.item = Suppliers.memoize(() -> {
                 var settings = new Item.Settings()
                         .maxCount(1);
-                var attributes = (config().attributes != null && !config().attributes.isEmpty())
-                        ? ConfigUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), config().attributes).build()
+                var selectedAttributes = config().selectedAttributes();
+                var attributes = (selectedAttributes != null && !selectedAttributes.isEmpty())
+                        ? ConfigUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), selectedAttributes).build()
                         : null;
                 var spellContainer = spellContainer();
                 if (spellContainer != null) {
@@ -137,7 +136,11 @@ public class RelicItems {
         }
     }
 
-    public static final String COMBAT_ROLL_COUNT = "combat_roll:count";
+    public static final String COMBAT_ROLL_MODID = "combat_roll";
+    public static final String COMBAT_ROLL_COUNT = COMBAT_ROLL_MODID + ":count";
+    public static final String CRITICAL_STRIKE_MODID = "critical_strike";
+    public static final String CRITICAL_STRIKE_CHANCE = CRITICAL_STRIKE_MODID + ":chance";
+    public static final String CRITICAL_STRIKE_DAMAGE = CRITICAL_STRIKE_MODID + ":damage";
 
     private static final float tier_0_multiplier = 0.05F;
 
@@ -184,6 +187,9 @@ public class RelicItems {
     public static final Entry LESSER_ROLL = add(new Entry(1, "lesser_roll", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
+                            new AttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+                    .withConditionalAttributes(COMBAT_ROLL_MODID, List.of(
                             new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
@@ -193,6 +199,25 @@ public class RelicItems {
                             new AttributeModifier(SpellEngineAttributes.EVASION_CHANCE.id.toString(), 0.03F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
+    public static final Entry LESSER_MELEE_CRIT_CHANCE = add(new Entry(1, "lesser_melee_crit_chance", "Dice of Fate"))
+            .config(new ItemConfig.Entry()
+                    .withAttributes(List.of(
+                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+                    .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
+                            new AttributeModifier(CRITICAL_STRIKE_CHANCE, 0.05F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+            );
+    public static final Entry LESSER_MELEE_CRIT_DAMAGE = add(new Entry(1, "lesser_melee_crit_damage", "Serrated Fang"))
+            .config(new ItemConfig.Entry()
+                    .withAttributes(List.of(
+                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+                    .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
+                            new AttributeModifier(CRITICAL_STRIKE_DAMAGE, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                    ))
+            );
+
     public static final Entry LESSER_USE_DAMAGE = add(new Entry(1, "lesser_use_damage", "Meteorite Whetstone"))
             .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_damage.id()));
     public static final Entry LESSER_USE_DEX = add(new Entry(1, "lesser_use_dex", "Medal of Valor"))

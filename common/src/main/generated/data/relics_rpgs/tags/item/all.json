@@ -33,6 +33,14 @@
       "required": false
     },
     {
+      "id": "relics_rpgs:lesser_melee_crit_chance",
+      "required": false
+    },
+    {
+      "id": "relics_rpgs:lesser_melee_crit_damage",
+      "required": false
+    },
+    {
       "id": "relics_rpgs:lesser_use_damage",
       "required": false
     },

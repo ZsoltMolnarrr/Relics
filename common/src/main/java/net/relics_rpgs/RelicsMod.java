@@ -12,7 +12,7 @@ public class RelicsMod {
     public static final String NAMESPACE = "relics_rpgs";
     public static final String DIRECTORY = "relics";
     public static ConfigManager<ItemConfig> itemConfig = new ConfigManager<>
-            ("items", new ItemConfig())
+            ("items_v2", new ItemConfig())
             .builder()
             .setDirectory(DIRECTORY)
             .sanitize(true)
