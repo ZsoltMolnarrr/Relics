@@ -46,6 +46,7 @@ public class RelicItems {
 
         public Entry(int tier, String name, String translatedName) {
             this(tier, name, translatedName, ItemConfig.Entry.EMPTY);
+            this.lootTheme = "generic";
         }
 
         public Entry(int tier, String name, String translatedName, ItemConfig.Entry config) {
