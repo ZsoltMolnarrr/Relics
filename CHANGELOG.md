@@ -1,3 +1,8 @@
+# 1.2.2
+
+- Add `generic` loot theme tag
+- Update translations
+
 # 1.2.1
 
 - Add new Critical Strike related common attributes
