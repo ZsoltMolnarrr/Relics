@@ -19,8 +19,8 @@ import net.relics_rpgs.spell.RelicSounds;
 import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.datagen.SimpleSoundGenerator;
 import net.spell_engine.api.datagen.SpellGenerator;
-import net.spell_engine.api.item.Equipment;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
+import net.spell_engine.rpg_series.item.Equipment;
 
 import java.util.HashMap;
 import java.util.concurrent.CompletableFuture;

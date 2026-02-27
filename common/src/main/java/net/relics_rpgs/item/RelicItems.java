@@ -18,7 +18,7 @@ import net.spell_engine.api.config.ConfigUtil;
 import net.spell_engine.api.entity.SpellEngineAttributes;
 import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainer;
-import net.spell_engine.api.spell.container.SpellContainerHelper;
+import net.spell_engine.api.spell.container.SpellContainers;
 import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
@@ -220,55 +220,55 @@ public class RelicItems {
             );
 
     public static final Entry LESSER_USE_DAMAGE = add(new Entry(1, "lesser_use_damage", "Meteorite Whetstone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_damage.id()));
     public static final Entry LESSER_USE_DEX = add(new Entry(1, "lesser_use_dex", "Medal of Valor"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_dex.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_dex.id()));
     public static final Entry LESSER_USE_RANGED = add(new Entry(1, "lesser_use_ranged", "Eagle Eye"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_ranged.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_ranged.id()));
     public static final Entry LESSER_USE_HEALTH = add(new Entry(1, "lesser_use_health", "Everflowing Vial"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_health.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_health.id()));
     public static final Entry LESSER_USE_SPELL_POWER = add(new Entry(1, "lesser_use_spell_power", "Silver Crescent"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_spell_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_spell_power.id()));
     public static final Entry LESSER_USE_SPELL_HASTE = add(new Entry(1, "lesser_use_spell_haste", "Sorcerer’s Chronograph"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_use_spell_haste.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_use_spell_haste.id()));
     public static final Entry LESSER_PROC_SPELL_CRIT = add(new Entry(1, "lesser_proc_spell_crit", "Scarab of Infinite Mysteries"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_spell_crit.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_proc_spell_crit.id()));
     public static final Entry LESSER_PROC_CRIT_DAMAGE = add(new Entry(1, "lesser_proc_crit_damage", "Splintered Focus Crystal"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_crit_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_proc_crit_damage.id()));
     public static final Entry LESSER_PROC_ARCANE_FIRE = add(new Entry(1, "lesser_proc_arcane_fire", "Spellfire Stone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_arcane_fire.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_proc_arcane_fire.id()));
     public static final Entry LESSER_PROC_FROST_HEALING = add(new Entry(1, "lesser_proc_frost_healing", "Frozen Lotus"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.lesser_proc_frost_healing.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.lesser_proc_frost_healing.id()));
 
     public static final Entry MEDIUM_PROC_ATTACK_DAMAGE = add(new Entry(2, "medium_proc_attack_damage", "Badge of Tenacity"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_attack_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_attack_damage.id()));
     public static final Entry MEDIUM_PROC_ATTACK_SPEED = add(new Entry(2, "medium_proc_attack_speed", "Dragon Skull Trophy"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_attack_speed.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_attack_speed.id()));
     public static final Entry MEDIUM_PROC_RANGED_DAMAGE = add(new Entry(2, "medium_proc_ranged_damage", "Golden Bowstring"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_ranged_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_ranged_damage.id()));
     public static final Entry MEDIUM_PROC_DEFENSE = add(new Entry(2, "medium_proc_defense", "Titanium Nautilus Shell"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_defense.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_defense.id()));
     public static final Entry MEDIUM_PROC_EVASION = add(new Entry(2, "medium_proc_evasion", "Monkey Talisman"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_evasion.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_evasion.id()));
     public static final Entry MEDIUM_PROC_SPELL_POWER = add(new Entry(2, "medium_proc_spell_power", "Crystal Skull"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_spell_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_spell_power.id()));
     public static final Entry MEDIUM_PROC_SPELL_HASTE = add(new Entry(2, "medium_proc_spell_haste", "Hourglass of the Unraveller"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_proc_spell_haste.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_proc_spell_haste.id()));
     public static final Entry MEDIUM_USE_ARCANE_POWER = add(new Entry(2, "medium_proc_arcane_power", "Arcane Orb"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_arcane_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_use_arcane_power.id()));
     public static final Entry MEDIUM_USE_FIRE_POWER = add(new Entry(2, "medium_proc_fire_power", "Fire Orb"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_fire_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_use_fire_power.id()));
     public static final Entry MEDIUM_USE_FROST_POWER = add(new Entry(2, "medium_proc_frost_power", "Frost Orb"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_frost_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_use_frost_power.id()));
     public static final Entry MEDIUM_USE_HEALING_POWER = add(new Entry(2, "medium_proc_healing_power", "Holy Orb"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_healing_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.medium_use_healing_power.id()));
 //    public static final Entry MEDIUM_USE_LIGHTNING_POWER = add(new Entry(2, "medium_proc_lightning_power", "Lightning Orb"))
-//            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_lightning_power.id()));
+//            .spell(SpellContainers.forRelic(RelicSpells.medium_use_lightning_power.id()));
 //    public static final Entry MEDIUM_USE_SOUL_POWER = add(new Entry(2, "medium_proc_soul_power", "Soul Orb"))
-//            .spell(SpellContainerHelper.createForRelic(RelicSpells.medium_use_soul_power.id()));
+//            .spell(SpellContainers.forRelic(RelicSpells.medium_use_soul_power.id()));
 
     public static final Entry GREATER_PERK_ROLL_DAMAGE = add(new Entry(3, "greater_perk_roll_damage", "Thunderbird Feather"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_roll_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_roll_damage.id()));
     public static final Entry GREATER_HEALING_TAKEN = add(new Entry(3, "greater_healing_taken", "Ankh"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
@@ -276,40 +276,40 @@ public class RelicItems {
                     ))
             );
     public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_melee_stun.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_melee_stun.id()));
     public static final Entry GREATER_PERK_RANGED_LEVITATE = add(new Entry(3, "greater_perk_ranged_levitate", "Updraft Arrow"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_ranged_levitate.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_ranged_levitate.id()));
     public static final Entry GREATER_PERK_SPELL_STUN = add(new Entry(3, "greater_perk_spell_stun", "Malevolent Gaze"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_spell_stun.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_spell_stun.id()));
     public static final Entry GREATER_PERK_DEFENSE_BLOCK = add(new Entry(3, "greater_perk_defense_block", "Sacred Wardstone"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_defense_block.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_defense_block.id()));
     public static final Entry GREATER_PERK_EVASION_ATTACK = add(new Entry(3, "greater_perk_evasion_attack", "Captain's Hook"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_evasion_attack.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_evasion_attack.id()));
     public static final Entry GREATER_PERK_SHIELD_RESET = add(new Entry(3, "greater_perk_shield_reset", "Etienne's Enigma"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_shield_reset.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_shield_reset.id()));
     public static final Entry GREATER_PERK_HEAL_CLEANSE = add(new Entry(3, "greater_perk_heal_cleanse", "Holy Water"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_cleanse.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_heal_cleanse.id()));
     public static final Entry GREATER_PROC_PHYSICAL_TRANCE = add(new Entry(3, "greater_proc_physical_trance", "Sharpened Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_physical_trance.id()))
+            .spell(SpellContainers.forRelic(RelicSpells.greater_proc_physical_trance.id()))
             .lootTheme("dragon");
     public static final Entry GREATER_PROC_SPELL_TRANCE = add(new Entry(3, "greater_proc_spell_trance", "Twisted Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_spell_trance.id()))
+            .spell(SpellContainers.forRelic(RelicSpells.greater_proc_spell_trance.id()))
             .lootTheme("dragon");
     public static final Entry GREATER_PERK_HEAL_DANGER = add(new Entry(3, "greater_perk_heal_danger", "Verdant Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_perk_heal_danger.id()))
+            .spell(SpellContainers.forRelic(RelicSpells.greater_perk_heal_danger.id()))
             .lootTheme("dragon");
     public static final Entry GREATER_PROC_DEFENSE_DANGER = add(new Entry(3, "greater_proc_defense_danger", "Petrified Dragon Scale"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.greater_proc_defense_danger.id()))
+            .spell(SpellContainers.forRelic(RelicSpells.greater_proc_defense_danger.id()))
             .lootTheme("dragon");
 
     public static final Entry SUPERIOR_USE_AREA_ATTACK_DAMAGE = add(new Entry(4, "superior_use_area_attack_damage", "Horn of the White City"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_area_attack_damage.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.superior_use_area_attack_damage.id()));
     public static final Entry SUPERIOR_USE_AREA_DEFENSE_HEALTH = add(new Entry(4, "superior_use_area_defense_health", "Heart of the Beast"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_area_defense_health.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.superior_use_area_defense_health.id()));
     public static final Entry SUPERIOR_USE_ZONE_SPELL_POWER = add(new Entry(4, "superior_use_zone_spell_power", "Black Orb"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_zone_spell_power.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.superior_use_zone_spell_power.id()));
     public static final Entry SUPERIOR_USE_ZONE_HEALING_TAKEN = add(new Entry(4, "superior_use_zone_healing_taken", "Glimmering Crystal Sliver"))
-            .spell(SpellContainerHelper.createForRelic(RelicSpells.superior_use_zone_healing_taken.id()));
+            .spell(SpellContainers.forRelic(RelicSpells.superior_use_zone_healing_taken.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {

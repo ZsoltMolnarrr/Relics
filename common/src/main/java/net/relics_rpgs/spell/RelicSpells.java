@@ -10,6 +10,7 @@ import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
@@ -146,7 +147,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.WHITE, 25)
@@ -178,7 +179,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.FROST, 25)
@@ -206,7 +207,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.NATURE, 25)
@@ -237,7 +238,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
 
-        // spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        // spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.POTION_GENERIC.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
@@ -273,7 +274,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.WHITE, 25)
@@ -301,7 +302,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_1.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.HOLY, 25)
@@ -337,7 +338,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.HOLY, 25)
@@ -376,7 +377,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.HOLY, 25)
@@ -412,7 +413,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.ARCANE, 12),
@@ -450,7 +451,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:one_handed_healing_release";
+        spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 lesserActivateParticles(Color.FROST, 12),
@@ -533,7 +534,7 @@ public class RelicSpells {
         trigger.type = Spell.Trigger.Type.MELEE_IMPACT;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MELEE_ACTIVATE_1.id());
         spell.release.particles = mediumActivateParticlesSphere(Color.WHITE, 25);
 
@@ -566,7 +567,7 @@ public class RelicSpells {
         ranged_trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
         spell.passive.triggers = List.of(melee_trigger, ranged_trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id());
         spell.release.particles = mediumActivateParticlesSphere(Color.FROST, 25);
 
@@ -596,7 +597,7 @@ public class RelicSpells {
         trigger.type = Spell.Trigger.Type.ARROW_IMPACT;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BOW_STRING_ACTIVATE.id());
         spell.release.particles = mediumActivateParticlesSphere(Color.NATURE, 25);
 
@@ -626,7 +627,7 @@ public class RelicSpells {
         trigger.type = Spell.Trigger.Type.DAMAGE_TAKEN;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_1.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -669,7 +670,7 @@ public class RelicSpells {
         trigger.chance = T2_PROC_CHANCE * 2;
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MONKEY_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -712,7 +713,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_2.id());
         spell.release.particles = mediumActivateParticlesSphere(Color.WHITE, 50);
 
@@ -748,7 +749,7 @@ public class RelicSpells {
 
         spell.passive.triggers = List.of(trigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_2.id().toString());
         spell.release.particles = mediumActivateParticlesPipe(Color.HOLY, 50);
 
@@ -774,7 +775,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -814,7 +815,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.FIRE;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -848,7 +849,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.FROST;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -885,7 +886,7 @@ public class RelicSpells {
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -1110,7 +1111,10 @@ public class RelicSpells {
         trigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.passive.triggers = List.of(trigger);
 
-        SpellBuilder.Deliver.stash(spell, effect.id.toString(), 10, SpellBuilder.Triggers.meleeAttack(false));
+        SpellBuilder.Deliver.stash(spell, effect.id.toString(), 10,
+                SpellBuilder.Triggers.withConditionMustWield(
+                        SpellBuilder.Triggers.meleeImpact()
+                ));
 
         configureCooldown(spell, 10);
 
@@ -1244,7 +1248,7 @@ public class RelicSpells {
         stashRangedTrigger.target_override = Spell.Trigger.TargetSelector.CASTER;
         spell.deliver.stash_effect.triggers = List.of(stashMeleeTrigger, stashRangedTrigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -1311,7 +1315,7 @@ public class RelicSpells {
         stashTrigger.impact.impact_type = Spell.Impact.Action.Type.DAMAGE.toString();
         spell.deliver.stash_effect.triggers = List.of(stashTrigger);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_3.id());
         spell.release.particles = new ParticleBatch[]{
                 new ParticleBatch(
@@ -1462,7 +1466,7 @@ public class RelicSpells {
         spell.target.area = new Spell.Target.Area();
         spell.target.area.include_caster = true;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = Sound.withRandomness(RelicSounds.HORN_ACTIVATE.id(), 0);
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(Color.HOLY, 0.8F),
@@ -1497,7 +1501,7 @@ public class RelicSpells {
         spell.target.area = new Spell.Target.Area();
         spell.target.area.include_caster = true;
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.HEART_OF_BEAST_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(Color.RAGE, 0.8F),
@@ -1566,7 +1570,7 @@ public class RelicSpells {
         cloud.presence_sound = new Sound(RelicSounds.MAGIC_ZONE_PRESENCE.id());
         spell.deliver.clouds = List.of(cloud);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_ZONE_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(Color.WHITE, 0.6F)
@@ -1605,7 +1609,7 @@ public class RelicSpells {
         cloud.presence_sound = new Sound(RelicSounds.MAGIC_ZONE_PRESENCE.id());
         spell.deliver.clouds = List.of(cloud);
 
-        spell.release.animation = "spell_engine:dual_handed_weapon_charge";
+        spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.HEALING_ZONE_ACTIVATE.id().toString());
         spell.release.particles = new ParticleBatch[]{
                 areaSpellCircle(Color.FROST, 0.6F)
