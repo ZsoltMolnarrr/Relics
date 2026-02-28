@@ -1112,9 +1112,7 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         SpellBuilder.Deliver.stash(spell, effect.id.toString(), 10,
-                SpellBuilder.Triggers.withConditionMustWield(
-                        SpellBuilder.Triggers.meleeImpact()
-                ));
+                SpellBuilder.Triggers.meleeImpact());
 
         configureCooldown(spell, 10);
 
