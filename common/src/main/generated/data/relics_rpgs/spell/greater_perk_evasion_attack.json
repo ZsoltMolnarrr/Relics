@@ -50,12 +50,10 @@
       "id": "relics_rpgs:greater_evasion_attack",
       "triggers": [
         {
-          "type": "MELEE_IMPACT",
-          "equipment_condition": "MAINHAND"
+          "type": "MELEE_IMPACT"
         },
         {
           "type": "SPELL_IMPACT_SPECIFIC",
-          "equipment_condition": "MAINHAND",
           "spell": {
             "archetype": "MELEE",
             "type": "ACTIVE"
