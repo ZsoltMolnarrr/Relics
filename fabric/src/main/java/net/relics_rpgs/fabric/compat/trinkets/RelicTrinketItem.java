@@ -12,6 +12,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import org.jetbrains.annotations.Nullable;
+import com.google.common.collect.ArrayListMultimap;
 
 public class RelicTrinketItem extends TrinketItem {
     private AttributeModifiersComponent customAttributes = AttributeModifiersComponent.builder().build();
@@ -24,14 +25,18 @@ public class RelicTrinketItem extends TrinketItem {
     }
 
     public Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
-        var modifiers = super.getModifiers(stack, slot, entity, slotIdentifier);
-        for (var entry : this.customAttributes.modifiers()) {
-            modifiers.put(entry.attribute(),
-                    new EntityAttributeModifier(slotIdentifier, entry.modifier().value(), entry.modifier().operation()));
-        }
-        return modifiers;
-    }
+        var defaultModifiers = super.getModifiers(stack, slot, entity, slotIdentifier);
+        Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> mutableModifiers = ArrayListMultimap.create(defaultModifiers);
+        String itemName = net.minecraft.registry.Registries.ITEM.getId(stack.getItem()).getPath();
 
+        for (var entry : this.customAttributes.modifiers()) {
+            Identifier uniqueModId = Identifier.of(slotIdentifier.getNamespace(),
+                    slotIdentifier.getPath() + "_" + itemName + "_" + entry.modifier().id().getPath());
+            mutableModifiers.put(entry.attribute(),
+                    new EntityAttributeModifier(uniqueModId, entry.modifier().value(), entry.modifier().operation()));
+        }
+        return mutableModifiers;
+    }
     public void setConfigurableModifiers(AttributeModifiersComponent component) {
         this.customAttributes = component;
     }
