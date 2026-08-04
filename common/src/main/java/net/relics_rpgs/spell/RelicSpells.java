@@ -9,7 +9,10 @@ import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.ExternalSpellSchools;
 import net.spell_engine.api.spell.Spell;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.Fx;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
 import net.spell_engine.client.gui.SpellTooltip;
@@ -24,6 +27,7 @@ import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.function.Consumer;
 
 public class RelicSpells {
     public record Entry(Identifier id, Spell spell, String title, String description,
@@ -118,19 +122,14 @@ public class RelicSpells {
 
     public static Entry lesser_use_damage = add(lesser_use_damage());
 
-    private static @NotNull ParticleBatch lesserActivateParticles(Color color, int count) {
-        return lesserActivateParticles(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                count)
-                .color(color.toRGBA());
+    private static @NotNull ParticleGroup lesserActivateParticles(Color color, int count) {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.DECELERATE, color)
+                .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(count).speed(0.14F, 0.15F));
     }
 
-    private static @NotNull ParticleBatch lesserActivateParticles(String particleId, int count) {
-        return new ParticleBatch(
-                particleId,
-                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                count, 0.14F, 0.15F);
+    private static @NotNull ParticleGroup lesserActivateParticles(String particleId, int count) {
+        return ParticleGroupBuilder.of(particleId)
+                .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(count).speed(0.14F, 0.15F));
     }
 
     private static Entry lesser_use_damage() {
@@ -149,9 +148,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SHARPEN.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.WHITE, 25)
-        };
+        );
 
         var buff = createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
@@ -181,9 +180,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MEDAL_USE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.FROST, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -209,9 +208,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.EAGLE_BOOST.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.NATURE, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -240,10 +239,14 @@ public class RelicSpells {
 
         // spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge";
         spell.release.sound = new Sound(RelicSounds.POTION_GENERIC.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:magic_nature_impact_decelerate", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 10, 0.14F, 0.15F, 0.0F, -0.2F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                // NOTE: `magic_nature_impact_decelerate` was never a registered particle id — there is
+                // no `nature` magic shape, in V1 or now. Ported verbatim; it draws nothing until the id
+                // is corrected (`magic_heal` is the likely intent).
+                ParticleGroupBuilder.of("spell_engine:magic_nature_impact_decelerate")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(10)
+                                .speed(0.14F, 0.15F).extent(-0.2F))
+        );
 
         var heal = new Spell.Impact();
         heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
@@ -276,9 +279,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.WHITE, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -304,9 +307,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_1.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.HOLY, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
@@ -340,9 +343,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.HOLY, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
@@ -379,9 +382,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.HOLY, 25)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
@@ -415,10 +418,10 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.ARCANE, 12),
                 lesserActivateParticles(SpellEngineParticles.flame_spark.id().toString(), 12)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
@@ -453,10 +456,10 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:one_handed_healing_release");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 lesserActivateParticles(Color.FROST, 12),
                 lesserActivateParticles(Color.HOLY, 12)
-        };
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
@@ -468,50 +471,48 @@ public class RelicSpells {
      * SECTION: MEDIUM TIER SPELLS
      */
 
-    private static ParticleBatch[] mediumActivateParticlesSphere(Color color, int count) {
-        return mediumActivateParticlesSphere(SpellEngineParticles.MagicParticles.get(
-                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                color,
-                count);
+    /// Two concentric shells of decelerating sparks — the "medium relic activates" burst.
+    private static Fx.Visuals mediumActivateVisualsSphere(Color color, int count) {
+        return Fx.Visuals.of(
+                mediumSpark(color).batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                        .count(count).speed(0.14F, 0.15F)),
+                mediumSpark(color).batch(b -> b.shape(ParticleGroup.Shape.SPHERE)
+                        .count(count).speed(0.24F, 0.25F))
+        );
     }
 
-    private static ParticleBatch[] mediumActivateParticlesSphere(String particleId, Color color, int count) {
-        return new ParticleBatch[]{
-                new ParticleBatch(
-                        particleId,
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        count, 0.14F, 0.15F)
-                        .color(color.toRGBA()),
-                new ParticleBatch(
-                        particleId,
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        count, 0.24F, 0.25F)
-                        .color(color.toRGBA()),
-        };
+    /// The same burst thrown outward as a widened column rather than a shell.
+    private static Fx.Visuals mediumActivateVisualsPipe(Color color, int count) {
+        return Fx.Visuals.of(
+                mediumSpark(color).batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                        .count(count).speed(0.15F, 0.15F)),
+                mediumSpark(color).batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                        .count(count).speed(0.3F, 0.3F))
+        );
     }
 
-    private static ParticleBatch[] mediumActivateParticlesPipe(Color color, int count) {
-        return mediumActivateParticlesPipe(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                color,
-                count);
+    private static ParticleGroupBuilder mediumSpark(Color color) {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.DECELERATE, color);
     }
 
-    private static ParticleBatch[] mediumActivateParticlesPipe(String particleId, Color color, int count) {
-        return new ParticleBatch[]{
-                new ParticleBatch(
-                        particleId,
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
-                        count, 0.15F, 0.15F)
-                        .color(color.toRGBA()),
-                new ParticleBatch(
-                        particleId,
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.CENTER,
-                        count, 0.3F, 0.3F)
-                        .color(color.toRGBA())
-        };
+    private static ParticleGroupBuilder magicSpell(ParticleGroup.Motion motion) {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, motion);
+    }
+
+    private static ParticleGroupBuilder magicHoly(ParticleGroup.Motion motion) {
+        return ParticleGroupBuilder.magic(SpellEngineParticles.magic_holy, motion);
+    }
+
+    /// A widened column rising from the feet — the trance / channel-up silhouette.
+    private static Consumer<ParticleGroup.Batch> tranceColumn(float count, float speed) {
+        return b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                .count(count).speed(speed, speed).verticalOrigin(Batches.FEET);
+    }
+
+    /// Arcs crackling up out of the ground, spread over the spell's whole radius.
+    private static Consumer<ParticleGroup.Batch> arcPillar(float extent) {
+        return b -> b.shape(ParticleGroup.Shape.PILLAR).count(15)
+                .speed(0.01F, 0.05F).verticalOrigin(Batches.FEET).extent(extent);
     }
 
     public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
@@ -536,7 +537,7 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MELEE_ACTIVATE_1.id());
-        spell.release.particles = mediumActivateParticlesSphere(Color.WHITE, 25);
+        spell.release.visuals = mediumActivateVisualsSphere(Color.WHITE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -569,7 +570,7 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id());
-        spell.release.particles = mediumActivateParticlesSphere(Color.FROST, 25);
+        spell.release.visuals = mediumActivateVisualsSphere(Color.FROST, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -599,7 +600,7 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BOW_STRING_ACTIVATE.id());
-        spell.release.particles = mediumActivateParticlesSphere(Color.NATURE, 25);
+        spell.release.visuals = mediumActivateVisualsSphere(Color.NATURE, 25);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -629,19 +630,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_1.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.15F, 0.15F)
-                        .color(Color.RAGE.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.shield_small.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        10, 0.15F, 0.15F),
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.DECELERATE).color(Color.RAGE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(10).speed(0.15F, 0.15F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.shield_small)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(10).speed(0.15F, 0.15F))
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -672,15 +666,10 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.MONKEY_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.15F, 0.15F)
-                        .color(EVASION_COLOR.toRGBA())
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.DECELERATE).color(EVASION_COLOR)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(20).speed(0.15F, 0.15F))
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -715,7 +704,7 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_2.id());
-        spell.release.particles = mediumActivateParticlesSphere(Color.WHITE, 50);
+        spell.release.visuals = mediumActivateVisualsSphere(Color.WHITE, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -751,7 +740,7 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_HASTE_ACTIVATE_2.id().toString());
-        spell.release.particles = mediumActivateParticlesPipe(Color.HOLY, 50);
+        spell.release.visuals = mediumActivateVisualsPipe(Color.HOLY, 50);
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
@@ -777,22 +766,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.08F, 0.08F)
-                        .color(Color.ARCANE.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.24F, 0.25F)
-                        .color(Color.ARCANE.toRGBA()),
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.ASCEND).color(Color.ARCANE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(15).speed(0.08F, 0.08F)),
+                mediumSpark(Color.ARCANE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.24F, 0.25F))
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
@@ -817,16 +796,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.flame_medium_a.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.1F, 0.1F),
-                new ParticleBatch(
-                        SpellEngineParticles.flame_spark.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.12F, 0.12F)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_medium_a)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.1F, 0.1F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.flame_spark)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.12F, 0.12F))
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
@@ -851,19 +826,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.snowflake.id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.14F, 0.15F),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.24F, 0.25F)
-                        .color(Color.FROST.toRGBA())
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.snowflake)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(15).speed(0.14F, 0.15F)),
+                mediumSpark(Color.FROST)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.24F, 0.25F))
+        );
 
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
@@ -888,22 +856,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.INTELLECT_BUFF.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.08F, 0.08F)
-                        .color(Color.HOLY.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.24F, 0.25F)
-                        .color(Color.HOLY.toRGBA()),
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.ASCEND).color(Color.HOLY)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(15).speed(0.08F, 0.08F)),
+                mediumSpark(Color.HOLY)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.24F, 0.25F))
+        );
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
@@ -932,12 +890,12 @@ public class RelicSpells {
         spell.target.area = new Spell.Target.Area();
 
         spell.release.sound = new Sound(RelicSounds.LIGHTNING_IMPACT_SMALL.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch("spell_engine:electric_arc_a", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        null, 15, 0.01F, 0.05F, 0.0F, spell.range),
-                new ParticleBatch("spell_engine:electric_arc_b", ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        null, 15, 0.01F, 0.05F, 0.0F, spell.range)
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of(SpellEngineParticles.electric_arc_A)
+                        .batch(arcPillar(spell.range)),
+                ParticleGroupBuilder.of(SpellEngineParticles.electric_arc_B)
+                        .batch(arcPillar(spell.range))
+        );
 
         var damage = new Spell.Impact();
         damage.action = new Spell.Impact.Action();
@@ -1024,14 +982,11 @@ public class RelicSpells {
         var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue().toString(), T3_PERK_CC_DURATION);
         levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
         levitate.action.status_effect.amplifier = 3;
-        levitate.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        50, 0.15F, 0.5F)
-                        .color(Color.NATURE.toRGBA())
-        };
+        levitate.visuals = Fx.Visuals.of(
+                mediumSpark(Color.NATURE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                                .count(50).speed(0.15F, 0.5F).verticalOrigin(Batches.FEET))
+        );
         spell.impacts = List.of(levitate);
         spell.area_impact = new Spell.AreaImpact();
         spell.area_impact.radius = 2.0F;
@@ -1059,15 +1014,10 @@ public class RelicSpells {
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 0.25F;
-        heal.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.HOLY,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.15F, 0.2F)
-                        .color(Color.HOLY.toRGBA()),
-        };
+        heal.visuals = Fx.Visuals.of(
+                magicHoly(ParticleGroup.Motion.DECELERATE).color(Color.HOLY)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.15F, 0.2F))
+        );
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_1.id());
         spell.impacts = List.of(heal);
 
@@ -1092,18 +1042,12 @@ public class RelicSpells {
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
 
         spell.release.sound = new Sound(RelicSounds.HOOK_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.3F, 0.3F)
-                        .color(Color.from(0xccffff).toRGBA())
-                        .preSpawnTravel(4)
-                        .followEntity(true)
-                        .invert()
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                mediumSpark(Color.from(0xccffff))
+                        .attached()
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.3F, 0.3F)
+                                .preTravel(4).invert(true))
+        );
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
         var trigger = SpellBuilder.Triggers.evade();
@@ -1138,15 +1082,10 @@ public class RelicSpells {
         reset.action.custom.handler = RelicMechanics.SHIELD_RESET.toString();
 
         reset.sound = new Sound(RelicSounds.DEFENSE_ACTIVATE_1.id().toString());
-        reset.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        20, 0.4F, 0.4F)
-                        .color(Color.from(0x66ccff).toRGBA()),
-        };
+        reset.visuals = Fx.Visuals.of(
+                mediumSpark(Color.from(0x66ccff))
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(20).speed(0.4F, 0.4F))
+        );
 
         spell.impacts = List.of(reset);
 
@@ -1183,24 +1122,15 @@ public class RelicSpells {
         cleanse.action.status_effect.remove.selector = Spell.Impact.Action.StatusEffect.Remove.Selector.RANDOM;
         cleanse.action.status_effect.remove.select_beneficial = false;
         cleanse.sound = new Sound(RelicSounds.HOLY_WATER_IMPACT.id());
-        cleanse.particles = new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.15F, 0.15F)
-                        .color(Color.FROST.toRGBA()),
-                // "dripping_water"
-                new ParticleBatch("dripping_water",
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        15, 0.15F, 0.25F),
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.HOLY,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        15, 0.3F, 0.3F)
-                        .color(Color.HOLY.toRGBA())
-        };
+        cleanse.visuals = Fx.Visuals.of(
+                mediumSpark(Color.FROST)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(15).speed(0.15F, 0.15F)),
+                ParticleGroupBuilder.of("dripping_water")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(15).speed(0.15F, 0.25F)),
+                magicHoly(ParticleGroup.Motion.DECELERATE).color(Color.HOLY)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).widthFactor(2F)
+                                .count(15).speed(0.3F, 0.3F).verticalOrigin(Batches.FEET))
+        );
         spell.impacts = List.of(cleanse);
 
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
@@ -1248,22 +1178,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.BLOODLUST_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.HOLY,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        25, 0.15F, 0.15F)
-                        .color(Color.RAGE.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SKULL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        50, 0.3F, 0.3F)
-                        .color(Color.RAGE.toRGBA())
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicHoly(ParticleGroup.Motion.DECELERATE).color(Color.RAGE)
+                        .batch(tranceColumn(25, 0.15F)),
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_skull, ParticleGroup.Motion.DECELERATE, Color.RAGE)
+                        .batch(tranceColumn(50, 0.3F))
+        );
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.ADD;
@@ -1315,22 +1235,12 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_POWER_ACTIVATE_3.id());
-        spell.release.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        50, 0.15F, 0.15F)
-                        .color(Color.FROST.toRGBA()),
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        50, 0.3F, 0.3F)
-                        .color(Color.FROST.toRGBA())
-        };
+        spell.release.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.DECELERATE).color(Color.FROST)
+                        .batch(tranceColumn(50, 0.15F)),
+                magicSpell(ParticleGroup.Motion.DECELERATE).color(Color.FROST)
+                        .batch(tranceColumn(50, 0.3F))
+        );
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
         buff.action.apply_to_caster = true;
@@ -1369,15 +1279,10 @@ public class RelicSpells {
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
         heal.action.heal.spell_power_coefficient = 0.3F;
-        heal.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.45F, 0.7F)
-                        .color(Color.NATURE.toRGBA()),
-        };
+        heal.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.BURST).color(Color.NATURE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.45F, 0.7F))
+        );
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 
         spell.impacts = List.of(heal);
@@ -1415,18 +1320,12 @@ public class RelicSpells {
         spell.passive.triggers = List.of(trigger);
 
         var buff = createEffectImpact(effect.id.toString(), T3_TRANCE_DURATION);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch(
-                        SpellEngineParticles.MagicParticles.get(
-                                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                                SpellEngineParticles.MagicParticles.Motion.BURST).id().toString(),
-                        ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        25, 0.55F, 0.8F)
-                        .color(Color.WHITE.toRGBA()),
-                new ParticleBatch(SpellEngineParticles.shield_small.id().toString(),
-                        ParticleBatch.Shape.WIDE_PIPE, ParticleBatch.Origin.FEET,
-                        15, 0.2F, 0.2F)
-        };
+        buff.visuals = Fx.Visuals.of(
+                magicSpell(ParticleGroup.Motion.BURST).color(Color.WHITE)
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(25).speed(0.55F, 0.8F)),
+                ParticleGroupBuilder.of(SpellEngineParticles.shield_small)
+                        .batch(tranceColumn(15, 0.2F))
+        );
         spell.impacts = List.of(buff);
 
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
@@ -1434,14 +1333,9 @@ public class RelicSpells {
         return new Entry(id, spell, title, description, mutator);
     }
 
-    private static ParticleBatch areaSpellCircle(Color color, float speed) {
-        return new ParticleBatch(
-                SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                        SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString(),
-                ParticleBatch.Shape.CIRCLE, ParticleBatch.Origin.CENTER,
-                60, speed, speed)
-                .color(color.toRGBA());
+    private static ParticleGroup areaSpellCircle(Color color, float speed) {
+        return magicSpell(ParticleGroup.Motion.DECELERATE).color(color)
+                .batch(b -> b.shape(ParticleGroup.Shape.CIRCLE).count(60).speed(speed, speed));
     }
 
     public static Entry superior_use_area_attack_damage = add(superior_use_area_attack_damage());
@@ -1466,10 +1360,10 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = Sound.withRandomness(RelicSounds.HORN_ACTIVATE.id(), 0);
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 areaSpellCircle(Color.HOLY, 0.8F),
                 areaSpellCircle(Color.HOLY, 1.2F)
-        };
+        );
 
         var buff = createEffectImpact(effect.id.toString(), T4_USE_EFFECT_DURATION);
         spell.impacts = List.of(buff);
@@ -1501,10 +1395,10 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.HEART_OF_BEAST_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 areaSpellCircle(Color.RAGE, 0.8F),
                 areaSpellCircle(Color.RAGE, 1.2F)
-        };
+        );
 
         var heal = new Spell.Impact();
         heal.action = new Spell.Impact.Action();
@@ -1515,10 +1409,10 @@ public class RelicSpells {
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 
         var buff = createEffectImpact(effect.id.toString(), T4_USE_EFFECT_DURATION);
-        buff.particles = new ParticleBatch[]{
-                new ParticleBatch("heart", ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                        null, 5, 0.75F, 1.5F, 0.0F, 0)
-        };
+        buff.visuals = Fx.Visuals.of(
+                ParticleGroupBuilder.of("heart")
+                        .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(5).speed(0.75F, 1.5F))
+        );
         spell.impacts = List.of(buff, heal);
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
@@ -1526,21 +1420,15 @@ public class RelicSpells {
         return new Entry(id, spell, title, description, mutator);
     }
 
-    private static ParticleBatch[] zoneParticles(Color color) {
-        return new ParticleBatch[]{
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPARK,
-                        SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString(),
-                        ParticleBatch.Shape.PILLAR, ParticleBatch.Origin.FEET,
-                        null, 15, 0.05F, 0.1F, 0.0F, 0F)
-                        .color(color.toRGBA()),
-                new ParticleBatch(SpellEngineParticles.MagicParticles.get(
-                        SpellEngineParticles.MagicParticles.Shape.SPELL,
-                        SpellEngineParticles.MagicParticles.Motion.ASCEND).id().toString(),
-                        ParticleBatch.Shape.PIPE, ParticleBatch.Origin.FEET,
-                        null, 5, 0.1F, 0.2F, 0.0F, 0F)
-                        .color(color.toRGBA())
-        };
+    private static List<ParticleGroup> zoneParticles(Color color) {
+        return List.of(
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.FLOAT, color)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PILLAR).count(15)
+                                .speed(0.05F, 0.1F).verticalOrigin(Batches.FEET)),
+                ParticleGroupBuilder.magic(SpellEngineParticles.magic_spell, ParticleGroup.Motion.ASCEND, color)
+                        .batch(b -> b.shape(ParticleGroup.Shape.PIPE).count(5)
+                                .speed(0.1F, 0.2F).verticalOrigin(Batches.FEET))
+        );
     }
 
     public static Entry superior_use_zone_spell_power = add(superior_use_zone_spell_power());
@@ -1570,9 +1458,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.SPELL_ZONE_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 areaSpellCircle(Color.WHITE, 0.6F)
-        };
+        );
 
         var buff = createEffectImpact(effect.id.toString(), 1);
         spell.impacts = List.of(buff);
@@ -1609,9 +1497,9 @@ public class RelicSpells {
 
         spell.release.animation = PlayerAnimation.of("spell_engine:dual_handed_weapon_charge");
         spell.release.sound = new Sound(RelicSounds.HEALING_ZONE_ACTIVATE.id().toString());
-        spell.release.particles = new ParticleBatch[]{
+        spell.release.visuals = Fx.Visuals.of(
                 areaSpellCircle(Color.FROST, 0.6F)
-        };
+        );
 
         var buff = createEffectImpact(effect.id.toString(), 1);
         spell.impacts = List.of(buff);

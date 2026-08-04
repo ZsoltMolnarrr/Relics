@@ -37,17 +37,24 @@
           "spell_power_coefficient": 0.3
         }
       },
-      "particles": [
-        {
-          "particle_id": "spell_engine:magic_spell_burst",
-          "origin": "CENTER",
-          "shape": "SPHERE",
-          "count": 25.0,
-          "min_speed": 0.45,
-          "max_speed": 0.7,
-          "color_rgba": 1728014079
-        }
-      ],
+      "visuals": {
+        "particles": [
+          {
+            "id": "spell_engine:magic_spell",
+            "appearance": {
+              "color": 1728014079,
+              "motion": "BURST"
+            },
+            "batch": {
+              "count": 25.0,
+              "shape": "SPHERE",
+              "anchor": "ENTITY",
+              "min_speed": 0.45,
+              "max_speed": 0.7
+            }
+          }
+        ]
+      },
       "sound": {
         "id": "spell_engine:generic_healing_impact_3"
       }

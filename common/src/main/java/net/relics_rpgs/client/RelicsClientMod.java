@@ -5,7 +5,8 @@ import net.relics_rpgs.spell.RelicSpells;
 import net.spell_engine.api.effect.CustomParticleStatusEffect;
 import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.StunParticleSpawner;
-import net.spell_engine.api.spell.fx.ParticleBatch;
+import net.spell_engine.api.spell.fx.ParticleGroup;
+import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
@@ -18,9 +19,9 @@ public class RelicsClientMod {
             }
         }
 
-        var spark_float = SpellEngineParticles.MagicParticles.get(
-                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
+        // `magic_<shape>_float` collapsed into `magic_<shape>`: FLOAT is every magic entry's own
+        // default motion, so these need no motion override.
+        var spark_float = SpellEngineParticles.magic_spark.id().toString();
 
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_ATTACK_DAMAGE.effect,
@@ -78,19 +79,18 @@ public class RelicsClientMod {
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_POWER_ARCANE_FIRE.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{
+                new BuffParticleSpawner(
                         BuffParticleSpawner.defaultBatch(
                                 spark_float,
                                 0.5F,
                                 Color.ARCANE.toRGBA()),
                         BuffParticleSpawner.defaultBatch(
                                 SpellEngineParticles.flame_spark.id().toString(),
-                                0.5F)
-                })
+                                0.5F))
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_POWER_FROST_HEALING.effect,
-                new BuffParticleSpawner(new ParticleBatch[]{
+                new BuffParticleSpawner(
                         BuffParticleSpawner.defaultBatch(
                                 spark_float,
                                 0.5F,
@@ -98,8 +98,7 @@ public class RelicsClientMod {
                         BuffParticleSpawner.defaultBatch(
                                 spark_float,
                                 0.5F,
-                                Color.HOLY.toRGBA()),
-                })
+                                Color.HOLY.toRGBA()))
         );
         CustomParticleStatusEffect.register(
                 RelicEffects.LESSER_PROC_CRIT_DAMAGE.effect,
@@ -111,26 +110,16 @@ public class RelicsClientMod {
                 )
         );
 
-        var stripe_float = SpellEngineParticles.MagicParticles.get(
-                SpellEngineParticles.MagicParticles.Shape.STRIPE,
-                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
-        var spark_decelerate = SpellEngineParticles.MagicParticles.get(
-                SpellEngineParticles.MagicParticles.Shape.SPARK,
-                SpellEngineParticles.MagicParticles.Motion.DECELERATE).id().toString();
+        var stripe_float = SpellEngineParticles.magic_stripe.id().toString();
 
         CustomParticleStatusEffect.register(
                 RelicEffects.MEDIUM_EVASION.effect,
                 new BuffParticleSpawner(
-                        new ParticleBatch[]{
-                                new ParticleBatch(
-                                        spark_decelerate,
-                                ParticleBatch.Shape.SPHERE, ParticleBatch.Origin.CENTER,
-                                1, 0.3F, 0.3F)
-                                        .color(RelicSpells.EVASION_COLOR.toRGBA())
-                                        .preSpawnTravel(4)
-                                        .followEntity(true)
-                                        .invert()
-                        }
+                        ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark,
+                                        ParticleGroup.Motion.DECELERATE, RelicSpells.EVASION_COLOR)
+                                .attached()
+                                .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(1).speed(0.3F, 0.3F)
+                                        .preTravel(4).invert(true))
                 )
         );
         CustomParticleStatusEffect.register(
@@ -241,9 +230,7 @@ public class RelicsClientMod {
                 new BuffParticleSpawner(SpellEngineParticles.shield_small.id().toString(), 0.5F)
         );
 
-        var spell_float = SpellEngineParticles.MagicParticles.get(
-                SpellEngineParticles.MagicParticles.Shape.SPELL,
-                SpellEngineParticles.MagicParticles.Motion.FLOAT).id().toString();
+        var spell_float = SpellEngineParticles.magic_spell.id().toString();
 
         CustomParticleStatusEffect.register(
                 RelicEffects.SUPERIOR_ATTACK_DAMAGE.effect,
