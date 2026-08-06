@@ -15,7 +15,7 @@ import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder.Batches;
 import net.spell_engine.api.spell.fx.PlayerAnimation;
 import net.spell_engine.api.spell.fx.Sound;
-import net.spell_engine.client.gui.SpellTooltip;
+import net.spell_engine.api.spell.tooltip.TooltipTokens;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 import net.spell_engine.fx.SpellEngineSounds;
@@ -30,8 +30,7 @@ import java.util.List;
 import java.util.function.Consumer;
 
 public class RelicSpells {
-    public record Entry(Identifier id, Spell spell, String title, String description,
-                        @Nullable SpellTooltip.DescriptionMutator mutator) {
+    public record Entry(Identifier id, Spell spell, String title, String description) {
     }
 
     public static final List<Entry> entries = new ArrayList<>();
@@ -134,14 +133,9 @@ public class RelicSpells {
 
     private static Entry lesser_use_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_damage");
-        var description = "Use: Increases attack damage by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases attack damage by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACK_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACK_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -159,21 +153,16 @@ public class RelicSpells {
         spell.cost.cooldown = new Spell.Cost.Cooldown();
         spell.cost.cooldown.duration = T1_USE_EFFECT_COOLDOWN;
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_use_dex = add(lesser_use_dex());
 
     private static Entry lesser_use_dex() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_dex");
-        var description = "Use: Increases melee and ranged attack speed by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACKS_SPEED;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -187,21 +176,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_use_ranged = add(lesser_use_ranged());
 
     private static Entry lesser_use_ranged() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_ranged");
-        var description = "Use: Increases ranged attack damage by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases ranged attack damage by " + TooltipTokens.effect(RelicEffects.LESSER_RANGED_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_RANGED_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
@@ -215,24 +199,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_use_health = add(lesser_use_health());
 
     private static Entry lesser_use_health() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_health");
-        var description = "Use: Heals you for {heal_percent} of your max health.";
+        var healFraction = 0.2F;
+        var description = "Use: Heals you for " + TooltipTokens.bakedPercent(healFraction) + " of your max health.";
         var title = "Sip";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifiedDescription = args.description();
-            var spell = args.spellEntry().value();
-            var heal = spell.impacts.get(0).action.heal;
-            if (heal != null) {
-                modifiedDescription = modifiedDescription.replace("{heal_percent}", SpellTooltip.percent(heal.spell_power_coefficient));
-            }
-            return modifiedDescription;
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -253,26 +229,21 @@ public class RelicSpells {
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
-        heal.action.heal.spell_power_coefficient = 0.2f;
+        heal.action.heal.spell_power_coefficient = healFraction;
 
         spell.impacts = List.of(heal);
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_use_spell_power = add(lesser_use_spell_power());
 
     private static Entry lesser_use_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_power");
-        var description = "Use: Increases spell power by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases spell power by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -286,21 +257,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_use_spell_haste = add(lesser_use_spell_haste());
 
     private static Entry lesser_use_spell_haste() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_haste");
-        var description = "Use: Increases spell haste by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases spell haste by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_HASTE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_HASTE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -314,21 +280,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_USE_EFFECT_DURATION));
         configureCooldown(spell, T1_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_proc_spell_crit = add(lesser_proc_spell_crit());
 
     private static Entry lesser_proc_spell_crit() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_spell_crit");
-        var description = "On spell hit: {trigger_chance} chance to increase spell critical chance by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell critical chance by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_CRIT.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_CRIT;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -351,21 +312,16 @@ public class RelicSpells {
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_proc_crit_damage = add(lesser_proc_crit_damage());
 
     private static Entry lesser_proc_crit_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_crit_damage");
-        var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by " + TooltipTokens.effect(RelicEffects.LESSER_PROC_CRIT_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_PROC_CRIT_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -389,21 +345,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_proc_arcane_fire = add(lesser_proc_arcane_fire());
 
     private static Entry lesser_proc_arcane_fire() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
-        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_ARCANE_FIRE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_ARCANE_FIRE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -426,21 +377,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry lesser_proc_frost_healing = add(lesser_proc_frost_healing());
 
     private static Entry lesser_proc_frost_healing() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
-        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_FROST_HEALING.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_FROST_HEALING;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -464,7 +410,7 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T1_PROC_EFFECT_DURATION));
         configureCooldown(spell, T1_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     /**
@@ -518,14 +464,9 @@ public class RelicSpells {
     public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
     private static Entry medium_proc_attack_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
-        var description = "On melee hit: {trigger_chance} chance to increase attack damage by {bonus} for {effect_duration} seconds.";
+        var description = "On melee hit: {trigger_chance} chance to increase attack damage by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACK_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACK_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -542,20 +483,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_proc_attack_speed = add(medium_proc_attack_speed());
     private static Entry medium_proc_attack_speed() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
-        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by {bonus} for {effect_duration} seconds.";
+        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACKS_SPEED;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -575,20 +511,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_proc_ranged_damage = add(medium_proc_ranged_damage());
     private static Entry medium_proc_ranged_damage() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
-        var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by {bonus} for {effect_duration} seconds.";
+        var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by " + TooltipTokens.effect(RelicEffects.MEDIUM_RANGED_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_RANGED_DAMAGE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_RANGED;
@@ -605,20 +536,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_proc_defense = add(medium_proc_defense());
     private static Entry medium_proc_defense() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_defense");
-        var description = "On damage taken: {trigger_chance} chance to increase armor toughness by {bonus} for {effect_duration} seconds.";
+        var description = "On damage taken: {trigger_chance} chance to increase armor toughness by " + TooltipTokens.effect(RelicEffects.MEDIUM_DEFENSE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_DEFENSE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -640,7 +566,7 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Color EVASION_COLOR = Color.from(0x9966ff);
@@ -648,14 +574,9 @@ public class RelicSpells {
     public static Entry medium_proc_evasion = add(medium_proc_evasion());
     private static Entry medium_proc_evasion() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_evasion");
-        var description = "On damage taken: {trigger_chance} chance to increase evasion chance by {bonus} for {effect_duration} seconds.";
+        var description = "On damage taken: {trigger_chance} chance to increase evasion chance by " + TooltipTokens.effect(RelicEffects.MEDIUM_EVASION.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_EVASION;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -674,20 +595,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
     private static Entry medium_proc_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
-        var description = "On spell hit: {trigger_chance} chance to increase spell power by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -709,21 +625,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_proc_spell_haste = add(medium_proc_spell_haste());
 
     private static Entry medium_proc_spell_haste() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_haste");
-        var description = "On spell hit: {trigger_chance} chance to increase spell haste by {bonus} for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell haste by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_HASTE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_HASTE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -745,21 +656,16 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_PROC_EFFECT_DURATION));
         configureCooldown(spell, T2_PROC_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_use_arcane_power = add(medium_use_arcane_power());
 
     private static Entry medium_use_arcane_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_arcane_power");
-        var description = "Use: Increases arcane spell power by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases arcane spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_ARCANE_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ARCANE_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -776,20 +682,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_use_fire_power = add(medium_use_fire_power());
     private static Entry medium_use_fire_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_fire_power");
-        var description = "Use: Increases fire spell power by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases fire spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_FIRE_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FIRE_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.FIRE;
@@ -806,20 +707,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_use_frost_power = add(medium_use_frost_power());
     private static Entry medium_use_frost_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_frost_power");
-        var description = "Use: Increases frost spell power by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases frost spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_FROST_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FROST_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.FROST;
@@ -836,20 +732,15 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry medium_use_healing_power = add(medium_use_healing_power());
     private static Entry medium_use_healing_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_healing_power");
-        var description = "Use: Increases healing spell power by {bonus} for {effect_duration} seconds.";
+        var description = "Use: Increases healing spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_HEALING_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_HEALING_POWER;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -865,7 +756,7 @@ public class RelicSpells {
         spell.impacts = List.of(createEffectImpact(effect.id.toString(), T2_USE_EFFECT_DURATION));
         configureCooldown(spell, T2_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     /**
@@ -907,7 +798,7 @@ public class RelicSpells {
         spell.impacts = List.of(damage);
         configureCooldown(spell, 10);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_melee_stun = add(greater_perk_melee_stun());
@@ -933,7 +824,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_spell_stun = add(greater_perk_spell_stun());
@@ -961,7 +852,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_ranged_levitate = add(greater_perk_ranged_levitate());
@@ -993,7 +884,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_defense_block = add(greater_perk_defense_block());
@@ -1023,20 +914,15 @@ public class RelicSpells {
 
         configureCooldown(spell, 4);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_evasion_attack = add(greater_perk_evasion_attack());
     private static Entry greater_perk_evasion_attack() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_evasion_attack");
         var title = "Counterattack";
-        var description = "Evading an attack has a {trigger_chance_1} chance to make your next attack {bonus} stronger.";
+        var description = "Evading an attack has a {trigger_chance_1} chance to make your next attack " + TooltipTokens.effect(RelicEffects.GREATER_EVASION_ATTACK.id) + " stronger.";
         var effect = RelicEffects.GREATER_EVASION_ATTACK;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1060,7 +946,7 @@ public class RelicSpells {
 
         configureCooldown(spell, 10);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_shield_reset = add(greater_perk_shield_reset());
@@ -1089,7 +975,7 @@ public class RelicSpells {
 
         spell.impacts = List.of(reset);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_heal_cleanse = add(greater_perk_heal_cleanse());
@@ -1135,21 +1021,16 @@ public class RelicSpells {
 
         configureCooldown(spell, T3_PERK_CC_COOLDOWN);
 
-        return new Entry(id, spell, title, description, null);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_proc_physical_trance = add(greater_proc_physical_trance());
     private static Entry greater_proc_physical_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
-        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by {bonus}. "
+        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.GREATER_PHYSICAL_TRANCE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + ". "
                 + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_PHYSICAL_TRANCE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1193,21 +1074,16 @@ public class RelicSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_proc_spell_trance = add(greater_proc_spell_trance());
     private static Entry greater_proc_spell_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_spell_trance");
-        var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by {bonus}. "
+        var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by " + TooltipTokens.effect(RelicEffects.GREATER_SPELL_TRANCE.id) + ". "
                 + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_SPELL_TRANCE;
         var title = effect.title;
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
 
         var spell = passiveSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -1251,7 +1127,7 @@ public class RelicSpells {
         spell.impacts = List.of(buff);
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_perk_heal_danger = add(greater_perk_heal_danger());
@@ -1259,8 +1135,8 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_heal_danger");
         var title = "Desperation";
         var health_threshold = 0.5F;
-        var description = "Healing a target below {health_threshold} health, receives additional {heal} healing.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> args.description().replace("{health_threshold}", SpellTooltip.percent(health_threshold));
+        var description = "Healing a target below " + TooltipTokens.bakedPercent(health_threshold)
+                + " health, receives additional {heal} healing.";
         var spell = passiveSpellBase();
         spell.school = SpellSchools.HEALING;
 
@@ -1289,7 +1165,7 @@ public class RelicSpells {
 
         configureCooldown(spell, 5);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry greater_proc_defense_danger = add(greater_proc_defense_danger());
@@ -1298,14 +1174,10 @@ public class RelicSpells {
         var effect = RelicEffects.GREATER_DEFENSE_ARMOR;
         var title = effect.title;
         var health_threshold = 0.4F;
-        var description = "Taking damage below {health_threshold} health, increases armor by {bonus} for {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description()
-                    .replace("{health_threshold}", SpellTooltip.percent(health_threshold))
-                    .replace("{bonus}", bonus);
-        };
+        var description = "Taking damage below " + TooltipTokens.bakedPercent(health_threshold)
+                + " health, increases armor by "
+                + TooltipTokens.effect(RelicEffects.GREATER_DEFENSE_ARMOR.id)
+                + " for {effect_duration} seconds.";
 
         var spell = passiveSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1330,7 +1202,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T3_TRANCE_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     private static ParticleGroup areaSpellCircle(Color color, float speed) {
@@ -1343,12 +1215,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_attack_damage");
         var effect = RelicEffects.SUPERIOR_ATTACK_DAMAGE;
         var title = effect.title;
-        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by {bonus} for {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_ATTACK_DAMAGE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString())) + " for {effect_duration} seconds.";
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1370,7 +1237,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry superior_use_area_defense_health = add(superior_use_area_defense_health());
@@ -1378,12 +1245,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_defense_health");
         var effect = RelicEffects.SUPERIOR_DEFENSE_HEALTH;
         var title = effect.title;
-        var description = "Use: Increases maximum health of nearby allies by {bonus} for {effect_duration} seconds.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Use: Increases maximum health of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_DEFENSE_HEALTH.id) + " for {effect_duration} seconds.";
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -1417,7 +1279,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     private static List<ParticleGroup> zoneParticles(Color color) {
@@ -1436,12 +1298,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_spell_power");
         var effect = RelicEffects.SUPERIOR_SPELL_POWER;
         var title = effect.title;
-        var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains {bonus} spell power.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains " + TooltipTokens.effect(RelicEffects.SUPERIOR_SPELL_POWER.id) + " spell power.";
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
@@ -1467,7 +1324,7 @@ public class RelicSpells {
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 
     public static Entry superior_use_zone_healing_taken = add(superior_use_zone_healing_taken());
@@ -1475,12 +1332,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_healing_taken");
         var effect = RelicEffects.SUPERIOR_HEALING_TAKEN;
         var title = effect.title;
-        var description = "Use: Conjures a healing circle, {cloud_radius} blocks, lasting {cloud_duration} seconds. While standing in this circle, allies receives {bonus} more healing.";
-        SpellTooltip.DescriptionMutator mutator = (args) -> {
-            var modifier = effect.config().firstModifier();
-            var bonus = SpellTooltip.bonus(modifier.value, modifier.operation);
-            return args.description().replace("{bonus}", bonus);
-        };
+        var description = "Use: Conjures a healing circle, {cloud_radius} blocks, lasting {cloud_duration} seconds. While standing in this circle, allies receives " + TooltipTokens.effect(RelicEffects.SUPERIOR_HEALING_TAKEN.id) + " more healing.";
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.HEALING;
@@ -1506,6 +1358,6 @@ public class RelicSpells {
 
         configureCooldown(spell, T4_USE_EFFECT_COOLDOWN);
 
-        return new Entry(id, spell, title, description, mutator);
+        return new Entry(id, spell, title, description);
     }
 }

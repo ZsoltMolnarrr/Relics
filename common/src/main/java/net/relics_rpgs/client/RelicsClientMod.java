@@ -7,18 +7,11 @@ import net.spell_engine.api.render.BuffParticleSpawner;
 import net.spell_engine.api.render.StunParticleSpawner;
 import net.spell_engine.api.spell.fx.ParticleGroup;
 import net.spell_engine.api.spell.fx.ParticleGroupBuilder;
-import net.spell_engine.client.gui.SpellTooltip;
 import net.spell_engine.client.util.Color;
 import net.spell_engine.fx.SpellEngineParticles;
 
 public class RelicsClientMod {
     public static void init() {
-        for (var entry: RelicSpells.entries) {
-            if (entry.mutator() != null) {
-                SpellTooltip.addDescriptionMutator(entry.id(), entry.mutator());
-            }
-        }
-
         // `magic_<shape>_float` collapsed into `magic_<shape>`: FLOAT is every magic entry's own
         // default motion, so these need no motion override.
         var spark_float = SpellEngineParticles.magic_spark.id().toString();
