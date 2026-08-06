@@ -891,9 +891,9 @@ public class RelicSpells {
 
         spell.release.sound = new Sound(RelicSounds.LIGHTNING_IMPACT_SMALL.id().toString());
         spell.release.visuals = Fx.Visuals.of(
-                ParticleGroupBuilder.of(SpellEngineParticles.electric_arc_A)
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_A)
                         .batch(arcPillar(spell.range)),
-                ParticleGroupBuilder.of(SpellEngineParticles.electric_arc_B)
+                ParticleGroupBuilder.electricArc(SpellEngineParticles.lightning_arc_B)
                         .batch(arcPillar(spell.range))
         );
 
