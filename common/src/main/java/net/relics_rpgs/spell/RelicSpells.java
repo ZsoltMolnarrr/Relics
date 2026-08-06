@@ -241,7 +241,7 @@ public class RelicSpells {
 
     private static Entry lesser_use_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_power");
-        var description = "Use: Increases spell power by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_POWER.id) + " for {effect_duration} seconds.";
+        var description = "Use: Increases spell power by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_POWER;
         var title = effect.title;
 
@@ -352,7 +352,7 @@ public class RelicSpells {
 
     private static Entry lesser_proc_arcane_fire() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
-        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_ARCANE_FIRE.id) + " for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_ARCANE_FIRE.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_ARCANE_FIRE;
         var title = effect.title;
 
@@ -384,7 +384,7 @@ public class RelicSpells {
 
     private static Entry lesser_proc_frost_healing() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
-        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_FROST_HEALING.id) + " for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_FROST_HEALING.id, 0, SpellSchools.FROST.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_FROST_HEALING;
         var title = effect.title;
 
@@ -601,7 +601,7 @@ public class RelicSpells {
     public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
     private static Entry medium_proc_spell_power() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
-        var description = "On spell hit: {trigger_chance} chance to increase spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_POWER.id) + " for {effect_duration} seconds.";
+        var description = "On spell hit: {trigger_chance} chance to increase spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_POWER;
         var title = effect.title;
 
@@ -1298,7 +1298,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_spell_power");
         var effect = RelicEffects.SUPERIOR_SPELL_POWER;
         var title = effect.title;
-        var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains " + TooltipTokens.effect(RelicEffects.SUPERIOR_SPELL_POWER.id) + " spell power.";
+        var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains " + TooltipTokens.effect(RelicEffects.SUPERIOR_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " spell power.";
 
         var spell = activeSpellBase();
         spell.school = SpellSchools.ARCANE;
