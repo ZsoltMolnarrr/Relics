@@ -1,4 +1,4 @@
-package net.relics_rpgs.datagen;
+package net.relics_rpgs.fabric.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;

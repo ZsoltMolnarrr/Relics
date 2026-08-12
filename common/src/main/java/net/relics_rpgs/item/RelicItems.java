@@ -2,7 +2,6 @@ package net.relics_rpgs.item;
 
 import com.google.common.base.Suppliers;
 import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
-import net.fabricmc.fabric.api.itemgroup.v1.ItemGroupEvents;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
@@ -327,12 +326,7 @@ public class RelicItems {
                 Registry.register(Registries.ITEM, entry.id(), entry.item().get());
              }
         }
-        ItemGroupEvents.modifyEntriesEvent(Group.KEY).register(content -> {
-            for(var entry: entries) {
-                if (entry.isEnabled()) {
-                    content.add(entry.item().get());
-                 }
-            }
-        });
+        // Creative-tab placement (into the Relics group) is registered per-platform from each loader's
+        // entrypoint, iterating the enabled RelicItems.entries — no Fabric API ItemGroupEvents in common.
     }
 }

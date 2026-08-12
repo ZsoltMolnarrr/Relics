@@ -1,6 +1,6 @@
 package net.relics_rpgs.config;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
 import net.spell_engine.api.config.AttributeModifier;
 
 import java.util.LinkedHashMap;
@@ -29,7 +29,7 @@ public class ItemConfig {
         public List<AttributeModifier> selectedAttributes() {
             if (this.conditional_attributes != null
                     && this.conditional_attributes.required_mod != null
-                    && FabricLoader.getInstance().isModLoaded(this.conditional_attributes.required_mod)) {
+                    && Platform.util().isModLoaded(this.conditional_attributes.required_mod)) {
                 return this.conditional_attributes.attributes();
             }
             return this.attributes;

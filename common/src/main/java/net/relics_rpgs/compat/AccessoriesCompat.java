@@ -1,10 +1,10 @@
 package net.relics_rpgs.compat;
 
-import net.fabricmc.loader.api.FabricLoader;
+import net.spell_engine.Platform;
 
 public class AccessoriesCompat {
     public static void init() {
-        if (FabricLoader.getInstance().isModLoaded("accessories")) {
+        if (Platform.util().isModLoaded("accessories")) {
             // Outsource to avoid class loading issues
             AccessoriesHelper.registerFactory();
         }

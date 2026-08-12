@@ -17,7 +17,7 @@
       "net.relics_rpgs.fabric.FabricMod"
     ],
     "fabric-datagen": [
-      "net.relics_rpgs.datagen.RelicsDataGen"
+      "net.relics_rpgs.fabric.datagen.RelicsDataGen"
     ]
   },
   "mixins": [
