@@ -1,3 +1,8 @@
+# 1.4.0
+
+- Adopt Spell Engine 1.10 changes
+- NeoForge version no longer depends on Forgified Fabric API
+
 # 1.3.0
 
 DISCLAIMER: All spell books and spell scrolls will be reset, due to major API changes. Some (looted) weapons with custom spell containers become non-functional, and need to be re-obtained. Apologies for the inconvenience.
