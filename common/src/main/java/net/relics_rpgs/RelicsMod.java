@@ -5,7 +5,7 @@ import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicMechanics;
 import net.relics_rpgs.spell.RelicSounds;
-import net.spell_engine.api.config.ConfigFile;
+import net.spell_engine.rpg_series.config.ConfigFile;
 import net.tiny_config.ConfigManager;
 
 public class RelicsMod {

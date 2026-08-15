@@ -1,7 +1,7 @@
 package net.relics_rpgs.config;
 
 import net.spell_engine.Platform;
-import net.spell_engine.api.config.AttributeModifier;
+import net.spell_engine.rpg_series.config.AttributeModifier;
 
 import java.util.LinkedHashMap;
 import java.util.List;
