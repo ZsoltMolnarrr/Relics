@@ -10,7 +10,7 @@ import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.event.SpellHandlers;
-import net.spell_engine.internals.SpellHelper;
+import net.spell_engine.internals.SpellExecution;
 import net.spell_power.api.SpellPower;
 import org.jetbrains.annotations.Nullable;
 
@@ -20,7 +20,7 @@ public class RelicMechanics {
     public static void init() {
         SpellHandlers.registerCustomImpact(SHIELD_RESET, new SpellHandlers.CustomImpact() {
             @Override
-            public SpellHandlers.ImpactResult onSpellImpact(RegistryEntry<Spell> registryEntry, SpellPower.Result result, LivingEntity caster, @Nullable Entity entity, SpellHelper.ImpactContext impactContext) {
+            public SpellHandlers.ImpactResult onSpellImpact(RegistryEntry<Spell> registryEntry, SpellPower.Result result, LivingEntity caster, @Nullable Entity entity, SpellExecution.ImpactContext impactContext) {
                 if (caster instanceof PlayerEntity player) {
                     var success = tryResetShield(player, player.getMainHandStack()) || tryResetShield(player, player.getOffHandStack());
                     return new SpellHandlers.ImpactResult(success, false);

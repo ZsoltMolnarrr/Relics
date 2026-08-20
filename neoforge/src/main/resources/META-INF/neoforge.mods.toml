@@ -40,5 +40,11 @@ versionRange = "[${ranged_weapon_api_version},)"
 ordering = "NONE"
 side = "BOTH"
 
+[[dependencies.relics_rpgs]]
+modId = "curios"
+type = "optional"
+ordering = "AFTER"
+side = "BOTH"
+
 [[mixins]]
 config = "relics_rpgs.mixins.json"

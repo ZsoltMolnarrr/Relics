@@ -1,0 +1,12 @@
+package net.relics_rpgs.neoforge.compat.curios;
+
+import net.spell_engine.Platform;
+
+public class CuriosCompat {
+    public static void init() {
+        if (Platform.util().isModLoaded("curios")) {
+            // Outsource to avoid class loading issues
+            CuriosHelper.registerFactory();
+        }
+    }
+}

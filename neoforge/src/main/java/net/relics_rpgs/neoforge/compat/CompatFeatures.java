@@ -1,9 +1,9 @@
 package net.relics_rpgs.neoforge.compat;
 
-import net.relics_rpgs.compat.AccessoriesCompat;
+import net.relics_rpgs.neoforge.compat.curios.CuriosCompat;
 
 public class CompatFeatures {
     public static void init() {
-        AccessoriesCompat.init();
+        CuriosCompat.init();
     }
 }
