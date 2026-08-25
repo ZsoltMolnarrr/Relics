@@ -3,8 +3,8 @@ package net.relics_rpgs.spell;
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.player.PlayerEntity;
+import net.minecraft.component.DataComponentTypes;
 import net.minecraft.item.ItemStack;
-import net.minecraft.item.ShieldItem;
 import net.minecraft.registry.entry.RegistryEntry;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
@@ -29,9 +29,12 @@ public class RelicMechanics {
             }
 
             private boolean tryResetShield(PlayerEntity player, ItemStack itemStack) {
-                if (itemStack != null && itemStack.getItem() instanceof ShieldItem shield
-                        && player.getItemCooldownManager().isCoolingDown(shield)) {
-                    player.getItemCooldownManager().set(shield, 0);
+                // 1.21.11: shields are component driven (`minecraft:blocks_attacks`), so `ShieldItem` is
+                // no longer the marker - Paladins' kite shields for example are plain `Item`s.
+                // Disabling puts the stack's *cooldown group* on cooldown (`BlocksAttacksComponent#applyShieldCooldown`).
+                if (itemStack != null && itemStack.get(DataComponentTypes.BLOCKS_ATTACKS) != null
+                        && player.getItemCooldownManager().isCoolingDown(itemStack)) {
+                    player.getItemCooldownManager().remove(player.getItemCooldownManager().getGroup(itemStack));
                     return true;
                 }
                 return false;

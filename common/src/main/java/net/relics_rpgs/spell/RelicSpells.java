@@ -160,7 +160,7 @@ public class RelicSpells {
 
     private static Entry lesser_use_dex() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_dex");
-        var description = "Use: Increases melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
+        var description = "Use: Increases melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACKS_SPEED;
         var title = effect.title;
 
@@ -225,7 +225,7 @@ public class RelicSpells {
         );
 
         var heal = new Spell.Impact();
-        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.attribute = EntityAttributes.MAX_HEALTH.getIdAsString();
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
@@ -489,7 +489,7 @@ public class RelicSpells {
     public static Entry medium_proc_attack_speed = add(medium_proc_attack_speed());
     private static Entry medium_proc_attack_speed() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
-        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
+        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACKS_SPEED;
         var title = effect.title;
 
@@ -1027,7 +1027,7 @@ public class RelicSpells {
     public static Entry greater_proc_physical_trance = add(greater_proc_physical_trance());
     private static Entry greater_proc_physical_trance() {
         var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
-        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.GREATER_PHYSICAL_TRANCE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + ". "
+        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.GREATER_PHYSICAL_TRANCE.id, 0, Identifier.of(EntityAttributes.ATTACK_SPEED.getIdAsString())) + ". "
                 + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_PHYSICAL_TRANCE;
         var title = effect.title;
@@ -1215,7 +1215,7 @@ public class RelicSpells {
         var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_attack_damage");
         var effect = RelicEffects.SUPERIOR_ATTACK_DAMAGE;
         var title = effect.title;
-        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_ATTACK_DAMAGE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString())) + " for {effect_duration} seconds.";
+        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_ATTACK_DAMAGE.id, 0, Identifier.of(EntityAttributes.ATTACK_DAMAGE.getIdAsString())) + " for {effect_duration} seconds.";
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1266,7 +1266,7 @@ public class RelicSpells {
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
-        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.attribute = EntityAttributes.MAX_HEALTH.getIdAsString();
         heal.action.heal.spell_power_coefficient = 0.33F;
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 

@@ -4,10 +4,12 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.data.client.BlockStateModelGenerator;
-import net.minecraft.data.client.ItemModelGenerator;
-import net.minecraft.data.client.Models;
+import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
+import net.minecraft.client.data.BlockStateModelGenerator;
+import net.minecraft.client.data.ItemModelGenerator;
+import net.minecraft.client.data.Models;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.registry.RegistryWrapper;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
@@ -44,8 +46,8 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
 
         @Override
         protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
-            var all = getOrCreateTagBuilder(RelicItemTags.ALL);
-            RelicItems.entries.forEach(entry -> all.addOptional(entry.id()));
+            var all = builder(RelicItemTags.ALL);
+            RelicItems.entries.forEach(entry -> all.addOptional(RegistryKey.of(RegistryKeys.ITEM, entry.id())));
 
             HashMap<Identifier, Equipment.LootProperties> relicEntries = new HashMap<>();
             for (var entry: RelicItems.entries) {

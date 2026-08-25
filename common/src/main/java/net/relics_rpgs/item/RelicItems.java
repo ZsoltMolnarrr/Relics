@@ -7,6 +7,8 @@ import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
 import net.minecraft.registry.Registries;
 import net.minecraft.registry.Registry;
+import net.minecraft.registry.RegistryKey;
+import net.minecraft.registry.RegistryKeys;
 import net.minecraft.util.Identifier;
 import net.minecraft.util.Rarity;
 import net.relics_rpgs.RelicsMod;
@@ -56,7 +58,10 @@ public class RelicItems {
             this.defaults = config;
 
             this.item = Suppliers.memoize(() -> {
+                // 1.21.11: `Item.Settings` built inside a factory must carry the registry key,
+                // otherwise the item crashes with `Item id not set` while being constructed.
                 var settings = new Item.Settings()
+                        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelicsMod.NAMESPACE, name)))
                         .maxCount(1);
                 var selectedAttributes = config().selectedAttributes();
                 var attributes = (selectedAttributes != null && !selectedAttributes.isEmpty())
@@ -147,7 +152,7 @@ public class RelicItems {
     public static final Entry JEWEL_FIGURINE_RUBY = add(new Entry(1, "jewel_figurine_ruby", "Ruby Serpent Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TOPAZ = add(new Entry(1, "jewel_figurine_topaz", "Topaz Fox Figurine"))
@@ -173,7 +178,7 @@ public class RelicItems {
     public static final Entry JEWEL_FIGURINE_SAPPHIRE = add(new Entry(1, "jewel_figurine_sapphire", "Sapphire Turtle Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(), 2, EntityAttributeModifier.Operation.ADD_VALUE)
+                            new AttributeModifier(EntityAttributes.MAX_HEALTH.getIdAsString(), 2, EntityAttributeModifier.Operation.ADD_VALUE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TANZANITE = add(new Entry(1, "jewel_figurine_tanzanite", "Tanzanite Bat Figurine"))
@@ -187,7 +192,7 @@ public class RelicItems {
     public static final Entry LESSER_ROLL = add(new Entry(1, "lesser_roll", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_MOVEMENT_SPEED.getIdAsString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes.MOVEMENT_SPEED.getIdAsString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(COMBAT_ROLL_MODID, List.of(
                             new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
@@ -202,7 +207,7 @@ public class RelicItems {
     public static final Entry LESSER_MELEE_CRIT_CHANCE = add(new Entry(1, "lesser_melee_crit_chance", "Dice of Fate"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
                             new AttributeModifier(CRITICAL_STRIKE_CHANCE, 0.05F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
@@ -211,7 +216,7 @@ public class RelicItems {
     public static final Entry LESSER_MELEE_CRIT_DAMAGE = add(new Entry(1, "lesser_melee_crit_damage", "Serrated Fang"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
                             new AttributeModifier(CRITICAL_STRIKE_DAMAGE, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)

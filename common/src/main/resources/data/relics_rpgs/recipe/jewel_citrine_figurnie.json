@@ -7,15 +7,17 @@
       ]
     }
   ],
+  "neoforge:conditions": [
+    {
+      "type": "neoforge:mod_loaded",
+      "modid": "jewelry"
+    }
+  ],
   "type": "minecraft:crafting_shaped",
   "category": "equipment",
   "key": {
-    "M": {
-      "item": "minecraft:gold_ingot"
-    },
-    "G": {
-      "item": "jewelry:citrine"
-    }
+    "M": "minecraft:gold_ingot",
+    "G": "jewelry:citrine"
   },
   "pattern": [
     " G ",

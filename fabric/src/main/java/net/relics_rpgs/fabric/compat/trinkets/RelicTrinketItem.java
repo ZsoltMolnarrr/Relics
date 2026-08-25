@@ -47,7 +47,7 @@ public class RelicTrinketItem extends TrinketItem {
     public boolean canUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
         var isOnCooldown = false;
         if (entity instanceof PlayerEntity player) {
-            isOnCooldown = !player.isCreative() && player.getItemCooldownManager().isCoolingDown(stack.getItem());
+            isOnCooldown = !player.isCreative() && player.getItemCooldownManager().isCoolingDown(stack);
         }
         return super.canUnequip(stack, slot, entity) && !isOnCooldown;
     }

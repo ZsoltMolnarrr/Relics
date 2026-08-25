@@ -38,7 +38,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
                                     T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -52,7 +52,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    EntityAttributes.ATTACK_SPEED.getIdAsString(),
                                     T1_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
@@ -176,7 +176,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
                                     T2_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -190,7 +190,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    EntityAttributes.ATTACK_SPEED.getIdAsString(),
                                     T2_BUFF_MULTIPLIER,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
@@ -223,7 +223,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ARMOR_TOUGHNESS.getIdAsString(),
+                                    EntityAttributes.ARMOR_TOUGHNESS.getIdAsString(),
                                     4F,
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             )
@@ -345,7 +345,7 @@ public class RelicEffects {
             new CustomStatusEffect(StatusEffectCategory.HARMFUL, 0x888800),
             new EffectConfig(List.of(
                     new AttributeModifier(
-                            EntityAttributes.GENERIC_JUMP_STRENGTH.getIdAsString(),
+                            EntityAttributes.JUMP_STRENGTH.getIdAsString(),
                             0,
                             EntityAttributeModifier.Operation.ADD_MULTIPLIED_TOTAL
                     )
@@ -359,7 +359,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
                                     0.5F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -374,7 +374,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString(),
+                                    EntityAttributes.ATTACK_SPEED.getIdAsString(),
                                     0.1F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
@@ -409,7 +409,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ARMOR.getIdAsString(),
+                                    EntityAttributes.ARMOR.getIdAsString(),
                                     10F,
                                     EntityAttributeModifier.Operation.ADD_VALUE
                             )
@@ -424,7 +424,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString(),
+                                    EntityAttributes.ATTACK_DAMAGE.getIdAsString(),
                                     0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
@@ -434,7 +434,7 @@ public class RelicEffects {
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             ),
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_SCALE.getIdAsString(),
+                                    EntityAttributes.SCALE.getIdAsString(),
                                     0.2F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )
@@ -481,7 +481,7 @@ public class RelicEffects {
             new EffectConfig(
                     List.of(
                             new AttributeModifier(
-                                    EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString(),
+                                    EntityAttributes.MAX_HEALTH.getIdAsString(),
                                     0.5F,
                                     EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE
                             )

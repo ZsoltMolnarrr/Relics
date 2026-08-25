@@ -37,7 +37,7 @@
   },
   "impacts": [
     {
-      "attribute": "minecraft:generic.max_health",
+      "attribute": "minecraft:max_health",
       "action": {
         "type": "HEAL",
         "heal": {
