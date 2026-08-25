@@ -24,9 +24,14 @@
     "relics_rpgs.mixins.json"
   ],
   "depends": {
-    "minecraft": ">=${minecraft_compat_version}",
+    "minecraft": "~1.21.11",
     "fabricloader": ">=${fabric_loader_version}",
+    "fabric-api": "*",
+    "java": ">=21",
     "spell_engine": ">=${spell_engine_version}",
     "ranged_weapon_api": ">=${ranged_weapon_api_version}"
+  },
+  "recommends": {
+    "trinkets": "*"
   }
 }
