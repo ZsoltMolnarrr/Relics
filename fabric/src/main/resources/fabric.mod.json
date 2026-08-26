@@ -24,7 +24,7 @@
     "relics_rpgs.mixins.json"
   ],
   "depends": {
-    "minecraft": "~1.21.11",
+    "minecraft": ">=${minecraft_min_version}",
     "fabricloader": ">=${fabric_loader_version}",
     "fabric-api": "*",
     "java": ">=21",
