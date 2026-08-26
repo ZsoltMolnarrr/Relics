@@ -1,10 +1,10 @@
 package net.relics_rpgs.neoforge;
 
-import net.minecraft.item.ItemGroup;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.text.Text;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.network.chat.Component;
+import net.minecraft.world.item.CreativeModeTab;
 import net.neoforged.bus.api.IEventBus;
 import net.neoforged.fml.common.Mod;
 import net.neoforged.neoforge.event.BuildCreativeModeTabContentsEvent;
@@ -25,22 +25,22 @@ public final class NeoForgeMod {
     }
 
     public static void register(RegisterEvent event) {
-        event.register(RegistryKeys.SOUND_EVENT, reg -> {
+        event.register(Registries.SOUND_EVENT, reg -> {
             RelicsMod.registerSounds();
         });
-        event.register(RegistryKeys.ITEM_GROUP, reg -> {
+        event.register(Registries.CREATIVE_MODE_TAB, reg -> {
             // Create and register item group (NeoForge-specific). Vanilla ItemGroup.Builder — the static
             // ItemGroup.builder() is a Fabric API interface-injected method absent on NeoForge at runtime.
-            Group.GROUP = new ItemGroup.Builder(ItemGroup.Row.TOP, 0)
+            Group.GROUP = new CreativeModeTab.Builder(CreativeModeTab.Row.TOP, 0)
                     .icon(Group.ICON)
-                    .displayName(Text.translatable(Group.translationKey))
+                    .title(Component.translatable(Group.translationKey))
                     .build();
-            Registry.register(Registries.ITEM_GROUP, Group.KEY, Group.GROUP);
+            Registry.register(BuiltInRegistries.CREATIVE_MODE_TAB, Group.KEY, Group.GROUP);
         });
-        event.register(RegistryKeys.ITEM, reg -> {
+        event.register(Registries.ITEM, reg -> {
             RelicsMod.registerItems();
         });
-        event.register(RegistryKeys.STATUS_EFFECT, reg -> {
+        event.register(Registries.MOB_EFFECT, reg -> {
             RelicsMod.registerEffects();
         });
     }
@@ -51,7 +51,7 @@ public final class NeoForgeMod {
         }
         for (var entry : RelicItems.entries) {
             if (entry.isEnabled()) {
-                event.add(entry.item().get());
+                event.accept(entry.item().get());
             }
         }
     }

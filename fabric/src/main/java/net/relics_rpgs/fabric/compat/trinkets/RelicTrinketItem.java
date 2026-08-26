@@ -3,21 +3,21 @@ package net.relics_rpgs.fabric.compat.trinkets;
 import com.google.common.collect.Multimap;
 import dev.emi.trinkets.api.SlotReference;
 import dev.emi.trinkets.api.TrinketItem;
-import net.minecraft.component.type.AttributeModifiersComponent;
-import net.minecraft.entity.LivingEntity;
-import net.minecraft.entity.attribute.EntityAttribute;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.ItemStack;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.entry.RegistryEntry;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Holder;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.world.entity.LivingEntity;
+import net.minecraft.world.entity.ai.attributes.Attribute;
+import net.minecraft.world.entity.ai.attributes.AttributeModifier;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.ItemStack;
+import net.minecraft.world.item.component.ItemAttributeModifiers;
 import org.jetbrains.annotations.Nullable;
 
 public class RelicTrinketItem extends TrinketItem {
-    private AttributeModifiersComponent customAttributes = AttributeModifiersComponent.builder().build();
+    private ItemAttributeModifiers customAttributes = ItemAttributeModifiers.builder().build();
 
-    public RelicTrinketItem(Settings settings, @Nullable AttributeModifiersComponent customAttributes) {
+    public RelicTrinketItem(Properties settings, @Nullable ItemAttributeModifiers customAttributes) {
         super(settings);
         if (customAttributes != null) {
             this.customAttributes = customAttributes;
@@ -25,29 +25,29 @@ public class RelicTrinketItem extends TrinketItem {
     }
 
     @Override
-    public Multimap<RegistryEntry<EntityAttribute>, EntityAttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
+    public Multimap<Holder<Attribute>, AttributeModifier> getModifiers(ItemStack stack, SlotReference slot, LivingEntity entity, Identifier slotIdentifier) {
         var modifiers = super.getModifiers(stack, slot, entity, slotIdentifier);
         // `slotIdentifier` is already unique per equipped slot (…/<slot>/<index>), so bonuses
         // stack across slots. Tie the id to the item as well so quickly swapping a different
         // item within the same slot doesn't reuse an id and trip vanilla's "Modifier is already
         // applied" guard.
-        var modifierId = slotIdentifier.withSuffixedPath("/" + Registries.ITEM.getId(stack.getItem()).getPath());
+        var modifierId = slotIdentifier.withSuffix("/" + BuiltInRegistries.ITEM.getKey(stack.getItem()).getPath());
         for (var entry : this.customAttributes.modifiers()) {
             modifiers.put(entry.attribute(),
-                    new EntityAttributeModifier(modifierId, entry.modifier().value(), entry.modifier().operation()));
+                    new AttributeModifier(modifierId, entry.modifier().amount(), entry.modifier().operation()));
         }
         return modifiers;
     }
 
-    public void setConfigurableModifiers(AttributeModifiersComponent component) {
+    public void setConfigurableModifiers(ItemAttributeModifiers component) {
         this.customAttributes = component;
     }
 
     @Override
     public boolean canUnequip(ItemStack stack, SlotReference slot, LivingEntity entity) {
         var isOnCooldown = false;
-        if (entity instanceof PlayerEntity player) {
-            isOnCooldown = !player.isCreative() && player.getItemCooldownManager().isCoolingDown(stack);
+        if (entity instanceof Player player) {
+            isOnCooldown = !player.isCreative() && player.getCooldowns().isOnCooldown(stack);
         }
         return super.canUnequip(stack, slot, entity) && !isOnCooldown;
     }

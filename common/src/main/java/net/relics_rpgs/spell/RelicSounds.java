@@ -1,9 +1,9 @@
 package net.relics_rpgs.spell;
 
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.sound.SoundEvent;
-import net.minecraft.util.Identifier;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.sounds.SoundEvent;
 import net.relics_rpgs.RelicsMod;
 
 import java.util.ArrayList;
@@ -12,7 +12,7 @@ import java.util.List;
 public class RelicSounds {
     public record Entry(String name) {
         public Identifier id() {
-            return Identifier.of(RelicsMod.NAMESPACE, name);
+            return Identifier.fromNamespaceAndPath(RelicsMod.NAMESPACE, name);
         }
     }
     public static final List<Entry> entries = new ArrayList<>();
@@ -50,8 +50,8 @@ public class RelicSounds {
     public static void register() {
         for (var entry: entries) {
             var soundId = entry.id();
-            var soundEvent = SoundEvent.of(soundId);
-            Registry.register(Registries.SOUND_EVENT, soundId, soundEvent);
+            var soundEvent = SoundEvent.createVariableRangeEvent(soundId);
+            Registry.register(BuiltInRegistries.SOUND_EVENT, soundId, soundEvent);
         }
     }
 }

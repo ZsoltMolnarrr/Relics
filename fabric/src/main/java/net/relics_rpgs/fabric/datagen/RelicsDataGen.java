@@ -4,14 +4,14 @@ import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
+import net.minecraft.client.data.models.BlockModelGenerators;
+import net.minecraft.client.data.models.ItemModelGenerators;
+import net.minecraft.client.data.models.model.ModelTemplates;
+import net.minecraft.core.HolderLookup;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
 import net.fabricmc.fabric.api.client.datagen.v1.provider.FabricModelProvider;
-import net.minecraft.client.data.BlockStateModelGenerator;
-import net.minecraft.client.data.ItemModelGenerator;
-import net.minecraft.client.data.Models;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.registry.RegistryWrapper;
-import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.item.Group;
 import net.relics_rpgs.item.RelicItemTags;
@@ -40,14 +40,14 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
 
     public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
 
-        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<RegistryWrapper.WrapperLookup> registriesFuture) {
+        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
         @Override
-        protected void configure(RegistryWrapper.WrapperLookup wrapperLookup) {
+        protected void addTags(HolderLookup.Provider wrapperLookup) {
             var all = builder(RelicItemTags.ALL);
-            RelicItems.entries.forEach(entry -> all.addOptional(RegistryKey.of(RegistryKeys.ITEM, entry.id())));
+            RelicItems.entries.forEach(entry -> all.addOptional(ResourceKey.create(Registries.ITEM, entry.id())));
 
             HashMap<Identifier, Equipment.LootProperties> relicEntries = new HashMap<>();
             for (var entry: RelicItems.entries) {
@@ -60,17 +60,17 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class LangGenerator extends FabricLanguageProvider {
-        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, "en_us", registryLookup);
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(HolderLookup.Provider wrapperLookup, TranslationBuilder translationBuilder) {
             translationBuilder.add("trinkets.slot.spell.trinket", "Trinket");
             translationBuilder.add("trinkets.slot.charm.trinket", "Trinket");
             translationBuilder.add(Group.translationKey, "Relics");
             RelicItems.entries.forEach(entry ->
-                translationBuilder.add(entry.item().get().getTranslationKey(), entry.translatedName())
+                translationBuilder.add(entry.item().get().getDescriptionId(), entry.translatedName())
             );
             //   "spell.archers.entangling_roots.name": "Entangling Roots",
             RelicSpells.entries.forEach(entry -> {
@@ -79,8 +79,8 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
                 translationBuilder.add("spell." + id.getNamespace() + "." + id.getPath() + ".description" , entry.description());
             });
             RelicEffects.entries.forEach(entry -> {
-                translationBuilder.add(entry.effect.getTranslationKey(), entry.title);
-                translationBuilder.add(entry.effect.getTranslationKey() + ".description", entry.description);
+                translationBuilder.add(entry.effect.getDescriptionId(), entry.title);
+                translationBuilder.add(entry.effect.getDescriptionId() + ".description", entry.description);
             });
         }
     }
@@ -91,20 +91,20 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         }
 
         @Override
-        public void generateBlockStateModels(BlockStateModelGenerator blockStateModelGenerator) {
+        public void generateBlockStateModels(BlockModelGenerators blockStateModelGenerator) {
 
         }
 
         @Override
-        public void generateItemModels(ItemModelGenerator itemModelGenerator) {
+        public void generateItemModels(ItemModelGenerators itemModelGenerator) {
             RelicItems.entries.forEach(entry -> {
-                itemModelGenerator.register(entry.item().get(), Models.GENERATED);
+                itemModelGenerator.generateFlatItem(entry.item().get(), ModelTemplates.FLAT_ITEM);
             });
         }
     }
 
     public static class RelicsSpellGen extends SpellGenerator {
-        public RelicsSpellGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public RelicsSpellGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -117,7 +117,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class SoundGen extends SimpleSoundGenerator {
-        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
+        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 

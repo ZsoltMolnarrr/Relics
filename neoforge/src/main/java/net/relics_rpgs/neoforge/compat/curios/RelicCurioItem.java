@@ -1,22 +1,22 @@
 package net.relics_rpgs.neoforge.compat.curios;
 
-import net.minecraft.entity.player.PlayerEntity;
-import net.minecraft.item.Item;
-import net.minecraft.item.ItemStack;
-import net.minecraft.sound.SoundEvents;
+import net.minecraft.sounds.SoundEvents;
+import net.minecraft.world.entity.player.Player;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.ItemStack;
 import top.theillusivec4.curios.api.SlotContext;
 import top.theillusivec4.curios.api.type.capability.ICurioItem;
 
 public class RelicCurioItem extends Item implements ICurioItem {
-    public RelicCurioItem(Item.Settings settings) {
+    public RelicCurioItem(Item.Properties settings) {
         super(settings);
     }
 
     @Override
     public boolean canUnequip(SlotContext slotContext, ItemStack stack) {
         var isOnCooldown = false;
-        if (slotContext.entity() instanceof PlayerEntity player) {
-            isOnCooldown = !player.isCreative() && player.getItemCooldownManager().isCoolingDown(stack);
+        if (slotContext.entity() instanceof Player player) {
+            isOnCooldown = !player.isCreative() && player.getCooldowns().isOnCooldown(stack);
         }
         return ICurioItem.super.canUnequip(slotContext, stack) && !isOnCooldown;
     }
@@ -29,15 +29,15 @@ public class RelicCurioItem extends Item implements ICurioItem {
         if (entity == null) {
             return;
         }
-        var world = entity.getEntityWorld();
-        if (world.isClient()                        // the server broadcast below reaches every nearby client
-                || entity.age <= 100                // gear already worn when entering a world/dimension
-                || prevStack.isOf(stack.getItem())) // same item, only its data changed
+        var world = entity.level();
+        if (world.isClientSide()                        // the server broadcast below reaches every nearby client
+                || entity.tickCount <= 100                // gear already worn when entering a world/dimension
+                || prevStack.is(stack.getItem())) // same item, only its data changed
         {
             return;
         }
-        world.playSound(null, entity.getBlockPos(), SoundEvents.ITEM_ARMOR_EQUIP_GENERIC.value(),
-                entity.getSoundCategory(), 1.0F, 1.0F);
+        world.playSound(null, entity.blockPosition(), SoundEvents.ARMOR_EQUIP_GENERIC.value(),
+                entity.getSoundSource(), 1.0F, 1.0F);
     }
 
     @Override

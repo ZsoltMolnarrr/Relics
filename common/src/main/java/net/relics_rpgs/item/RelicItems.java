@@ -2,15 +2,14 @@ package net.relics_rpgs.item;
 
 import com.google.common.base.Suppliers;
 import net.rpg_foundation.ranged_weapon.api.EntityAttributes_RangedWeapon;
-import net.minecraft.entity.attribute.EntityAttributeModifier;
-import net.minecraft.entity.attribute.EntityAttributes;
-import net.minecraft.item.Item;
-import net.minecraft.registry.Registries;
-import net.minecraft.registry.Registry;
-import net.minecraft.registry.RegistryKey;
-import net.minecraft.registry.RegistryKeys;
-import net.minecraft.util.Identifier;
-import net.minecraft.util.Rarity;
+import net.minecraft.core.Registry;
+import net.minecraft.core.registries.BuiltInRegistries;
+import net.minecraft.core.registries.Registries;
+import net.minecraft.resources.Identifier;
+import net.minecraft.resources.ResourceKey;
+import net.minecraft.world.entity.ai.attributes.Attributes;
+import net.minecraft.world.item.Item;
+import net.minecraft.world.item.Rarity;
 import net.relics_rpgs.RelicsMod;
 import net.relics_rpgs.config.ItemConfig;
 import net.relics_rpgs.spell.RelicSpells;
@@ -60,19 +59,19 @@ public class RelicItems {
             this.item = Suppliers.memoize(() -> {
                 // 1.21.11: `Item.Settings` built inside a factory must carry the registry key,
                 // otherwise the item crashes with `Item id not set` while being constructed.
-                var settings = new Item.Settings()
-                        .registryKey(RegistryKey.of(RegistryKeys.ITEM, Identifier.of(RelicsMod.NAMESPACE, name)))
-                        .maxCount(1);
+                var settings = new Item.Properties()
+                        .setId(ResourceKey.create(Registries.ITEM, Identifier.fromNamespaceAndPath(RelicsMod.NAMESPACE, name)))
+                        .stacksTo(1);
                 var selectedAttributes = config().selectedAttributes();
                 var attributes = (selectedAttributes != null && !selectedAttributes.isEmpty())
-                        ? ConfigUtil.attributesComponent(Identifier.of(RelicsMod.NAMESPACE, name), selectedAttributes).build()
+                        ? ConfigUtil.attributesComponent(Identifier.fromNamespaceAndPath(RelicsMod.NAMESPACE, name), selectedAttributes).build()
                         : null;
                 var spellContainer = spellContainer();
                 if (spellContainer != null) {
                     settings = settings.component(SpellDataComponents.SPELL_CONTAINER, spellContainer);
                 }
                 if (config().durability > 0) {
-                    settings = settings.maxDamage(config().durability);
+                    settings = settings.durability(config().durability);
                 }
 
                 var rarity = rarityFrom(tier);
@@ -97,7 +96,7 @@ public class RelicItems {
         }
 
         public Identifier id() {
-            return Identifier.of(RelicsMod.NAMESPACE, name);
+            return Identifier.fromNamespaceAndPath(RelicsMod.NAMESPACE, name);
         }
 
         public String name() {
@@ -152,74 +151,74 @@ public class RelicItems {
     public static final Entry JEWEL_FIGURINE_RUBY = add(new Entry(1, "jewel_figurine_ruby", "Ruby Serpent Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(Attributes.ATTACK_DAMAGE.getRegisteredName(), tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TOPAZ = add(new Entry(1, "jewel_figurine_topaz", "Topaz Fox Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(SpellSchools.ARCANE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new AttributeModifier(SpellSchools.FIRE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.ARCANE.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.FIRE.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_CITRINE = add(new Entry(1, "jewel_figurine_citrine", "Citrine Cat Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(SpellSchools.HEALING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new AttributeModifier(SpellSchools.LIGHTNING.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.HEALING.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.LIGHTNING.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_JADE = add(new Entry(1, "jewel_figurine_jade", "Jade Hawk Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes_RangedWeapon.DAMAGE.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(EntityAttributes_RangedWeapon.DAMAGE.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_SAPPHIRE = add(new Entry(1, "jewel_figurine_sapphire", "Sapphire Turtle Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.MAX_HEALTH.getIdAsString(), 2, EntityAttributeModifier.Operation.ADD_VALUE)
+                            new AttributeModifier(Attributes.MAX_HEALTH.getRegisteredName(), 2, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE)
                     ))
             );
     public static final Entry JEWEL_FIGURINE_TANZANITE = add(new Entry(1, "jewel_figurine_tanzanite", "Tanzanite Bat Figurine"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(SpellSchools.FROST.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE),
-                            new AttributeModifier(SpellSchools.SOUL.id, tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellSchools.FROST.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE),
+                            new AttributeModifier(SpellSchools.SOUL.id, tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
 
     public static final Entry LESSER_ROLL = add(new Entry(1, "lesser_roll", "Feather Talisman"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.MOVEMENT_SPEED.getIdAsString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(Attributes.MOVEMENT_SPEED.getRegisteredName(), 0.1F, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(COMBAT_ROLL_MODID, List.of(
-                            new AttributeModifier(COMBAT_ROLL_COUNT, 1, EntityAttributeModifier.Operation.ADD_VALUE)
+                            new AttributeModifier(COMBAT_ROLL_COUNT, 1, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_VALUE)
                     ))
             );
     public static final Entry LESSER_EVASION = add(new Entry(1, "lesser_evasion", "Lucky Coin"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(SpellEngineAttributes.EVASION_CHANCE.id.toString(), 0.03F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellEngineAttributes.EVASION_CHANCE.id.toString(), 0.03F, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry LESSER_MELEE_CRIT_CHANCE = add(new Entry(1, "lesser_melee_crit_chance", "Dice of Fate"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(Attributes.ATTACK_DAMAGE.getRegisteredName(), tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
-                            new AttributeModifier(CRITICAL_STRIKE_CHANCE, 0.05F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(CRITICAL_STRIKE_CHANCE, 0.05F, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry LESSER_MELEE_CRIT_DAMAGE = add(new Entry(1, "lesser_melee_crit_damage", "Serrated Fang"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(EntityAttributes.ATTACK_DAMAGE.getIdAsString(), tier_0_multiplier, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(Attributes.ATTACK_DAMAGE.getRegisteredName(), tier_0_multiplier, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
                     .withConditionalAttributes(CRITICAL_STRIKE_MODID, List.of(
-                            new AttributeModifier(CRITICAL_STRIKE_DAMAGE, 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(CRITICAL_STRIKE_DAMAGE, 0.1F, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
 
@@ -276,7 +275,7 @@ public class RelicItems {
     public static final Entry GREATER_HEALING_TAKEN = add(new Entry(3, "greater_healing_taken", "Ankh"))
             .config(new ItemConfig.Entry()
                     .withAttributes(List.of(
-                            new AttributeModifier(SpellEngineAttributes.HEALING_TAKEN.id.toString(), 0.1F, EntityAttributeModifier.Operation.ADD_MULTIPLIED_BASE)
+                            new AttributeModifier(SpellEngineAttributes.HEALING_TAKEN.id.toString(), 0.1F, net.minecraft.world.entity.ai.attributes.AttributeModifier.Operation.ADD_MULTIPLIED_BASE)
                     ))
             );
     public static final Entry GREATER_PERK_MELEE_STUN = add(new Entry(3, "greater_perk_melee_stun", "Blackjack"))
@@ -328,7 +327,7 @@ public class RelicItems {
 
         for(var entry: entries) {
              if (entry.isEnabled()) {
-                Registry.register(Registries.ITEM, entry.id(), entry.item().get());
+                Registry.register(BuiltInRegistries.ITEM, entry.id(), entry.item().get());
              }
         }
         // Creative-tab placement (into the Relics group) is registered per-platform from each loader's
