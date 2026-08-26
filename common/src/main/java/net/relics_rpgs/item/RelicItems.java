@@ -1,7 +1,7 @@
 package net.relics_rpgs.item;
 
 import com.google.common.base.Suppliers;
-import net.fabric_extras.ranged_weapon.api.EntityAttributes_RangedWeapon;
+import net.rpg_foundation.ranged_weapon.api.EntityAttributes_RangedWeapon;
 import net.minecraft.entity.attribute.EntityAttributeModifier;
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.item.Item;
