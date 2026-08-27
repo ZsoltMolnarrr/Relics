@@ -1,6 +1,6 @@
 package net.relics_rpgs.item;
 
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.function.Function;
 import net.minecraft.world.item.Item;

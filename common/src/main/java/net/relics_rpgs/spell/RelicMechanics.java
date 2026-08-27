@@ -12,7 +12,7 @@ import net.spell_engine.api.spell.Spell;
 import net.spell_engine.api.spell.event.SpellHandlers;
 import net.spell_engine.internals.SpellExecution;
 import net.spell_power.api.SpellPower;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 public class RelicMechanics {
     public static final Identifier SHIELD_RESET = Identifier.fromNamespaceAndPath(RelicsMod.NAMESPACE, "shield_reset");

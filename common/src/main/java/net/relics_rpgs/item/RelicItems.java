@@ -20,7 +20,7 @@ import net.spell_engine.api.spell.SpellDataComponents;
 import net.spell_engine.api.spell.container.SpellContainer;
 import net.spell_engine.api.spell.container.SpellContainers;
 import net.spell_power.api.SpellSchools;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -115,7 +115,7 @@ public class RelicItems {
             return item;
         }
 
-        @Nullable public SpellContainer spellContainer() {
+        public @Nullable SpellContainer spellContainer() {
             return spellContainer;
         }
 

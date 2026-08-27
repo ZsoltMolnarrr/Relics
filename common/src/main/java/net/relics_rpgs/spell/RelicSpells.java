@@ -22,8 +22,8 @@ import net.spell_engine.fx.SpellEngineSounds;
 import net.spell_engine.internals.target.SpellTarget;
 import net.spell_power.api.SpellSchool;
 import net.spell_power.api.SpellSchools;
-import org.jetbrains.annotations.NotNull;
-import org.jetbrains.annotations.Nullable;
+import org.jspecify.annotations.NonNull;
+import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -121,12 +121,12 @@ public class RelicSpells {
 
     public static Entry lesser_use_damage = add(lesser_use_damage());
 
-    private static @NotNull ParticleGroup lesserActivateParticles(Color color, int count) {
+    private static @NonNull ParticleGroup lesserActivateParticles(Color color, int count) {
         return ParticleGroupBuilder.magic(SpellEngineParticles.magic_spark, ParticleGroup.Motion.DECELERATE, color)
                 .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(count).speed(0.14F, 0.15F));
     }
 
-    private static @NotNull ParticleGroup lesserActivateParticles(String particleId, int count) {
+    private static @NonNull ParticleGroup lesserActivateParticles(String particleId, int count) {
         return ParticleGroupBuilder.of(particleId)
                 .batch(b -> b.shape(ParticleGroup.Shape.SPHERE).count(count).speed(0.14F, 0.15F));
     }

@@ -2,7 +2,7 @@ package net.relics_rpgs.fabric.datagen;
 
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
-import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
+import net.fabricmc.fabric.api.datagen.v1.FabricPackOutput;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.minecraft.client.data.models.BlockModelGenerators;
 import net.minecraft.client.data.models.ItemModelGenerators;
@@ -40,7 +40,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
 
     public static class ItemTagGenerator extends RPGSeriesDataGen.ItemTagGenerator {
 
-        public ItemTagGenerator(FabricDataOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
+        public ItemTagGenerator(FabricPackOutput output, CompletableFuture<HolderLookup.Provider> registriesFuture) {
             super(output, registriesFuture);
         }
 
@@ -60,7 +60,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class LangGenerator extends FabricLanguageProvider {
-        protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        protected LangGenerator(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, "en_us", registryLookup);
         }
 
@@ -86,7 +86,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class ModelProvider extends FabricModelProvider {
-        public ModelProvider(FabricDataOutput output) {
+        public ModelProvider(FabricPackOutput output) {
             super(output);
         }
 
@@ -104,7 +104,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class RelicsSpellGen extends SpellGenerator {
-        public RelicsSpellGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        public RelicsSpellGen(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
@@ -117,7 +117,7 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
     }
 
     public static class SoundGen extends SimpleSoundGenerator {
-        public SoundGen(FabricDataOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
+        public SoundGen(FabricPackOutput dataOutput, CompletableFuture<HolderLookup.Provider> registryLookup) {
             super(dataOutput, registryLookup);
         }
 
