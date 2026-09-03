@@ -10,12 +10,12 @@ authors = "Daedelus"
 description = '''
 Unleash your true potential with powerful trinkets!
 '''
-logoFile = "icon.png"
+iconFile = "icon.png"
 
 [[dependencies.relics_rpgs]]
 modId = "neoforge"
 type = "required"
-versionRange = "[26.1,)"
+versionRange = "[26.2,)"
 ordering = "NONE"
 side = "BOTH"
 
@@ -43,7 +43,7 @@ side = "BOTH"
 [[dependencies.relics_rpgs]]
 modId = "curios"
 type = "optional"
-versionRange = "[15.0.0,)"
+versionRange = "[16.0.0,)"
 ordering = "AFTER"
 side = "BOTH"
 
