@@ -26,6 +26,7 @@ import org.jspecify.annotations.NonNull;
 import org.jspecify.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.Locale;
 import java.util.List;
 import java.util.function.Consumer;
 
@@ -75,7 +76,9 @@ public class RelicSpells {
         spell.tooltip = new Spell.Tooltip();
         spell.tooltip.show_header = false;
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = ChatFormatting.DARK_GREEN.getSerializedName();
+        // 26.2: `ChatFormatting` is no longer `StringRepresentable` (`getSerializedName`/`getName` removed);
+        // the serialized form was the lowercased enum name.
+        spell.tooltip.description.color = ChatFormatting.DARK_GREEN.name().toLowerCase(Locale.ROOT);
         spell.tooltip.description.show_in_compact = true;
 
         return spell;
@@ -92,7 +95,9 @@ public class RelicSpells {
         spell.tooltip = new Spell.Tooltip();
         spell.tooltip.show_header = false;
         spell.tooltip.name = new Spell.Tooltip.LineOptions(false, false);
-        spell.tooltip.description.color = ChatFormatting.DARK_GREEN.getSerializedName();
+        // 26.2: `ChatFormatting` is no longer `StringRepresentable` (`getSerializedName`/`getName` removed);
+        // the serialized form was the lowercased enum name.
+        spell.tooltip.description.color = ChatFormatting.DARK_GREEN.name().toLowerCase(Locale.ROOT);
         spell.tooltip.description.show_in_compact = true;
 
         return spell;
