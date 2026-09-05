@@ -1,3 +1,8 @@
+# 1.4.1
+
+- Updated for Minecraft 26.1.2 (Java 25)
+- Fixed Curios attribute bonuses on NeoForge
+
 # 1.4.0
 
 **Important disclaimer** - NeoForge users need to unequip their spell books, jewelry, relics and quivers to preserve it, before updating to this version!
