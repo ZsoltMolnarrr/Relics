@@ -1,5 +1,6 @@
 # 1.4.1
 
+- Updated for Minecraft 26.2
 - Updated for Minecraft 26.1.2 (Java 25)
 - Fixed Curios attribute bonuses on NeoForge
 
