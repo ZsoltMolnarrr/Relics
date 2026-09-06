@@ -2,9 +2,11 @@ package net.relics_rpgs.spell;
 
 import net.minecraft.entity.attribute.EntityAttributes;
 import net.minecraft.entity.effect.StatusEffects;
+import net.minecraft.registry.Registries;
 import net.minecraft.util.Formatting;
 import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
+import net.relics_rpgs.util.AttributeIds;
 import net.spell_engine.api.datagen.SpellBuilder;
 import net.spell_engine.api.entity.SpellEntityPredicates;
 import net.spell_engine.api.spell.ExternalSpellSchools;
@@ -132,7 +134,7 @@ public class RelicSpells {
     }
 
     private static Entry lesser_use_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_damage");
         var description = "Use: Increases attack damage by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACK_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACK_DAMAGE;
         var title = effect.title;
@@ -159,8 +161,8 @@ public class RelicSpells {
     public static Entry lesser_use_dex = add(lesser_use_dex());
 
     private static Entry lesser_use_dex() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_dex");
-        var description = "Use: Increases melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_dex");
+        var description = "Use: Increases melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.LESSER_ATTACKS_SPEED.id, 0, new Identifier(AttributeIds.of(EntityAttributes.GENERIC_ATTACK_SPEED))) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_ATTACKS_SPEED;
         var title = effect.title;
 
@@ -182,7 +184,7 @@ public class RelicSpells {
     public static Entry lesser_use_ranged = add(lesser_use_ranged());
 
     private static Entry lesser_use_ranged() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_ranged");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_ranged");
         var description = "Use: Increases ranged attack damage by " + TooltipTokens.effect(RelicEffects.LESSER_RANGED_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_RANGED_DAMAGE;
         var title = effect.title;
@@ -205,7 +207,7 @@ public class RelicSpells {
     public static Entry lesser_use_health = add(lesser_use_health());
 
     private static Entry lesser_use_health() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_health");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_health");
         var healFraction = 0.2F;
         var description = "Use: Heals you for " + TooltipTokens.bakedPercent(healFraction) + " of your max health.";
         var title = "Sip";
@@ -225,7 +227,7 @@ public class RelicSpells {
         );
 
         var heal = new Spell.Impact();
-        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.attribute = AttributeIds.of(EntityAttributes.GENERIC_MAX_HEALTH);
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
@@ -240,7 +242,7 @@ public class RelicSpells {
     public static Entry lesser_use_spell_power = add(lesser_use_spell_power());
 
     private static Entry lesser_use_spell_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_spell_power");
         var description = "Use: Increases spell power by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_POWER;
         var title = effect.title;
@@ -263,7 +265,7 @@ public class RelicSpells {
     public static Entry lesser_use_spell_haste = add(lesser_use_spell_haste());
 
     private static Entry lesser_use_spell_haste() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_use_spell_haste");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_use_spell_haste");
         var description = "Use: Increases spell haste by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_HASTE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_HASTE;
         var title = effect.title;
@@ -286,7 +288,7 @@ public class RelicSpells {
     public static Entry lesser_proc_spell_crit = add(lesser_proc_spell_crit());
 
     private static Entry lesser_proc_spell_crit() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_spell_crit");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_proc_spell_crit");
         var description = "On spell hit: {trigger_chance} chance to increase spell critical chance by " + TooltipTokens.effect(RelicEffects.LESSER_SPELL_CRIT.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_SPELL_CRIT;
         var title = effect.title;
@@ -318,7 +320,7 @@ public class RelicSpells {
     public static Entry lesser_proc_crit_damage = add(lesser_proc_crit_damage());
 
     private static Entry lesser_proc_crit_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_crit_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_proc_crit_damage");
         var description = "On spell hit: Spell critical strikes have {trigger_chance} chance to increase spell critical damage by " + TooltipTokens.effect(RelicEffects.LESSER_PROC_CRIT_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_PROC_CRIT_DAMAGE;
         var title = effect.title;
@@ -351,7 +353,7 @@ public class RelicSpells {
     public static Entry lesser_proc_arcane_fire = add(lesser_proc_arcane_fire());
 
     private static Entry lesser_proc_arcane_fire() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_proc_arcane_fire");
         var description = "On spell hit: {trigger_chance} chance to increase arcane and fire spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_ARCANE_FIRE.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_ARCANE_FIRE;
         var title = effect.title;
@@ -383,7 +385,7 @@ public class RelicSpells {
     public static Entry lesser_proc_frost_healing = add(lesser_proc_frost_healing());
 
     private static Entry lesser_proc_frost_healing() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
+        var id = new Identifier(RelicsMod.NAMESPACE, "lesser_proc_frost_healing");
         var description = "On spell hit: {trigger_chance} chance to increase frost and healing spell power by " + TooltipTokens.effect(RelicEffects.LESSER_POWER_FROST_HEALING.id, 0, SpellSchools.FROST.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.LESSER_POWER_FROST_HEALING;
         var title = effect.title;
@@ -463,7 +465,7 @@ public class RelicSpells {
 
     public static Entry medium_proc_attack_damage = add(medium_proc_attack_damage());
     private static Entry medium_proc_attack_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_attack_damage");
         var description = "On melee hit: {trigger_chance} chance to increase attack damage by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACK_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACK_DAMAGE;
         var title = effect.title;
@@ -488,8 +490,8 @@ public class RelicSpells {
 
     public static Entry medium_proc_attack_speed = add(medium_proc_attack_speed());
     private static Entry medium_proc_attack_speed() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
-        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACKS_SPEED.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + " for {effect_duration} seconds.";
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_attack_speed");
+        var description = "On hit: {trigger_chance_1} chance to increase melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.MEDIUM_ATTACKS_SPEED.id, 0, new Identifier(AttributeIds.of(EntityAttributes.GENERIC_ATTACK_SPEED))) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ATTACKS_SPEED;
         var title = effect.title;
 
@@ -516,7 +518,7 @@ public class RelicSpells {
 
     public static Entry medium_proc_ranged_damage = add(medium_proc_ranged_damage());
     private static Entry medium_proc_ranged_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_ranged_damage");
         var description = "On arrow hit: {trigger_chance} chance to increase ranged attack damage by " + TooltipTokens.effect(RelicEffects.MEDIUM_RANGED_DAMAGE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_RANGED_DAMAGE;
         var title = effect.title;
@@ -541,7 +543,7 @@ public class RelicSpells {
 
     public static Entry medium_proc_defense = add(medium_proc_defense());
     private static Entry medium_proc_defense() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_defense");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_defense");
         var description = "On damage taken: {trigger_chance} chance to increase armor toughness by " + TooltipTokens.effect(RelicEffects.MEDIUM_DEFENSE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_DEFENSE;
         var title = effect.title;
@@ -573,7 +575,7 @@ public class RelicSpells {
 
     public static Entry medium_proc_evasion = add(medium_proc_evasion());
     private static Entry medium_proc_evasion() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_evasion");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_evasion");
         var description = "On damage taken: {trigger_chance} chance to increase evasion chance by " + TooltipTokens.effect(RelicEffects.MEDIUM_EVASION.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_EVASION;
         var title = effect.title;
@@ -600,7 +602,7 @@ public class RelicSpells {
 
     public static Entry medium_proc_spell_power = add(medium_proc_spell_power());
     private static Entry medium_proc_spell_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_spell_power");
         var description = "On spell hit: {trigger_chance} chance to increase spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_POWER;
         var title = effect.title;
@@ -631,7 +633,7 @@ public class RelicSpells {
     public static Entry medium_proc_spell_haste = add(medium_proc_spell_haste());
 
     private static Entry medium_proc_spell_haste() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_proc_spell_haste");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_proc_spell_haste");
         var description = "On spell hit: {trigger_chance} chance to increase spell haste by " + TooltipTokens.effect(RelicEffects.MEDIUM_SPELL_HASTE.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_SPELL_HASTE;
         var title = effect.title;
@@ -662,7 +664,7 @@ public class RelicSpells {
     public static Entry medium_use_arcane_power = add(medium_use_arcane_power());
 
     private static Entry medium_use_arcane_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_arcane_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_use_arcane_power");
         var description = "Use: Increases arcane spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_ARCANE_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_ARCANE_POWER;
         var title = effect.title;
@@ -687,7 +689,7 @@ public class RelicSpells {
 
     public static Entry medium_use_fire_power = add(medium_use_fire_power());
     private static Entry medium_use_fire_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_fire_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_use_fire_power");
         var description = "Use: Increases fire spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_FIRE_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FIRE_POWER;
         var title = effect.title;
@@ -712,7 +714,7 @@ public class RelicSpells {
 
     public static Entry medium_use_frost_power = add(medium_use_frost_power());
     private static Entry medium_use_frost_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_frost_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_use_frost_power");
         var description = "Use: Increases frost spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_FROST_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_FROST_POWER;
         var title = effect.title;
@@ -737,7 +739,7 @@ public class RelicSpells {
 
     public static Entry medium_use_healing_power = add(medium_use_healing_power());
     private static Entry medium_use_healing_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "medium_use_healing_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "medium_use_healing_power");
         var description = "Use: Increases healing spell power by " + TooltipTokens.effect(RelicEffects.MEDIUM_HEALING_POWER.id) + " for {effect_duration} seconds.";
         var effect = RelicEffects.MEDIUM_HEALING_POWER;
         var title = effect.title;
@@ -765,7 +767,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_roll_damage = add(greater_perk_roll_damage());
     private static Entry greater_perk_roll_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_roll_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_roll_damage");
         var title = "Lightning Roll";
         var description = "Rolling conjures a small discharge of lightning around you, dealing {damage} damage to nearby enemies.";
         var spell = passiveSpellBase();
@@ -803,7 +805,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_melee_stun = add(greater_perk_melee_stun());
     private static Entry greater_perk_melee_stun() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_melee_stun");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_melee_stun");
         var title = "Stunning Strikes";
         var description = "On melee hit: {trigger_chance} chance to stun the target and nearby enemies for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -829,7 +831,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_spell_stun = add(greater_perk_spell_stun());
     private static Entry greater_perk_spell_stun() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_spell_stun");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_spell_stun");
         var title = "Disruption";
         var description = "On spell hit: {trigger_chance} chance to stun the target and nearby enemies for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -857,7 +859,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_ranged_levitate = add(greater_perk_ranged_levitate());
     private static Entry greater_perk_ranged_levitate() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_ranged_levitate");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_ranged_levitate");
         var title = "Levitation";
         var description = "On arrow hit: {trigger_chance} chance to levitate the target and nearby enemies for {effect_duration} seconds.";
         var spell = passiveSpellBase();
@@ -870,7 +872,7 @@ public class RelicSpells {
 
         spell.target.type = Spell.Target.Type.FROM_TRIGGER;
 
-        var levitate = createEffectImpact(StatusEffects.LEVITATION.getKey().get().getValue().toString(), T3_PERK_CC_DURATION);
+        var levitate = createEffectImpact(Registries.STATUS_EFFECT.getId(StatusEffects.LEVITATION).toString(), T3_PERK_CC_DURATION);
         levitate.sound = new Sound(RelicSounds.LEVITATE_GENERIC.id().toString());
         levitate.action.status_effect.amplifier = 3;
         levitate.visuals = Fx.Visuals.of(
@@ -889,7 +891,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_defense_block = add(greater_perk_defense_block());
     private static Entry greater_perk_defense_block() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_block");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_defense_block");
         var title = "Wardstone";
         var description = "Blocking with a shield heals you by {heal}.";
         var spell = passiveSpellBase();
@@ -919,7 +921,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_evasion_attack = add(greater_perk_evasion_attack());
     private static Entry greater_perk_evasion_attack() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_evasion_attack");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_evasion_attack");
         var title = "Counterattack";
         var description = "Evading an attack has a {trigger_chance_1} chance to make your next attack " + TooltipTokens.effect(RelicEffects.GREATER_EVASION_ATTACK.id) + " stronger.";
         var effect = RelicEffects.GREATER_EVASION_ATTACK;
@@ -951,7 +953,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_shield_reset = add(greater_perk_shield_reset());
     public static Entry greater_perk_shield_reset() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_shield_reset");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_shield_reset");
         var title = "Shield Recharge";
         var description = "Rolling resets the cooldown of your currently held shield.";
         var spell = passiveSpellBase();
@@ -980,7 +982,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_heal_cleanse = add(greater_perk_heal_cleanse());
     private static Entry greater_perk_heal_cleanse() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_healing_cleanse");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_healing_cleanse");
         var title = "Purification";
         var description = "Healing spells have a {trigger_chance} chance to remove a harmful effect from the target.";
         var spell = passiveSpellBase();
@@ -1004,7 +1006,9 @@ public class RelicSpells {
         cleanse.action.status_effect = new Spell.Impact.Action.StatusEffect();
         cleanse.action.status_effect.apply_mode = Spell.Impact.Action.StatusEffect.ApplyMode.REMOVE;
         cleanse.action.status_effect.remove = new Spell.Impact.Action.StatusEffect.Remove();
-        cleanse.action.status_effect.remove.id = "!" + StatusEffects.TRIAL_OMEN.getIdAsString();
+        // `minecraft:trial_omen` does not exist before 1.21; the negated pattern is kept verbatim so
+        // the emitted spell JSON is identical and the exclusion becomes live the day it does.
+        cleanse.action.status_effect.remove.id = "!minecraft:trial_omen";
         cleanse.action.status_effect.remove.selector = Spell.Impact.Action.StatusEffect.Remove.Selector.RANDOM;
         cleanse.action.status_effect.remove.select_beneficial = false;
         cleanse.sound = new Sound(RelicSounds.HOLY_WATER_IMPACT.id());
@@ -1026,8 +1030,8 @@ public class RelicSpells {
 
     public static Entry greater_proc_physical_trance = add(greater_proc_physical_trance());
     private static Entry greater_proc_physical_trance() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
-        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.GREATER_PHYSICAL_TRANCE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_SPEED.getIdAsString())) + ". "
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_proc_physical_trance");
+        var description = "On hit: {trigger_chance_1} chance to enter battle trance, increasing melee and ranged attack speed by " + TooltipTokens.effect(RelicEffects.GREATER_PHYSICAL_TRANCE.id, 0, new Identifier(AttributeIds.of(EntityAttributes.GENERIC_ATTACK_SPEED))) + ". "
                 + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_PHYSICAL_TRANCE;
         var title = effect.title;
@@ -1079,7 +1083,7 @@ public class RelicSpells {
 
     public static Entry greater_proc_spell_trance = add(greater_proc_spell_trance());
     private static Entry greater_proc_spell_trance() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_proc_spell_trance");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_proc_spell_trance");
         var description = "On spell hit: {trigger_chance_1} chance to enter magic trance, increasing spell haste by " + TooltipTokens.effect(RelicEffects.GREATER_SPELL_TRANCE.id) + ". "
                 + "Stacking up to {effect_amplifier_cap} times, lasting for {effect_duration} seconds.";
         var effect = RelicEffects.GREATER_SPELL_TRANCE;
@@ -1132,7 +1136,7 @@ public class RelicSpells {
 
     public static Entry greater_perk_heal_danger = add(greater_perk_heal_danger());
     private static Entry greater_perk_heal_danger() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_heal_danger");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_heal_danger");
         var title = "Desperation";
         var health_threshold = 0.5F;
         var description = "Healing a target below " + TooltipTokens.bakedPercent(health_threshold)
@@ -1170,7 +1174,7 @@ public class RelicSpells {
 
     public static Entry greater_proc_defense_danger = add(greater_proc_defense_danger());
     private static Entry greater_proc_defense_danger() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "greater_perk_defense_danger");
+        var id = new Identifier(RelicsMod.NAMESPACE, "greater_perk_defense_danger");
         var effect = RelicEffects.GREATER_DEFENSE_ARMOR;
         var title = effect.title;
         var health_threshold = 0.4F;
@@ -1212,10 +1216,10 @@ public class RelicSpells {
 
     public static Entry superior_use_area_attack_damage = add(superior_use_area_attack_damage());
     private static Entry superior_use_area_attack_damage() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_attack_damage");
+        var id = new Identifier(RelicsMod.NAMESPACE, "superior_use_area_attack_damage");
         var effect = RelicEffects.SUPERIOR_ATTACK_DAMAGE;
         var title = effect.title;
-        var description = "Use: Increases size, melee and ranged attack damage of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_ATTACK_DAMAGE.id, 0, Identifier.of(EntityAttributes.GENERIC_ATTACK_DAMAGE.getIdAsString())) + " for {effect_duration} seconds.";
+        var description = "Use: Increases melee and ranged attack damage of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_ATTACK_DAMAGE.id, 0, new Identifier(AttributeIds.of(EntityAttributes.GENERIC_ATTACK_DAMAGE))) + " for {effect_duration} seconds.";
 
         var spell = activeSpellBase();
         spell.school = ExternalSpellSchools.PHYSICAL_MELEE;
@@ -1242,7 +1246,7 @@ public class RelicSpells {
 
     public static Entry superior_use_area_defense_health = add(superior_use_area_defense_health());
     private static Entry superior_use_area_defense_health() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_area_defense_health");
+        var id = new Identifier(RelicsMod.NAMESPACE, "superior_use_area_defense_health");
         var effect = RelicEffects.SUPERIOR_DEFENSE_HEALTH;
         var title = effect.title;
         var description = "Use: Increases maximum health of nearby allies by " + TooltipTokens.effect(RelicEffects.SUPERIOR_DEFENSE_HEALTH.id) + " for {effect_duration} seconds.";
@@ -1266,7 +1270,7 @@ public class RelicSpells {
         heal.action = new Spell.Impact.Action();
         heal.action.type = Spell.Impact.Action.Type.HEAL;
         heal.action.heal = new Spell.Impact.Action.Heal();
-        heal.attribute = EntityAttributes.GENERIC_MAX_HEALTH.getIdAsString();
+        heal.attribute = AttributeIds.of(EntityAttributes.GENERIC_MAX_HEALTH);
         heal.action.heal.spell_power_coefficient = 0.33F;
         heal.sound = new Sound(SpellEngineSounds.GENERIC_HEALING_IMPACT_3.id());
 
@@ -1295,7 +1299,7 @@ public class RelicSpells {
 
     public static Entry superior_use_zone_spell_power = add(superior_use_zone_spell_power());
     private static Entry superior_use_zone_spell_power() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_spell_power");
+        var id = new Identifier(RelicsMod.NAMESPACE, "superior_use_zone_spell_power");
         var effect = RelicEffects.SUPERIOR_SPELL_POWER;
         var title = effect.title;
         var description = "Use: Conjures a powerful circle, lasting {cloud_duration} seconds. While standing in this circle, the caster gains " + TooltipTokens.effect(RelicEffects.SUPERIOR_SPELL_POWER.id, 0, SpellSchools.ARCANE.id) + " spell power.";
@@ -1329,7 +1333,7 @@ public class RelicSpells {
 
     public static Entry superior_use_zone_healing_taken = add(superior_use_zone_healing_taken());
     private static Entry superior_use_zone_healing_taken() {
-        var id = Identifier.of(RelicsMod.NAMESPACE, "superior_use_zone_healing_taken");
+        var id = new Identifier(RelicsMod.NAMESPACE, "superior_use_zone_healing_taken");
         var effect = RelicEffects.SUPERIOR_HEALING_TAKEN;
         var title = effect.title;
         var description = "Use: Conjures a healing circle, {cloud_radius} blocks, lasting {cloud_duration} seconds. While standing in this circle, allies receives " + TooltipTokens.effect(RelicEffects.SUPERIOR_HEALING_TAKEN.id) + " more healing.";

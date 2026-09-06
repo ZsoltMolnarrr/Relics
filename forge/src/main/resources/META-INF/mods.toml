@@ -1,0 +1,53 @@
+modLoader = "javafml"
+loaderVersion = "[47,)"
+license = "All Rights Reserved"
+
+[[mods]]
+modId = "relics_rpgs"
+version = "${version}"
+displayName = "Relics (RPG Series)"
+authors = "Daedelus"
+description = '''
+Unleash your true potential with powerful trinkets!
+'''
+logoFile = "icon.png"
+
+[[dependencies.relics_rpgs]]
+modId = "forge"
+mandatory = true
+versionRange = "[47,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.relics_rpgs]]
+modId = "minecraft"
+mandatory = true
+versionRange = "[1.20.1,)"
+ordering = "NONE"
+side = "BOTH"
+
+[[dependencies.relics_rpgs]]
+modId = "spell_engine"
+mandatory = true
+versionRange = "[1.10.5,)"
+ordering = "AFTER"
+side = "BOTH"
+
+# RangedWeaponAPI has no Forge artifact on 1.20.1 and Relics no longer compiles against it — the two
+# `ranged_weapon:*` attributes are resolved by registry id and simply stay absent when it is not installed.
+[[dependencies.relics_rpgs]]
+modId = "ranged_weapon_api"
+mandatory = false
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+[[dependencies.relics_rpgs]]
+modId = "curios"
+mandatory = false
+versionRange = "*"
+ordering = "AFTER"
+side = "BOTH"
+
+# Mixin configs are declared in the jar MANIFEST (`MixinConfigs:`) by Loom (`loom.forge.mixinConfig`),
+# not in this file — the `[[mixins]]` table is NeoForge-only.

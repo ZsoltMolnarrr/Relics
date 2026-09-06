@@ -172,7 +172,7 @@
   "spell.relics_rpgs.medium_use_frost_power.name": "Frost Power",
   "spell.relics_rpgs.medium_use_healing_power.description": "Use: Increases healing spell power by {effect|relics_rpgs:medium_healing_power} for {effect_duration} seconds.",
   "spell.relics_rpgs.medium_use_healing_power.name": "Healing Power",
-  "spell.relics_rpgs.superior_use_area_attack_damage.description": "Use: Increases size, melee and ranged attack damage of nearby allies by {effect|relics_rpgs:superior_attack_damage|0|minecraft:generic.attack_damage} for {effect_duration} seconds.",
+  "spell.relics_rpgs.superior_use_area_attack_damage.description": "Use: Increases melee and ranged attack damage of nearby allies by {effect|relics_rpgs:superior_attack_damage|0|minecraft:generic.attack_damage} for {effect_duration} seconds.",
   "spell.relics_rpgs.superior_use_area_attack_damage.name": "Might",
   "spell.relics_rpgs.superior_use_area_defense_health.description": "Use: Increases maximum health of nearby allies by {effect|relics_rpgs:superior_defense_health} for {effect_duration} seconds.",
   "spell.relics_rpgs.superior_use_area_defense_health.name": "Vigor",

@@ -12,7 +12,7 @@ import java.util.List;
 public class RelicSounds {
     public record Entry(String name) {
         public Identifier id() {
-            return Identifier.of(RelicsMod.NAMESPACE, name);
+            return new Identifier(RelicsMod.NAMESPACE, name);
         }
     }
     public static final List<Entry> entries = new ArrayList<>();

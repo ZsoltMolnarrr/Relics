@@ -64,33 +64,31 @@ dependencies {
     common(project(path: ':common', configuration: 'namedElements')) { transitive = false }
     shadowBundle project(path: ':common', configuration: 'transformProductionFabric')
 
-    modImplementation("dev.kosmx.player-anim:player-animation-lib-${platform}:${project.player_anim_version}")
-    modImplementation("me.shedaniel.cloth:cloth-config-${platform}:${project.cloth_config_version}")
-    modImplementation("maven.modrinth:tiny-config:${project.tiny_config_version}-${platform}")
+    modImplementation("dev.kosmx.player-anim:player-animation-lib-${platform}:${rootProject.player_anim_version}")
+    modImplementation("me.shedaniel.cloth:cloth-config-${platform}:${rootProject.cloth_config_version}")
 
-    // Trinkets
-    // Trinkets: Modrinth Maven serves minimal POMs (no transitive deps) and
-    // TerraformersMC has been unreliable in CI. Use Modrinth on CI; use dev.emi
-    // locally so runClient gets Trinkets' full transitive graph.
-    if (System.getenv("CI")) {
-        modImplementation("maven.modrinth:trinkets:${project.trinkets_version}")
-    } else {
-        modImplementation("dev.emi:trinkets:${project.trinkets_version}")
-    }
+    // Ecosystem libraries from mavenLocal (published by their 1.20.1-modern ports).
+    modImplementation("net.tiny_config:tiny_config-${platform}:${rootProject.tiny_config_version}")
+    modImplementation("net.spell_power:spell_power-${platform}:${rootProject.spell_power_version}")
+    modImplementation("net.spell_engine:spell_engine-${platform}:${rootProject.spell_engine_version}")
 
-    modImplementation("maven.modrinth:ranged-weapon-api:${project.ranged_weapon_api_version}-${platform}")
-//    modImplementation("net.foundation:ranged_weapon_api-${platform}:${project.ranged_weapon_api_version}")
-    modImplementation("maven.modrinth:spell-power:${project.spell_power_version}-${platform}")
-//    modImplementation("net.spell_power:spell_power-${platform}:${project.spell_power_version}")
-    modImplementation("maven.modrinth:spell-engine:${project.spell_engine_version}-${platform}")
-//    modImplementation("net.spell_engine:spell_engine-${platform}:${project.spell_engine_version}")
+    // Trinkets: Relics compiles against `TrinketItem`, so it needs an explicit pin. Use the SAME
+    // coordinate SpellEngine's Fabric artifact declares (`maven.modrinth:trinkets`) — pinning
+    // `dev.emi:trinkets` instead puts two copies of the same classes on the classpath.
+    modImplementation("maven.modrinth:trinkets:${rootProject.trinkets_version}")
+    // Trinkets nests Cardinal Components, but Loom does not load nested jars of classpath mods, so the
+    // dev runtime needs explicit CCA pins. `modLocalRuntime` keeps them out of the published POM.
+    modLocalRuntime("dev.onyxstudios.cardinal-components-api:cardinal-components-base:${rootProject.cardinal_components_version}")
+    modLocalRuntime("dev.onyxstudios.cardinal-components-api:cardinal-components-entity:${rootProject.cardinal_components_version}")
+
+    // RangedWeaponAPI is NOT on the compile classpath (registry-id lookups only) — see relics-port-notes.md.
 }
 
 processResources {
     inputs.property 'version', project.version
 
     filesMatching("fabric.mod.json") {
-        expand(project.properties)
+        expand version: inputs.properties.version
     }
 }
 
@@ -137,7 +135,7 @@ publishMods {
         client = true                    // >=1 of client/server REQUIRED by CurseForge (Error 1021)
         server = true
         changelogType = "markdown"
-        requires("fabric-api", "spell-engine", "ranged-weapon-api")
+        requires("fabric-api", "spell-engine")
     }
 
     modrinth {
@@ -148,7 +146,6 @@ publishMods {
         minecraftVersions.add(project.minecraft_version)
         minecraftVersions.add(project.minecraft_compat_version)
         requires { slug = "fabric-api" }
-        requires { slug = "ranged-weapon-api" }
         requires { slug = "spell-engine" }
     }
 

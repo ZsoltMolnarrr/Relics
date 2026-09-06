@@ -15,7 +15,7 @@ import net.spell_power.api.SpellPower;
 import org.jetbrains.annotations.Nullable;
 
 public class RelicMechanics {
-    public static final Identifier SHIELD_RESET = Identifier.of(RelicsMod.NAMESPACE, "shield_reset");
+    public static final Identifier SHIELD_RESET = new Identifier(RelicsMod.NAMESPACE, "shield_reset");
 
     public static void init() {
         SpellHandlers.registerCustomImpact(SHIELD_RESET, new SpellHandlers.CustomImpact() {

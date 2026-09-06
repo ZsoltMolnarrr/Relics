@@ -7,5 +7,5 @@ import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 
 public class RelicItemTags {
-    public static final TagKey<Item> ALL = TagKey.of(RegistryKeys.ITEM, Identifier.of(RelicsMod.NAMESPACE, "all"));
+    public static final TagKey<Item> ALL = TagKey.of(RegistryKeys.ITEM, new Identifier(RelicsMod.NAMESPACE, "all"));
 }

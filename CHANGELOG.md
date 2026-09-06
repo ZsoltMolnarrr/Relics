@@ -1,3 +1,7 @@
+# 1.4.0.001
+
+- Ported to Minecraft 1.20.1 (Fabric + Forge 47)
+
 # 1.4.0
 
 **Important disclaimer** - NeoForge users need to unequip their spell books, jewelry, relics and quivers to preserve it, before updating to this version!

@@ -3,7 +3,6 @@ package net.relics_rpgs.fabric.datagen;
 import net.fabricmc.fabric.api.datagen.v1.DataGeneratorEntrypoint;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataGenerator;
 import net.fabricmc.fabric.api.datagen.v1.FabricDataOutput;
-import net.fabricmc.fabric.api.datagen.v1.provider.FabricLanguageProvider;
 import net.fabricmc.fabric.api.datagen.v1.provider.FabricModelProvider;
 import net.minecraft.data.client.BlockStateModelGenerator;
 import net.minecraft.data.client.ItemModelGenerator;
@@ -17,6 +16,7 @@ import net.relics_rpgs.item.RelicItems;
 import net.relics_rpgs.spell.RelicEffects;
 import net.relics_rpgs.spell.RelicSounds;
 import net.relics_rpgs.spell.RelicSpells;
+import net.spell_engine.api.datagen.NamespacedLangGenerator;
 import net.spell_engine.api.datagen.SimpleSoundGenerator;
 import net.spell_engine.api.datagen.SpellGenerator;
 import net.spell_engine.rpg_series.datagen.RPGSeriesDataGen;
@@ -57,13 +57,16 @@ public class RelicsDataGen implements DataGeneratorEntrypoint {
         }
     }
 
-    public static class LangGenerator extends FabricLanguageProvider {
+    /// 1.20.1 / Fabric API 0.92: `FabricLanguageProvider` is registry-independent, so the 1-arg
+    /// `generateTranslations(TranslationBuilder)` is the override. SpellEngine's `NamespacedLangGenerator`
+    /// keeps the 2-arg constructor so `pack.addProvider(LangGenerator::new)` still resolves.
+    public static class LangGenerator extends NamespacedLangGenerator {
         protected LangGenerator(FabricDataOutput dataOutput, CompletableFuture<RegistryWrapper.WrapperLookup> registryLookup) {
-            super(dataOutput, "en_us", registryLookup);
+            super(dataOutput, registryLookup, RelicsMod.NAMESPACE);
         }
 
         @Override
-        public void generateTranslations(RegistryWrapper.WrapperLookup wrapperLookup, TranslationBuilder translationBuilder) {
+        public void generateTranslations(TranslationBuilder translationBuilder) {
             translationBuilder.add("trinkets.slot.spell.trinket", "Trinket");
             translationBuilder.add("trinkets.slot.charm.trinket", "Trinket");
             translationBuilder.add(Group.translationKey, "Relics");
