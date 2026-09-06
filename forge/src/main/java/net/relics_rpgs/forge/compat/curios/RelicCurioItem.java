@@ -39,7 +39,14 @@ public class RelicCurioItem extends Item implements ICurioItem {
         var modifierUuid = RelicModifierIds.perSlotAndItem(uuid, itemPath);
         var modifierName = RelicModifierIds.name(itemPath);
         for (var entry : this.customAttributes.modifiers()) {
-            modifiers.put(entry.attribute().value(),
+            // SpellEngine 1.10.5.004: entries carry an attribute *id*, so one whose attribute is not
+            // registered on this runtime (e.g. `ranged_weapon:*` without RangedWeaponAPI) resolves to
+            // null and is skipped, exactly like `ItemAttributeModifiers#forSlot`.
+            var attribute = entry.attributeValue();
+            if (attribute == null) {
+                continue;
+            }
+            modifiers.put(attribute,
                     new EntityAttributeModifier(modifierUuid, modifierName,
                             entry.modifier().getValue(), entry.modifier().getOperation()));
         }
