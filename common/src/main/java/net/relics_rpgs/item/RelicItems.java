@@ -22,6 +22,7 @@ import net.spell_power.api.SpellSchools;
 import org.jetbrains.annotations.Nullable;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
 import java.util.Map;
 import java.util.function.Supplier;
@@ -315,6 +316,16 @@ public class RelicItems {
             .spell(SpellContainers.forRelic(RelicSpells.superior_use_zone_healing_taken.id()));
 
     public static void register(Map<String, ItemConfig.Entry> config) {
+        itemsToRegister(config).forEach((id, item) -> Registry.register(Registries.ITEM, id, item));
+        // Creative-tab placement (into the Relics group) is registered per-platform from each loader's
+        // entrypoint, iterating the enabled RelicItems.entries — no Fabric API ItemGroupEvents in common.
+    }
+
+    /// Applies configuration to `entries` and builds every enabled relic item, keyed by the id it registers
+    /// under. Creation only — nothing is written to the registry here, so Forge's entrypoint iterates this
+    /// into the `RegisterEvent` helper instead of calling {@link #register} (a plain `Registry.register`
+    /// throws on Forge 47.0-47.3). Skips ids already present, so it stays idempotent.
+    public static Map<Identifier, Item> itemsToRegister(Map<String, ItemConfig.Entry> config) {
         for (var entry : entries) {
             var key = entry.id().toString();
             var configEntry = config.get(key);
@@ -325,12 +336,12 @@ public class RelicItems {
             }
         }
 
+        var toRegister = new LinkedHashMap<Identifier, Item>();
         for(var entry: entries) {
-             if (entry.isEnabled()) {
-                Registry.register(Registries.ITEM, entry.id(), entry.item().get());
+             if (entry.isEnabled() && !Registries.ITEM.containsId(entry.id())) {
+                toRegister.put(entry.id(), entry.item().get());
              }
         }
-        // Creative-tab placement (into the Relics group) is registered per-platform from each loader's
-        // entrypoint, iterating the enabled RelicItems.entries — no Fabric API ItemGroupEvents in common.
+        return toRegister;
     }
 }

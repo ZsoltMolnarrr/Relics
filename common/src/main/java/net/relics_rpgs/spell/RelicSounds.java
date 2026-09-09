@@ -7,7 +7,9 @@ import net.minecraft.util.Identifier;
 import net.relics_rpgs.RelicsMod;
 
 import java.util.ArrayList;
+import java.util.LinkedHashMap;
 import java.util.List;
+import java.util.Map;
 
 public class RelicSounds {
     public record Entry(String name) {
@@ -48,10 +50,20 @@ public class RelicSounds {
     public static final Entry HOOK_ACTIVATE = add(new Entry("hook_activate"));
 
     public static void register() {
+        soundsToRegister().forEach((id, soundEvent) -> Registry.register(Registries.SOUND_EVENT, id, soundEvent));
+    }
+
+    /// Creation only — builds every sound event keyed by the id it registers under, and writes nothing.
+    /// Forge's entrypoint iterates this into the `RegisterEvent` helper instead of calling
+    /// {@link #register}, because a plain `Registry.register` throws on Forge 47.0-47.3.
+    /// Skips ids already present, so it stays idempotent.
+    public static Map<Identifier, SoundEvent> soundsToRegister() {
+        var toRegister = new LinkedHashMap<Identifier, SoundEvent>();
         for (var entry: entries) {
             var soundId = entry.id();
-            var soundEvent = SoundEvent.of(soundId);
-            Registry.register(Registries.SOUND_EVENT, soundId, soundEvent);
+            if (Registries.SOUND_EVENT.containsId(soundId)) { continue; }
+            toRegister.put(soundId, SoundEvent.of(soundId));
         }
+        return toRegister;
     }
 }

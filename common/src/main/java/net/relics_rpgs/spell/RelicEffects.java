@@ -504,12 +504,18 @@ public class RelicEffects {
     ));
 
     public static void register(ConfigFile.Effects config) {
+        configureBehaviours();
+        Effects.register(entries, config.effects);
+    }
+
+    /// Attaches the per-effect behaviour flags. Reads `Entry#effect` only (never `Entry#entry`), so it is
+    /// safe on either side of registration — Forge calls it from the status-effect `RegisterEvent` window,
+    /// before iterating {@link Effects#effectsToRegister} into the helper.
+    public static void configureBehaviours() {
         ActionImpairing.configure(STUN.effect, EntityActionsAllowed.STUN);
 
         for (var entry: entries) {
             Synchronized.configure(entry.effect, true);
         }
-
-        Effects.register(entries, config.effects);
     }
 }
